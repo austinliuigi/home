@@ -14,6 +14,20 @@
     pkgs.nyxt
   ];
 
+  # Manage configuration for hyprland
+  # - this adds systemd support -> graphical-session.target gets run
+  #     - this is needed for systemd reliant programs, e.g. kdeconnect
+  wayland.windowManager.hyprland = {
+    enable = true;
+    systemd.enable = true;
+    extraConfig = ''
+    source = ~/.config/home-manager/configs/hyprland/settings.conf
+    source = ~/.config/home-manager/configs/hyprland/keybinds.conf
+    source = ~/.config/home-manager/configs/hyprland/rules.conf
+    exec-once = waybar & hyprpaper &
+    '';
+  };
+
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
