@@ -71,7 +71,9 @@
   home.file = {
   };
 
-  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/home-manager/configs/nvim";
+  xdg.configFile = {
+    nvim.source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/home-manager/configs/nvim";
+  };
 
   home.sessionVariables = {
     # EDITOR = "emacs";
