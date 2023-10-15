@@ -46,6 +46,22 @@
     '';
   };
 
+  services.swayidle =
+    let 
+      lockCmd = "${pkgs.swaylock}/bin/swaylock -fF --color 0000ff --ring-color aaaaaa --key-hl-color dddddd -l";
+    in {
+      enable = true;
+      systemdTarget = "hyprland-session.target";
+      timeouts = [
+        { timeout = 300; command = lockCmd; }
+        { timeout = 600; command = "hyprctl dispatch dpms off"; resumeCommand = "hyprctl dispatch dpms on"; }
+      ];
+      events = [
+        { event = "before-sleep"; command = lockCmd; }
+        { event = "lock"; command = lockCmd; }
+      ];
+    };
+
   services.kdeconnect = {
     enable = true;
   };
