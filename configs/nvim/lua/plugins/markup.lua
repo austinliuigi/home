@@ -6,7 +6,7 @@ return {
   },
   {
     "toppair/peek.nvim",
-    ft = "Markdown",
+    ft = "markdown",
     build = "deno task --quiet build:fast",
     config = function()
       require('peek').setup({
@@ -14,7 +14,7 @@ return {
         close_on_bdelete = true,      -- close preview window on buffer delete
         syntax = true,                -- enable syntax highlighting, affects performance
         theme = 'light',              -- 'dark' or 'light'
-        app = 'webview',              -- 'webview', 'browser', string or a table of strings
+        app = 'firefox',              -- 'webview', 'browser', string or a table of strings
         filetype = { 'markdown' },    -- list of filetypes to recognize as markdown
         update_on_change = true,
         throttle_at = 200000,         -- start throttling when file exceeds this amount of bytes in size
