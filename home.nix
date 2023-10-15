@@ -12,7 +12,21 @@
     pkgs.zsh
     pkgs.fzf
     pkgs.nyxt
+    pkgs.gimp
+    pkgs.inkscape
+    pkgs.nodejs
+    pkgs.deno
+    pkgs.pandoc
+    pkgs.python311Packages.weasyprint
+    pkgs.zathura
   ];
+
+  programs.texlive = {
+    enable = true;
+    extraPackages = tpkgs: {
+      inherit (tpkgs) scheme-medium standalone;
+    };
+  };
 
   # Manage configuration for hyprland
   # - this adds systemd support -> graphical-session.target gets run
