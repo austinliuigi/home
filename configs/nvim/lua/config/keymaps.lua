@@ -55,10 +55,6 @@ keymap({ "n", "x" }, "<leader>?", function()
   return "?\\%>"..(win_top_line-1).."l\\%<"..(cursor_line+1).."l"
 end, {remap = false, expr = true})
 
-keymap({ "n", "x" }, "*", "*N", {remap = false})
-
-keymap({ "n", "x" }, "#", "#N", {remap = false})
-
 keymap({ "n", "x" }, "n", function()
   local char
   if vim.v.searchforward == 0 then
@@ -66,7 +62,7 @@ keymap({ "n", "x" }, "n", function()
   else
     char = "n"
   end
-  return char .. "zz"
+  return char
 end, {expr = true, remap = false})
 
 keymap({ "n", "x" }, "N", function()
@@ -76,8 +72,16 @@ keymap({ "n", "x" }, "N", function()
   else
     char = "N"
   end
-  return char .. "zz"
+  return char
 end, {expr = true, remap = false})
+
+keymap({ "n", "x" }, "<leader>n", "nzz", {remap = true})
+
+keymap({ "n", "x" }, "<leader>N", "Nzz", {remap = true})
+
+keymap({ "n", "x" }, "*", "*N", {remap = false})
+
+keymap({ "n", "x" }, "#", "#N", {remap = false})
 
 -- }}}
 -- Register mappings {{{
@@ -269,10 +273,6 @@ keymap("i", "<CR>", "pumvisible() ? '<C-e><CR>' : '<CR>'", {noremap = true, expr
 
 -- }}}
 -- Visual mode mappings {{{
-
-keymap("x", "p", "P", {noremap = true})
-
-keymap("x", "P", "p", {noremap = true})
 
 keymap("x", "<", "<gv", {noremap = true})
 
