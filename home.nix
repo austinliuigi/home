@@ -28,6 +28,10 @@
     };
   };
 
+  services.syncthing = {
+    enable = true;
+  };
+
   # Manage configuration for hyprland
   # - this adds systemd support -> graphical-session.target gets run
   #     - this is needed for systemd reliant programs, e.g. kdeconnect
@@ -40,6 +44,10 @@
     source = ~/.config/home-manager/configs/hyprland/rules.conf
     exec-once = waybar & hyprpaper &
     '';
+  };
+
+  services.kdeconnect = {
+    enable = true;
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
