@@ -12,6 +12,11 @@ fi
 # get current workspace id
 CURRENT_WS_ID="$(hyprctl activewindow -j | jq '.workspace.id')"
 
+# if current workspace has no windows
+if [ "$CURRENT_WS_ID" == "null" ]; then
+    CURRENT_WS_ID="$(hyprctl workspaces -j | jq '.[] | select(.windows == 0) | .id')"
+fi
+
 # get target workspace id based on cli arg
 hyprctl dispatch workspace "$1"  # switch to target workspace
 TARGET_WS_ID="$(hyprctl activewindow -j | jq '.workspace.id')"
