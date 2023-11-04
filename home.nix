@@ -9,6 +9,10 @@
   # The home.packages nix modules option allows you to install Nix packages into your environment
   home.packages = [
     pkgs.neovim
+    pkgs.lsd
+    pkgs.clang-tools
+    pkgs.stylua
+    pkgs.lua-language-server
     pkgs.zsh
     pkgs.fzf
     pkgs.nyxt
@@ -19,6 +23,9 @@
     pkgs.pandoc
     pkgs.python311Packages.weasyprint
     pkgs.zathura
+    pkgs.ttyper
+    pkgs.vlc
+    (import ./scripts/screenshot.nix {inherit pkgs;})
   ];
 
   programs.texlive = {
@@ -37,7 +44,7 @@
   #     - this is needed for systemd reliant programs, e.g. kdeconnect
   wayland.windowManager.hyprland = {
     enable = true;
-    systemd.enable = true;
+    # systemd.enable = true;
     extraConfig = ''
     source = ~/.config/home-manager/configs/hyprland/settings.conf
     source = ~/.config/home-manager/configs/hyprland/keybinds.conf
@@ -48,17 +55,18 @@
 
   services.swayidle =
     let 
-      lockCmd = "${pkgs.swaylock}/bin/swaylock -fF --color 0000ff --ring-color aaaaaa --key-hl-color dddddd -l";
+      lock_cmd = "${pkgs.swaylock}/bin/swaylock -fF --color 0000ff --ring-color aaaaaa --key-hl-color dddddd -l";
+      dpms_cmd = "${pkgs.hyprland}/bin/hyprctl dispatch dpms";
     in {
       enable = true;
       systemdTarget = "hyprland-session.target";
       timeouts = [
-        { timeout = 300; command = lockCmd; }
-        { timeout = 600; command = "hyprctl dispatch dpms off"; resumeCommand = "hyprctl dispatch dpms on"; }
+        { timeout = 300; command = lock_cmd; }
+        { timeout = 600; command = "${dpms_cmd} off"; resumeCommand = "${dpms_cmd} on"; }
       ];
       events = [
-        { event = "before-sleep"; command = lockCmd; }
-        { event = "lock"; command = lockCmd; }
+        { event = "before-sleep"; command = lock_cmd; }
+        { event = "lock"; command = lock_cmd; }
       ];
     };
 
