@@ -16,7 +16,7 @@ local diagnostic_order = {
   },
 }
 
-function toggle_diagnostics()
+local function toggle_diagnostics()
   diagnostic_idx = (diagnostic_idx % #diagnostic_order) + 1
   diagnostic_config.underline = diagnostic_order[diagnostic_idx]["underline"]
   diagnostic_config.virtual_text = diagnostic_order[diagnostic_idx]["virtual_text"]
@@ -24,7 +24,7 @@ function toggle_diagnostics()
   vim.diagnostic.config(diagnostic_config)
 end
 
-function on_attach(client, bufnr)
+local function on_attach(client, bufnr)
   local bufopts = { remap = false, silent = true, buffer = bufnr }
 
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
