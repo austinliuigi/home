@@ -25,8 +25,9 @@
     pkgs.zathura
     pkgs.ttyper
     pkgs.vlc
-    (import ./scripts/screenshot.nix {inherit pkgs;})
   ];
+
+  modules.scripts.enable = true;
 
   programs.texlive = {
     enable = true;

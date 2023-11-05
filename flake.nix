@@ -13,18 +13,21 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs = { nixpkgs, home-manager, ... }@inputs:
     let
+      # myHomeManagerModules = builtins.attrValues (import ./modules);
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};  # strip out non-packages from nixpkgs (e.g. nixpkgs.lib, etc.)
     in {
-      homeConfigurations."austin" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-
-        modules = [ ./home.nix ];
-
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
+      homeConfigurations = {
+        austin = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          extraSpecialArgs = { inherit inputs; };
+          modules = [
+            ./modules
+            ./users/austin.nix
+          ];
+        };
       };
     };
 }
