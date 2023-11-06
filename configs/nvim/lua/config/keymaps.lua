@@ -365,9 +365,9 @@ keymap("x", ">", ">gv", { noremap = true })
 -- }}}
 -- Terminal mode mappings {{{
 
-keymap({ "n", "i", "t" }, "<C-CR>", "<cmd>tabnew | term<CR>", { noremap = true })
+keymap({ "n", "i", "t" }, "<C-CR>", "<cmd>vnew | term<CR>", { noremap = true })
 
-keymap({ "n" }, "<leader><C-CR>", "<cmd>term<CR>", { noremap = true })
+keymap({ "n" }, "<leader><C-CR>", "<cmd>tabnew | term<CR>", { noremap = true })
 
 keymap("t", "<S-Esc>", "<C-\\><C-n>", { noremap = true })
 
