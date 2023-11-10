@@ -15,17 +15,26 @@
 
   outputs = { nixpkgs, home-manager, ... }@inputs:
     let
-      # myHomeManagerModules = builtins.attrValues (import ./modules);
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};  # strip out non-packages from nixpkgs (e.g. nixpkgs.lib, etc.)
+      # takes a func and generates an attr where key = <elem> and val = func called with <elem>
+      forEachSystem = nixpkgs.lib.genAttrs [
+        "x86_64-linux"
+      ];
+
+      utils = forEachSystem (system: (import ./utils.nix) {
+        pkgs = nixpkgs.legacyPackages.${system};
+        lib = nixpkgs.lib;
+      });
     in {
       homeConfigurations = {
         austin = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs; };
+          extraSpecialArgs = {
+            inherit inputs;
+            utils = utils.x86_64-linux;
+          };
           modules = [
             ./modules
-            ./users/austin.nix
+            ./users/austin
           ];
         };
       };

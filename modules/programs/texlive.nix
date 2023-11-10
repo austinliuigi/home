@@ -1,14 +1,10 @@
 { pkgs, lib, config, inputs, ... }:
 
 let
-  cfg = config.modules.texlive;
+  cfg = config.modules.programs.texlive;
 in
 {
-  options = {
-    modules.texlive = {
-      enable = lib.mkEnableOption "Texlive module";
-    };
-  };
+  options.modules.programs.texlive.enable = lib.mkEnableOption "texlive module";
 
   config = lib.mkIf cfg.enable {
     programs.texlive = {

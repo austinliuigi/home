@@ -1,14 +1,10 @@
 { pkgs, lib, config, inputs, ... }:
 
 let
-  cfg = config.modules.swayidle;
+  cfg = config.modules.programs.swayidle;
 in
 {
-  options = {
-    modules.swayidle = {
-      enable = lib.mkEnableOption "Swayidle module";
-    };
-  };
+  options.modules.programs.swayidle.enable = lib.mkEnableOption "swayidle module";
 
   config = lib.mkIf cfg.enable {
     services.swayidle =
