@@ -64,13 +64,13 @@ keymap({ "n", "x" }, "0", function()
 end, { expr = true })
 
 keymap({ "x" }, "$", function()
+  -- determines if current line is wrapped
   local is_wrapped = vim.api.nvim_win_text_height(0, {
     start_row = (vim.fn.line(".") - 1),
     end_row = (vim.fn.line(".") - 1),
     start_vcol = 0,
   })["all"] > 1
 
-  -- If current line is wrapped
   if is_wrapped then
     return "g$"
   end
@@ -87,14 +87,14 @@ keymap({ "n", "x" }, "<leader><C-d>", function()
   return count .. "<C-d><cmd>set scroll=0<CR>"
 end, { remap = true, expr = true })
 
-keymap({ "n", "x" }, "<leader>/", function()
+keymap({ "n", "x" }, "g/", function()
   local cursor_line = vim.fn.line(".")
   local win_bot_line = vim.fn.line("w$")
 
   return "/\\%>" .. (cursor_line - 1) .. "l\\%<" .. (win_bot_line + 1) .. "l"
 end, { remap = false, expr = true })
 
-keymap({ "n", "x" }, "<leader>?", function()
+keymap({ "n", "x" }, "g?", function()
   local win_top_line = vim.fn.line("w0")
   local cursor_line = vim.fn.line(".")
 
@@ -330,6 +330,20 @@ keymap(
 
 keymap("n", "<esc>", "<cmd>nohl<CR><cmd>echo ''<CR>", { noremap = true, silent = true })
 
+keymap("n", "<C-\\>", function()
+  if vim.fn.expand("%") == "" then
+    return "<cmd>vnew .<CR>"
+  end
+  return "<cmd>vnew %:h<CR>"
+end, { noremap = true, silent = true, expr = true })
+
+keymap("n", "<leader><C-\\>", function()
+  if vim.fn.expand("%") == "" then
+    return "<cmd>tabe .<CR>"
+  end
+  return "<cmd>tabe %:h<CR>"
+end, { noremap = true, silent = true, expr = true })
+
 keymap("n", "<leader>p", "<cmd>put<CR>", { noremap = true, silent = true })
 
 keymap("n", "<leader>P", "<cmd>put!<CR>", { noremap = true, silent = true })
@@ -361,6 +375,10 @@ keymap("i", "<CR>", "pumvisible() ? '<C-e><CR>' : '<CR>'", { noremap = true, exp
 keymap("x", "<", "<gv", { noremap = true })
 
 keymap("x", ">", ">gv", { noremap = true })
+
+keymap("x", "<leader>/", "<esc>/\\%V", { noremap = true })
+
+keymap("x", "<leader>?", "<esc>?\\%V", { noremap = true })
 
 -- }}}
 -- Terminal mode mappings {{{

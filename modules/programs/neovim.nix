@@ -13,7 +13,7 @@ in
 
     # create a symlink of the config to the proper location
     xdg.configFile = {
-      nvim.source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/nvim";
+      nvim.source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/neovim/.config/nvim";
     };
   };
 }
