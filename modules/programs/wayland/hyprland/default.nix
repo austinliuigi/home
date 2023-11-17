@@ -21,5 +21,10 @@ in
       exec-once = waybar & hyprpaper &
       '';
     };
+
+    home.packages = [
+      (import ./_swapworkspace.nix { inherit pkgs; })
+      (import ./_swapmonitor.nix { inherit pkgs; })
+    ];
   };
 }
