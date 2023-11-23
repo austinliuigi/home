@@ -1,4 +1,4 @@
-{ pkgs, lib, config, inputs, ... }:
+{ pkgs, lib, config, inputs, utils, ... }:
 
 let
   cfg = config.modules.programs.sioyek;
@@ -11,9 +11,6 @@ in
       pkgs.sioyek
     ];
 
-    # create a symlink of the config to the proper location
-    xdg.configFile = {
-      sioyek.source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/sioyek/.config/sioyek";
-    };
+    xdg.configFile = utils.interpolateConfig "${/. + "${config.dotfiles}/sioyek/.config"}";
   };
 }
