@@ -14,7 +14,7 @@ return {
     keys = {
       { "gc", mode = {"n", "x"}},
       { "gb", mode = {"n", "x"}},
-      { "gC", mode = {"n", "x"}},
+      { "<leader>gc", mode = {"n", "x"}},
     },
     config = function()
       require("Comment").setup({
@@ -49,7 +49,7 @@ return {
         post_hook = nil, ---Function to call after (un)comment
       })
 
-      vim.keymap.set({"n", "x"}, "gC", function()
+      vim.keymap.set({"n", "x"}, "<leader>gc", function()
         return _comment_toggle()
       end, { expr = true })
     end
