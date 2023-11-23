@@ -2,7 +2,7 @@
 
 rec {
   # Generate a list of files in a directory, recursing into subdirectories
-  #   - param dir: string|path - directory that should be scanned
+  #   - param dir: string|path - directory that should be scanned; if string, must be path in the nix store
   #   - param recurse: boolean - whether or not to recurse down subdirectories
   #   - return files: list - paths to files in directory relative to the root
   scanDirFiles = { dir, recurse ? true, absolute_paths ? false }:

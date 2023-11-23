@@ -11,7 +11,7 @@ in
 
     # Manage configuration for hyprland
     # - this adds systemd support -> graphical-session.target gets run
-    #     - this is needed for some graphical systemd reliant programs, e.g. kdeconnect
+    #     - this is needed for some gui systemd reliant programs, e.g. kdeconnect
     wayland.windowManager.hyprland = {
       enable = true;
       extraConfig = ''
