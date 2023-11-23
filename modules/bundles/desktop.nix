@@ -1,7 +1,12 @@
 { config, pkgs, lib, ... }:
 
+let
+  cfg = config.modules.bundles.desktop;
+in
 {
-  config = {
+  options.modules.bundles.desktop.enable = lib.mkEnableOption "desktop bundle module";
+
+  config = lib.mkIf cfg.enable {
     # Packages to install for this user
     home.packages = [
       pkgs.xclip

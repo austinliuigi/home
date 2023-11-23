@@ -10,14 +10,16 @@
     '';
   };
 
-  imports = [
-    ../../modules/bundles/desktop_light.nix
-  ];
-
   config = {
     # Metadata that home manager needs
     home.username = "austin";
     home.homeDirectory = "/home/austin";
+
+    modules = {
+      bundles = {
+        desktop_light.enable = true;
+      };
+    };
 
     home.sessionVariables = {
       EDITOR = "nvim";

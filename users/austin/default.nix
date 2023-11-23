@@ -10,15 +10,17 @@
     '';
   };
 
-  imports = [
-    ../../modules/bundles/desktop.nix
-    ../../modules/bundles/hyprland.nix
-  ];
-
   config = {
     # Metadata that home manager needs
     home.username = "austin";
     home.homeDirectory = "/home/austin";
+
+    modules = {
+      bundles = {
+        desktop.enable = true;
+        hyprland.enable = true;
+      };
+    };
 
     home.sessionVariables = {
       EDITOR = "nvim";
