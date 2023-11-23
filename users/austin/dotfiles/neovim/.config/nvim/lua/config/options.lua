@@ -86,6 +86,10 @@ vim.opt.laststatus = 3
 -- Default .tex filetype
 vim.g.tex_flavor = "latex"
 
+
+-- Always show tabline
+vim.o.showtabline = 2
+
 -- Set format options
 vim.api.nvim_create_augroup('FormatOptions', {clear = true})
 vim.api.nvim_create_autocmd('FileType', {
