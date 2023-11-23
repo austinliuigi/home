@@ -1,12 +1,3 @@
--- Print lua table
--- @param table Table to print
-P = function(table)
-  print(vim.inspect(table))
-  return table
-end
-
-
-
 -- Return highlight color (hex or color name) of a given group's attribute
 -- @param group Name of highlight group
 -- @param attribute 'foreground' | 'background'
@@ -16,9 +7,12 @@ end
 
 
 
--- Copy output of command into given register
--- If no registers are given, use default ones
+-- Copy output of command into given register; if no registers are given, use default ones
+-- syntax: Cp <cmd> [<reg>]
+--   cmd: string - ex command to run, same form as :execute
+--   reg: char   - register to store command output in
 -- e.g. `Cp "echo 'hello'" "a`
+-- note: if output requires a pager, it will only get copied if you scroll to the end
 vim.api.nvim_create_user_command("Cp", function(args)
   local fargs = args.fargs
 
