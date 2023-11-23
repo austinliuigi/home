@@ -8,6 +8,7 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
+      pkgs.acpi
       pkgs.stow
       pkgs.tree
       pkgs.unzip
