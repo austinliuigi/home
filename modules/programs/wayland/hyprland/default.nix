@@ -15,9 +15,9 @@ in
     wayland.windowManager.hyprland = {
       enable = true;
       extraConfig = ''
-      source = ${config.dotfiles}/hyprland/.config/hypr/hyprland/settings.conf
-      source = ${config.dotfiles}/hyprland/.config/hypr/hyprland/keybinds.conf
-      source = ${config.dotfiles}/hyprland/.config/hypr/hyprland/rules.conf
+      source = ${config.dotfiles.hyprland}/.config/hypr/hyprland/settings.conf
+      source = ${config.dotfiles.hyprland}/.config/hypr/hyprland/keybinds.conf
+      source = ${config.dotfiles.hyprland}/.config/hypr/hyprland/rules.conf
       exec-once = waybar & hyprpaper &
       '';
     };

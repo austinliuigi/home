@@ -11,6 +11,6 @@ in
       pkgs.sioyek
     ];
 
-    xdg.configFile = utils.interpolateConfig "${/. + "${config.dotfiles}/sioyek/.config"}";
+    xdg.configFile = utils.interpolateConfig "${/. + "${config.dotfiles.sioyek}/.config"}";
   };
 }

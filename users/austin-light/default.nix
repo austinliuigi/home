@@ -1,14 +1,18 @@
 { config, pkgs, lib, ... }:
 
 {
-  options.dotfiles = lib.mkOption {
-    type = lib.types.str;
-    readOnly = true;
-    default = "${config.home.homeDirectory}/.config/home-manager/users/austin/dotfiles";
-    description = ''
-      Path to dotfiles directory
-    '';
-  };
+  # options.dotfiles = lib.mkOption {
+  #   type = lib.types.str;
+  #   readOnly = true;
+  #   default = "${config.home.homeDirectory}/.config/home-manager/users/austin/dotfiles";
+  #   description = ''
+  #     Path to dotfiles directory
+  #   '';
+  # };
+
+  imports = [
+    ../_base
+  ];
 
   config = {
     # Metadata that home manager needs

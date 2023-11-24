@@ -1,7 +1,7 @@
 return {
   {
     "austinliuigi/bartender.nvim",
-    dev = true,
+    dev = false,
     config = function()
       local bartender = require("bartender")
       local utils = require("bartender.utils")
@@ -10,7 +10,7 @@ return {
 
       -- this is a function so that it can change value after startup
       local winbar_active_accent = function()
-        return utils.get_hl_attr("@field", "foreground")
+        return utils.get_hl_attr("Normal", "foreground")
       end
 
       -- this is a function so that it can change value after startup
@@ -18,22 +18,41 @@ return {
         return utils.get_hl_attr("@comment", "foreground")
       end
 
-
       bartender.setup({
         winbar = {
           active = {
-            { sections.head, args = function() return {winbar_active_accent()} end },
+            {
+              sections.head,
+              args = function()
+                return { winbar_active_accent() }
+              end,
+            },
             { sections.file },
             { sections.partition },
             { sections.navic },
-            { sections.sharp_tail, args = function() return {winbar_active_accent()} end },
+            {
+              sections.sharp_tail,
+              args = function()
+                return { winbar_active_accent() }
+              end,
+            },
           },
           inactive = {
-            { sections.head, args = function() return {winbar_inactive_accent()} end },
+            {
+              sections.head,
+              args = function()
+                return { winbar_inactive_accent() }
+              end,
+            },
             { sections.file },
             { sections.partition },
-            { sections.sharp_tail, args = function() return {winbar_inactive_accent()} end },
-          }
+            {
+              sections.sharp_tail,
+              args = function()
+                return { winbar_inactive_accent() }
+              end,
+            },
+          },
         },
         statusline = {
           global = {
@@ -41,8 +60,18 @@ return {
             { sections.partition },
             { sections.cwd },
             { sections.partition },
-            { sections.pos, args = function() return {utils.get_hl_attr("Comment", "fg")} end },
-            { sections.round_tail, args = function() return {utils.get_hl_attr("Normal", "fg"), utils.get_hl_attr("Comment", "fg")} end },
+            {
+              sections.pos,
+              args = function()
+                return { utils.get_hl_attr("Comment", "fg") }
+              end,
+            },
+            {
+              sections.round_tail,
+              args = function()
+                return { utils.get_hl_attr("Normal", "fg"), utils.get_hl_attr("Comment", "fg") }
+              end,
+            },
             -- { sections.round_tail, args = function()
             --     local mode_hl = mode_component.get_current_mode_highlight()
             --     local mode_accent
@@ -59,9 +88,9 @@ return {
         tabline = {
           global = {
             { sections.tabs },
-          }
+          },
         },
       })
-    end
+    end,
   },
 }
