@@ -11,6 +11,9 @@
         nixpkgs.follows = "nixpkgs";  # have hm inherit nixpkgs from current flake
       };
     };
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+    };
   };
 
   outputs = { nixpkgs, home-manager, ... }@inputs:
@@ -24,6 +27,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
         lib = nixpkgs.lib;
       });
+
     in {
       homeConfigurations = {
         bootstrap = home-manager.lib.homeManagerConfiguration {

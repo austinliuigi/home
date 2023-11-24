@@ -7,8 +7,12 @@ in
   options.modules.programs.neovim.enable = lib.mkEnableOption "neovim module";
 
   config = lib.mkIf cfg.enable {
+    nixpkgs.overlays = [
+      inputs.neovim-nightly-overlay.overlay
+    ];
+
     home.packages = [
-      pkgs.neovim
+      pkgs.neovim-nightly
     ];
 
     # create a symlink of the config to the proper location
