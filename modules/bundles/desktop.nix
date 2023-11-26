@@ -31,6 +31,7 @@ in
         kdeconnect.enable = true;
         lua.enable        = true;
         neovim.enable     = true;
+        nix.enable        = true;
         python.enable     = true;
         sioyek.enable     = true;
         syncthing.enable  = true;

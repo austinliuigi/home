@@ -6,5 +6,6 @@
 return {
   ["clangd"] = require("plugins.lsp.configurations.clangd"),
   ["lua_ls"] = require("plugins.lsp.configurations.lua_ls"),
+  ["nil_ls"] = require("plugins.lsp.configurations.nil_ls"),
   ["pyright"] = require("plugins.lsp.configurations.pyright"),
 }
