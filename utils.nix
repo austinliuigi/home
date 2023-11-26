@@ -4,6 +4,7 @@ rec {
   # Generate a list of files in a directory, recursing into subdirectories
   #   - param dir: string|path - directory that should be scanned; if string, must be path in the nix store
   #   - param recurse: boolean - whether or not to recurse down subdirectories
+  #   - param absolute_paths: boolean - if true, files will be given with their nix store paths, else relative to dir
   #   - return files: list - paths to files in directory relative to the root
   scanDirFiles = { dir, recurse ? true, absolute_paths ? false }:
     let
@@ -56,35 +57,95 @@ rec {
     );
 
 
-  # Substitute colors based on current theme
-  #   - param dir: str|path directory which contains configurations files that should be placed in home
+  # Replacements for config files
+  config_replacements = {
+    base01 = "color1";
+    base02 = "color2";
+    base03 = "color3";
+    base04 = "color4";
+    base05 = "color5";
+    base06 = "color6";
+    base07 = "color7";
+    base08 = "color8";
+    base09 = "color9";
+    base10 = "color10";
+    base11 = "color11";
+    base12 = "color12";
+    base13 = "color13";
+    base14 = "color14";
+    base15 = "color15";
+    base16 = "color16";
+  };
+
+
+  # Interpolate values in configuration files
+  #   - param dir: str|path directory which contains configurations files
   #   - return substitutions: attr
   #     - key = <filepath>: str - filepath relative to dir
   #     - val = { source = <substituted_file> }: attr - <substituted_file> is a derivation that builds the file with substituted replacements
-  interpolateConfig = dir:
+  interpolateConfigDir = dir:
     builtins.mapAttrs
       (file: substituted: { source = substituted; })
       (substituteDirFiles { 
         dir = dir;
-        replacements = {
-          base01 = "color1";
-          base02 = "color2";
-          base03 = "color3";
-          base04 = "color4";
-          base05 = "color5";
-          base06 = "color6";
-          base07 = "color7";
-          base08 = "color8";
-          base09 = "color9";
-          base10 = "color10";
-          base11 = "color11";
-          base12 = "color12";
-          base13 = "color13";
-          base14 = "color14";
-          base15 = "color15";
-          base16 = "color16";
-        };
+        replacements = config_replacements;
       });
+
+
+  # Interpolate values in configuration files with added message
+  #   - param dir: str|path directory which contains configuration files
+  #   - param comment_start: str string which config files use to start comments
+  #   - param comment_end: str string which config files use to end comments
+  #   - return substitutions: attr
+  #     - key = <filepath>: str - filepath relative to dir
+  #     - val = { text = <contents> }: attr - <contents> is a string representing the new file's contents
+  interpolateConfigDirWithMsg = { dir, comment_start ? "", comment_end ? "" }:
+    let
+      msg = ''
+        ${comment_start} NOTE: This is an interpolated copy and shouldn't be modified directly. ${comment_end}
+
+      '';
+    in
+    builtins.mapAttrs
+      (file: interpolatedFile: {
+        text = "${msg}" + builtins.readFile(interpolatedFile);
+      })
+      (substituteDirFiles { 
+        dir = dir;
+        replacements = config_replacements;
+      });
+
+
+  # Interpolate values in a configuration file
+  #   - param file: str|path path to the configuration file to interpolate
+  #   - return { source = <substituted_file> }: attr - <substituted_file> is a derivation that builds the file with substituted replacements
+  interpolateConfigFile = file:
+    {
+      source = pkgs.substituteAll ({
+        src = "${file}";
+      } // config_replacements);
+    };
+
+
+  # Interpolate values in configuration files with added message
+  #   - param file: str|path path to the configuration file to interpolate
+  #   - param comment_start: str string which config files use to start comments
+  #   - param comment_end: str string which config files use to end comments
+  #   - return { text = <contents> }: attr - <contents> is a string representing the new file's contents
+  interpolateConfigFileWithMsg = { file, comment_start ? "", comment_end ? "" }:
+    let
+      msg = ''
+        ${comment_start} NOTE: This is an interpolated copy and shouldn't be modified directly. ${comment_end}
+
+      '';
+
+      interpolatedFile = pkgs.substituteAll ({
+        src = "${file}";
+      } // config_replacements);
+    in
+    {
+      text = "${msg}" + builtins.readFile(interpolatedFile);
+    };
 
 
   # Remove elements in a list
