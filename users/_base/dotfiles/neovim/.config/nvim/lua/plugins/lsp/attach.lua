@@ -30,15 +30,20 @@ end
 
 local function on_attach(client, bufnr)
   local bufopts = { remap = false, silent = true, buffer = bufnr }
+  vim.lsp.inlay_hint.enable(0, true)
 
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', '<leader>K', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, bufopts)
-  vim.keymap.set('n', ']d', vim.diagnostic.goto_next, bufopts)
-  vim.keymap.set('n', toggle_key..'d', vim.diagnostic.open_float, bufopts)
-  vim.keymap.set('n', toggle_key..'D', toggle_diagnostics, bufopts)
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+  vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, bufopts)
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+  vim.keymap.set("n", "<leader>K", vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, bufopts)
+  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, bufopts)
+  vim.keymap.set("n", toggle_key .. "d", vim.diagnostic.open_float, bufopts)
+  vim.keymap.set("n", toggle_key .. "D", toggle_diagnostics, bufopts)
+  vim.keymap.set("n", toggle_key .. "H", function()
+    local enable = not vim.lsp.inlay_hint.is_enabled()
+    vim.lsp.inlay_hint.enable(0, enable)
+  end, bufopts)
 
   if nvim_navic_ok then
     nvim_navic.attach(client, bufnr)
