@@ -1,40 +1,40 @@
 return {
   "SmiteshP/nvim-navic",
   config = function()
-    require("nvim-navic").setup {
+    require("nvim-navic").setup({
       icons = {
-        File          = " ",
-        Module        = " ",
-        Namespace     = " ",
-        Package       = " ",
-        Class         = " ",
-        Method        = " ",
-        Property      = " ",
-        Field         = " ",
-        Constructor   = " ",
-        Enum          = "練",
-        Interface     = "練",
-        Function      = " ",
-        Variable      = " ",
-        Constant      = " ",
-        String        = " ",
-        Number        = " ",
-        Boolean       = "◩ ",
-        Array         = " ",
-        Object        = " ",
-        Key           = " ",
-        Null          = "ﳠ ",
-        EnumMember    = " ",
-        Struct        = " ",
-        Event         = " ",
-        Operator      = " ",
-        TypeParameter = " ",
+        File = " ",
+        Module = " ",
+        Namespace = " ",
+        Package = " ",
+        Class = "󱢨 ",
+        Method = "󰊕 ",
+        Property = "󰫧 ",
+        Field = "󱀝 ",
+        Constructor = " ",
+        Enum = " ",
+        Interface = "󰕘 ",
+        Function = "󰊕 ",
+        Variable = "󰫧 ",
+        Constant = " ",
+        String = " ",
+        Number = "󰎠 ",
+        Boolean = "◩ ",
+        Array = "󰅪 ",
+        Object = "󱢩 ",
+        Key = " ",
+        Null = " ",
+        EnumMember = " ",
+        Struct = " ",
+        Event = " ",
+        Operator = "󰆕 ",
+        TypeParameter = "󰓼 ",
       },
       highlight = true,
       separator = " » ",
       depth_limit = 0,
       depth_limit_indicator = "..",
-    }
+    })
 
     local navic_icon_kinds = {
       "File",
@@ -83,17 +83,17 @@ return {
     end
 
     -- Set navic highlights after changing colorschemes
-    vim.api.nvim_create_augroup("NavicHighlights", {clear = true})
+    vim.api.nvim_create_augroup("NavicHighlights", { clear = true })
     vim.api.nvim_create_autocmd("ColorScheme", {
-      group   = "NavicHighlights",
-      pattern = {'*'},
-      callback = set_navic_icon_highlights
+      group = "NavicHighlights",
+      pattern = { "*" },
+      callback = set_navic_icon_highlights,
     })
     -- Set navic highlights after loading nvim-cmp
     vim.api.nvim_create_autocmd("User", {
-      group   = "NavicHighlights",
+      group = "NavicHighlights",
       pattern = "CmpConfigLoaded",
-      callback = set_navic_icon_highlights
+      callback = set_navic_icon_highlights,
     })
-  end
+  end,
 }

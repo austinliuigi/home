@@ -1,7 +1,7 @@
 return {
   {
     "austinliuigi/bartender.nvim",
-    dev = false,
+    dev = true,
     config = function()
       local bartender = require("bartender")
       local utils = require("bartender.utils")
@@ -10,12 +10,12 @@ return {
 
       -- this is a function so that it can change value after startup
       local winbar_active_accent = function()
-        return utils.get_hl_attr("Normal", "foreground")
+        return utils.get_hl_attr("TabLineSel", "bg")
       end
 
       -- this is a function so that it can change value after startup
       local winbar_inactive_accent = function()
-        return utils.get_hl_attr("@comment", "foreground")
+        return utils.get_hl_attr("TabLine", "bg")
       end
 
       bartender.setup({
