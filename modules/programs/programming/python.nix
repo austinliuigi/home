@@ -10,7 +10,8 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      pkgs.python311Packages.weasyprint
+      # pkgs.python311Packages.weasyprint
+      pkgs.nodePackages_latest.pyright
     ];
   };
 }
