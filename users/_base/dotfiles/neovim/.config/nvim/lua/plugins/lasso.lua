@@ -1,12 +1,12 @@
 return {
   {
-    'austinliuigi/lasso.nvim',
+    "austinliuigi/lasso.nvim",
     -- dir = '~/tin/projects/neovim/personal/lasso.nvim/',
-    keys = {
-      {"y"}
-    },
+    -- keys = {
+    --   {"y"}
+    -- },
     config = function()
       require("lasso").setup()
-    end
+    end,
   },
 }
