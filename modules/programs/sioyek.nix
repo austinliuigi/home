@@ -11,9 +11,8 @@ in
       pkgs.sioyek
     ];
 
-    # xdg.configFile = utils.interpolateConfigDirWithMsg { dir = "${/. + "${config.dotfiles.sioyek}/.config"}"; comment_start = "#"; };
     xdg.configFile = {
-      "sioyek/prefs_user.config" = utils.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.sioyek}/.config/sioyek/prefs_user.config"}"; comment_start = "#"; };
+      "sioyek/prefs_user.config" = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.sioyek}/.config/sioyek/prefs_user.config"}"; comment_start = "#"; };
       "sioyek/keys_user.config".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.sioyek}/.config/sioyek/keys_user.config";
     };
   };
