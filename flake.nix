@@ -48,7 +48,7 @@
           extraSpecialArgs = baseExtraSpecialArgs;
           modules = [
             ./modules
-            ./users/austin-light
+            ./users/austin/light.nix
           ];
         };
       };
