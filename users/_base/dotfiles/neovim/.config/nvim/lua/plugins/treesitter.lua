@@ -1,23 +1,26 @@
 return {
   {
-    'nvim-treesitter/nvim-treesitter',
+    "nvim-treesitter/nvim-treesitter",
     version = false,
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
-      'nvim-treesitter/playground',
-      'nvim-treesitter/nvim-treesitter-textobjects',
-      'JoosepAlviste/nvim-ts-context-commentstring',
-      'windwp/nvim-ts-autotag',
-      'mrjones2014/nvim-ts-rainbow',
+      "nvim-treesitter/playground",
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      "JoosepAlviste/nvim-ts-context-commentstring",
+      "windwp/nvim-ts-autotag",
+      "mrjones2014/nvim-ts-rainbow",
     },
     config = function()
       local parsers = require("nvim-treesitter.parsers")
       local rainbow_filetypes = { "fennel", "commonlisp", "html", "xml" }
 
+      require("ts_context_commentstring").setup({})
+      vim.g.skip_ts_context_commentstring_module = true
+
       require("nvim-treesitter.configs").setup({
         auto_install = true,
-        ensure_installed = { "markdown", "norg", "org", "python", "vim", },
+        ensure_installed = { "markdown", "norg", "org", "python", "vim" },
         sync_install = true,
         highlight = {
           enable = true,
@@ -32,16 +35,16 @@ return {
           updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
           persist_queries = false, -- Whether the query persists across vim sessions
           keybindings = {
-            toggle_query_editor = 'o',
-            toggle_hl_groups = 'i',
-            toggle_injected_languages = 't',
-            toggle_anonymous_nodes = 'a',
-            toggle_language_display = 'I',
-            focus_language = 'f',
-            unfocus_language = 'F',
-            update = 'R',
-            goto_node = '<cr>',
-            show_help = '?',
+            toggle_query_editor = "o",
+            toggle_hl_groups = "i",
+            toggle_injected_languages = "t",
+            toggle_anonymous_nodes = "a",
+            toggle_language_display = "I",
+            focus_language = "f",
+            unfocus_language = "F",
+            update = "R",
+            goto_node = "<cr>",
+            show_help = "?",
           },
         },
         textobjects = {
@@ -56,8 +59,8 @@ return {
               -- ["af"] = "@function.outer",
             },
             selection_modes = {
-              ['@parameter.inner'] = 'v', -- charwise
-              ['@parameter.outer'] = 'v', -- charwise
+              ["@parameter.inner"] = "v", -- charwise
+              ["@parameter.outer"] = "v", -- charwise
               -- ['@function.inner'] = 'V', -- linewise
               -- ['@function.outer'] = 'V', -- linewise
               -- ['@class.outer'] = '<c-v>', -- blockwise
@@ -65,10 +68,10 @@ return {
             include_surrounding_whitespace = false,
           },
         },
-        context_commentstring = {
-          enable = true,
-          enable_autocmd = false,
-        },
+        -- context_commentstring = {
+        --   enable = true,
+        --   enable_autocmd = false,
+        -- },
         autotag = {
           enable = true,
         },
@@ -87,6 +90,6 @@ return {
         --   )
         -- },
       })
-    end
-  }
+    end,
+  },
 }
