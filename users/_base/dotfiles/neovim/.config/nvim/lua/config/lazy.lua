@@ -12,8 +12,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-
-
 -- Setup lazy
 require("lazy").setup("plugins", {
   root = vim.fn.stdpath("data") .. "/lazy", -- directory where plugins will be installed
@@ -43,7 +41,7 @@ require("lazy").setup("plugins", {
     -- install missing plugins on startup. This doesn't increase startup time.
     missing = true,
     -- try to load one of these colorschemes when starting an installation during startup
-    colorscheme = { "nord" },
+    colorscheme = {},
     -- colorscheme = { colors.kitty_theme or colors.default_theme },
   },
   ui = {

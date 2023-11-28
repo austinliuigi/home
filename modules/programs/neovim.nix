@@ -15,6 +15,10 @@ in
       pkgs.neovim-nightly
     ];
 
+    home.file = {
+      ".local/state/nvim/palette.lua" = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.neovim}/.local/state/nvim/palette.lua"}"; comment_start = "--"; };
+    };
+
     # create a symlink of the config to the proper location
     xdg.configFile = {
       nvim.source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.neovim}/.config/nvim";
