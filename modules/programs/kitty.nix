@@ -10,11 +10,8 @@ in
     home.packages = [ pkgs.kitty ];
 
     home.file = {
-      ".local/state/kitty/theme.conf" = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.kitty}/.local/state/kitty/theme.conf"}"; comment_start = "#"; };
-    };
-
-    xdg.configFile = {
-      kitty.source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.kitty}/.config/kitty";
+      ".local/share/kitty/theme.conf" = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.kitty}/.local/share/kitty/theme.conf"}"; comment_start = "#"; };
+      ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.kitty}/.config/kitty";
     };
   };
 }
