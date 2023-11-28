@@ -10,7 +10,9 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      # pkgs.python311Packages.weasyprint
+      (pkgs.python311.withPackages (ps: with ps; [
+        pynvim
+      ]))
       pkgs.nodePackages_latest.pyright
     ];
   };
