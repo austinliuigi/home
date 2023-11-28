@@ -29,6 +29,7 @@ in
         core.enable       = true;
         ios.enable        = true;
         kdeconnect.enable = true;
+        kitty.enable      = true;
         lua.enable        = true;
         neovim.enable     = true;
         nix.enable        = true;
