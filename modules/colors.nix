@@ -13,8 +13,9 @@
     configuration =
     let
       transparent = "false";
-      opacity_ratio = if transparent == "true" then "0.0" else "1.0";
-      opacity_percentage = if transparent == "true" then "0" else "100";
+      opacity = 0.8;
+      opacity_ratio = if transparent == "true" then lib.strings.floatToString opacity else "1.0";
+      opacity_percentage = if transparent == "true" then builtins.toString (opacity * 100) else "100";
     in
     {
       substitutions = config.colorscheme.colors // {
