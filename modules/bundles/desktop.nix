@@ -37,6 +37,7 @@ in
         sioyek.enable     = true;
         syncthing.enable  = true;
         texlive.enable    = true;
+        zsh.enable        = true;
       };
     };
   };

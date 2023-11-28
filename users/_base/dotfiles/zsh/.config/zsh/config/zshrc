@@ -1,0 +1,42 @@
+# Environment Variables
+export EDITOR="nvim"
+export PATH="${HOME}/.local/bin:${PATH}"
+export MANPAGER='nvim +Man!'
+
+export CLICOLOR=1
+export LSCOLORS="ExGxFxDxCxDxDxhbhdacEc"
+export LS_COLORS="di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32"
+
+# History
+HISTFILE="$HOME/.local/state/zsh/zsh_history"   # File to store history in
+HISTSIZE=999999                 # Number of lines of history to keep in memory
+SAVEHIST=$HISTSIZE              # Number of lines to keep in history file
+
+setopt HIST_IGNORE_ALL_DUPS     # Do not put duplicated command into history list
+setopt HIST_SAVE_NO_DUPS        # Do not save duplicated command
+setopt HIST_REDUCE_BLANKS       # Remove unnecessary blanks
+setopt INC_APPEND_HISTORY_TIME  # Append command to history file immediately after execution
+setopt EXTENDED_HISTORY         # Record command start time
+
+# General Options
+setopt autocd       # Type directory to cd
+setopt nocaseglob   # Case insensitive globbing
+# setopt correct      # Suggest corrections for mis-spelled commands
+# setopt correctall   # Suggest corrections for mis-spelled arguments
+
+# Completion Options
+# autoload -U compinit
+zstyle ':completion:*' menu select                          # Menu completion
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'         # Case insensitive completion
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"     # Add color to completion menu
+# compinit
+setopt menu_complete                                        # Complete first match even in ambiguous
+unsetopt list_beep                                          # Turn off beeping on ambiguous completions
+setopt glob_dots                                            # Match hidden files
+
+# Plugin Options
+zstyle ':fzf-tab:*' continuous-trigger 'right'
+zstyle ':fzf-tab:complete:*' fzf-flags '--query='
+
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(history-beginning-search-backward-end history-beginning-search-forward-end)
