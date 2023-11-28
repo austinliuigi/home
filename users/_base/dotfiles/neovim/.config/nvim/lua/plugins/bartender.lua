@@ -10,12 +10,12 @@ return {
 
       -- this is a function so that it can change value after startup
       local winbar_active_accent = function()
-        return utils.get_hl_attr("TabLineSel", "bg")
+        return utils.get_hl_attr("TabLineSel", "fg"), utils.get_hl_attr("TabLineSel", "bg")
       end
 
       -- this is a function so that it can change value after startup
       local winbar_inactive_accent = function()
-        return utils.get_hl_attr("TabLine", "bg")
+        return utils.get_hl_attr("TabLine", "fg"), utils.get_hl_attr("TabLine", "bg")
       end
 
       bartender.setup({
