@@ -1,33 +1,15 @@
 { config, pkgs, lib, ... }:
 
 {
-  # options.dotfiles = lib.mkOption {
-  #   type = lib.types.str;
-  #   readOnly = true;
-  #   default = "${config.home.homeDirectory}/.config/home-manager/users/austin/dotfiles";
-  #   description = ''
-  #     Path to dotfiles directory
-  #   '';
-  # };
-
   imports = [
     ../_base
+    ../_desktop/light.nix
   ];
 
   config = {
     # Metadata that home manager needs
     home.username = "austin";
     home.homeDirectory = "/home/austin";
-
-    modules = {
-      bundles = {
-        desktop_light.enable = true;
-      };
-    };
-
-    home.sessionVariables = {
-      EDITOR = "nvim";
-    };
 
     programs.home-manager.enable = true;  # install and manage home-manager
 
