@@ -12,15 +12,24 @@ in
       dotDir = ".config/zsh";
       enableCompletion = true;
       plugins = [
-        {
-          name = "zsh-autosuggestions";
-          src = pkgs.fetchFromGitHub {
-            owner = "zsh-users";
-            repo = "zsh-autosuggestions";
-            rev = "v0.7.0";
-            sha256 = "sha256-KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
-          };
-        }
+        # {
+        #   name = "zsh-autosuggestions";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "zsh-users";
+        #     repo = "zsh-autosuggestions";
+        #     rev = "v0.7.0";
+        #     sha256 = "sha256-KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
+        #   };
+        # }
+        # {
+        #   name = "zsh-syntax-highlighting";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "zsh-users";
+        #     repo = "zsh-syntax-highlighting";
+        #     rev = "0.7.1";
+        #     sha256 = "sha256-gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
+        #   };
+        # }
         {
           name = "gitstatus";
           src = pkgs.fetchFromGitHub {
@@ -39,16 +48,6 @@ in
             sha256 = "sha256-gvZp8P3quOtcy1Xtt1LAW1cfZ/zCtnAmnWqcwrKel6w=";
           };
         }
-        # zsh-syntax-highlighting should be sourced LAST
-        {
-          name = "zsh-syntax-highlighting";
-          src = pkgs.fetchFromGitHub {
-            owner = "zsh-users";
-            repo = "zsh-syntax-highlighting";
-            rev = "0.7.1";
-            sha256 = "sha256-gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
-          };
-        }
       ];
       history = {
         # Note: these will get overriden by our own zshrc
@@ -62,8 +61,10 @@ in
         share = false;
         extended = false;
       };
-      initExtraFirst = ''
-      '';
+      enableAutosuggestions = true;
+      syntaxHighlighting = {
+        enable = true;
+      };
       initExtra = ''
         source ~/.config/zsh/config/aliases.zsh
         source ~/.config/zsh/config/keybinds.zsh
