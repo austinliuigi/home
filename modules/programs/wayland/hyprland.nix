@@ -17,7 +17,7 @@ in
       source = ${config.home.homeDirectory}/.config/hypr/hyprland/keybinds.conf
       source = ${config.home.homeDirectory}/.config/hypr/hyprland/rules.conf
       source = ${config.home.homeDirectory}/.local/share/hyprland/palette.conf
-      exec-once = waybar & hyprpaper &
+      source = ${config.home.homeDirectory}/.config/hypr/hyprland/initialize.conf
       '';
     };
 
