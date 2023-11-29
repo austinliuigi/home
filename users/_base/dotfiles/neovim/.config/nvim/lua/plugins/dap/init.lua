@@ -82,8 +82,8 @@ return {
         args = {},
       }
 
-      vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "GitSignsDelete", linehl = "", numhl = "" }) -- ●      ﴫ
-      vim.fn.sign_define("DapBreakpointCondition", { text = "ﴫ", texthl = "GitSignsChange", linehl = "", numhl = "" })
+      vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "Error", linehl = "", numhl = "" }) -- ●      ﴫ
+      vim.fn.sign_define("DapBreakpointCondition", { text = "ﴫ", texthl = "Special", linehl = "", numhl = "" })
     end,
     dependencies = {
       {

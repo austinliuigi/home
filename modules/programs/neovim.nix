@@ -11,9 +11,7 @@ in
       inputs.neovim-nightly-overlay.overlay
     ];
 
-    home.packages = [
-      pkgs.neovim-nightly
-    ];
+    home.packages = [ pkgs.neovim-nightly ];
 
     home.file = {
       ".local/share/nvim/palette.lua" = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.neovim}/.local/share/nvim/palette.lua"}"; comment_start = "--"; };
