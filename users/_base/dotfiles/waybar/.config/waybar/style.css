@@ -1,0 +1,64 @@
+/* gtk css doesn't support env vars */
+@import url("../../.local/share/waybar/palette.css");
+
+* {
+  font-family: "Mononoki Nerd Font";
+  font-size: 16px;
+}
+
+window#waybar {
+  color: @base05;
+  background: @base01;
+}
+
+tooltip {
+  background: rgba(20, 20, 20, 0.8);
+  border: 1px solid @base04;
+}
+
+tooltip label {
+  color: @base05;
+}
+
+@keyframes battery_charging {
+  to {
+    color: @base02;
+  }
+}
+
+#battery.charging {
+  animation-name: battery_charging;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes battery_critical {
+  to {
+    color: @base08;
+  }
+}
+
+#battery.critical {
+  animation-name: battery_critical;
+  animation-duration: 0.75s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#workspaces button.active {
+  font-weight: bolder;
+  color: @base05;
+}
+
+#workspaces button {
+  color: @base03;
+}
+
+#workspaces button:hover {
+  color: @base02;
+  text-shadow: 0 0 4px @base01;
+  background: @base04;
+}

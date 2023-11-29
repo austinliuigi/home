@@ -1,0 +1,83 @@
+{
+    /* General options */
+    "layer": "top",
+    "position": "top", // waybar position (top|bottom|left|right)
+    "height": 34,      // waybar height (remove for auto height)
+    "spacing": 14,     // gaps between modules
+
+    /* Section definitions */
+    "modules-left": ["hyprland/workspaces", "custom/separator", "cpu", "memory", "disk"],
+    "modules-center": ["custom/hyprland_fullscreen", "hyprland/window"],
+    "modules-right": ["network", "wireplumber", "backlight", "battery", "clock"],
+
+    /* Module configurations */
+    "hyprland/window": {
+        "format": "{initialTitle}"
+    },
+
+    "cpu": {
+        "format": "{usage}% 󰍛 ",
+        "interval": 2
+    },
+    "memory": {
+        "format": "{}% 󱑵 ",
+        "tooltip-format": "RAM:  {used}GiB used out of {total}GiB\nSwap: {swapUsed}GiB used out of {swapTotal}GiB",
+        "interval": 5
+    },
+    "disk": {
+        "format": "{percentage_used}% 󰋊 ",
+        "tooltip-format": "{used} used out of {total} on {path}",
+        "interval": 30
+    },
+
+    "network": {
+        "format-wifi": "{signalStrength}% {icon} ",  // space after icon to prevent clipping (bug)
+        "format-ethernet": "{ipaddr}/{cidr} 󰈀 ",
+        "format-linked": "{ifname} (No IP)  ",
+        "format-disconnected": "Disconnected ⚠ ",
+        "tooltip-format": "ssid: {essid}\n\n{ifname}: {ipaddr}/{cidr}"
+    },
+    "wireplumber": {
+        "format": "{volume}% {icon} ",
+        "format-muted": " ",
+        "on-click": "helvum",
+        "format-icons": ["", "", ""]
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{percent}% {icon} ",
+        "format-icons": [""]
+    },
+    "battery": {
+        "bat": "BAT0",
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon} ",
+        "format-charging": "{capacity}% 󱊥 ",
+        "format-plugged": "{capacity}%  ",
+        "tooltip-format": "{timeTo}",
+        "format-icons": ["", "", "", "", ""],
+        "interval": 10
+    },
+    "clock": {
+        "timezone": "America/Los_Angeles",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%A %b %d │ %I:%M %p} "
+    },
+
+    "custom/separator": {
+      "exec": "echo '┆  '"
+    },
+
+    "custom/space": {
+      "exec": "echo ' '"
+    },
+
+    "custom/hyprland_fullscreen": {
+      "exec": "echo '󰍉 '",
+      "exec-if": "[ $(hyprctl activewindow -j | jq .fullscreen) = 'true' ]",
+      "interval": 1
+    },
+}
