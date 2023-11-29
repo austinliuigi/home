@@ -22,14 +22,18 @@ modes=(
 # selected mode
 mode="$(echo -e "$(join "\n" "${modes[@]}")" | rofi -dmenu)"
 
+# early exit
+if [ -z $mode ]; then
+    exit 0
+fi
+
 # set script if a selected mode is a script mode
 case "$mode" in
     "power") script="${HOME}/.local/share/rofi/scripts/power.sh" ;;
 esac
 
 # run rofi on selected mode
-if [ -n "$script" ]
-then
+if [ -n "$script" ]; then
     rofi -show "$mode" -modes "${mode}:${script}"
 else
     rofi -show "$mode"
