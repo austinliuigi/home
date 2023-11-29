@@ -11,6 +11,7 @@ in
 
     home.file = {
       ".local/share/rofi/themes/_palette.rasi" = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.rofi}/.local/share/rofi/themes/_palette.rasi"}"; comment_start = "//"; };
+      ".local/share/rofi/scripts".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.rofi}/.local/share/rofi/scripts";
       ".config/rofi".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.rofi}/.config/rofi";
     };
   };
