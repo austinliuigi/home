@@ -1,0 +1,129 @@
+configuration {
+  font: "Mononoki Nerd Font Medium 10";
+  modi: "run,drun,ssh,window";
+
+  kb-mode-next: "Control+period";
+  kb-mode-previous: "Control+comma";
+  
+  show-icons: true;
+}
+
+@theme "_palette"
+
+* {
+  text-color: @base05;
+  background-color: @base00;
+  vertical-align: 0.5;
+}
+
+window {
+  width: 40%;
+  height: 45%;
+}
+
+  mainbox {
+    orientation: vertical;
+    children: [ inputbar, message, listview ];
+    border: 1;
+    border-radius: 4;
+    border-color: @base05;
+  }
+
+  mode-switcher {
+    children: [ button ];
+    border: 1;
+    border-color: @base03;
+  }
+
+    button {
+      text-color: @base04;
+      background-color: @base01;
+      padding: 2 0 2 0;
+    }
+
+    button.selected {
+      background-color: @base02;
+      padding: 2 0 2 0;
+    }
+
+  inputbar {
+    orientation: horizontal;
+    children: [ prompt, textbox-prompt-colon, entry, num-filtered-rows, textbox-prompt-slash, num-rows ];
+    text-color: @base05;
+    background-color: @base03;
+    padding: 25 0 25 0;
+  }
+
+    prompt {
+      background-color: inherit;
+      text-color: inherit;
+      padding: 0 0 0 12;
+    }
+
+    textbox-prompt-colon {
+      expand:     false;
+      str:        ":";
+      text-color: inherit;
+      background-color: inherit;
+    }
+
+    entry {
+      text-color: inherit;
+      background-color: inherit;
+      padding: 0 0 0 12;
+    }
+
+    num-filtered-rows {
+      text-color: @base04;
+      background-color: inherit;
+    }
+
+    textbox-prompt-slash {
+      expand:     false;
+      str:        "/";
+      text-color: @base04;
+      background-color: inherit;
+    }
+
+    num-rows {
+      text-color: @base04;
+      background-color: inherit;
+      padding: 0 12 0 0;
+    }
+
+  message {
+    children: [ textbox ];
+  }
+
+    textbox {
+    }
+
+  listview {
+    orientation: horizontal;
+    children: [ element, scrollbar ];
+  }
+
+    element {
+      orientation: horizontal;
+      children: [ element-text, element-icon ];
+      text-color: @base03;
+      background-color: transparent;
+      padding: 15 12 15 12;
+    }
+
+    element.selected {
+      text-color: @base04;
+      background-color: @base01;
+    }
+
+      element-text {
+        text-color: inherit;
+        background-color: inherit;
+      }
+
+      element-icon {
+        background-color: inherit;
+        padding: 0 10 0 0;
+      }
+
+// vim: ft=sass
