@@ -10,8 +10,11 @@ in
     modules = {
       scripts.enable = true;
       programs = {
-        hyprland.enable   = true;
-        swayidle.enable   = true;
+        wayland.hyprland.enable   = true;
+        wayland.swayidle.enable   = true;
+        wayland.rofi.enable       = true;
+        wayland.waybar.enable     = true;
+        wayland.wl-clipboard.enable = true;
       };
     };
   };

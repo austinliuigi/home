@@ -1,10 +1,10 @@
 { pkgs, lib, config, inputs, utils, ... }:
 
 let
-  cfg = config.modules.programs.hyprland;
+  cfg = config.modules.programs.wayland.hyprland;
 in
 {
-  options.modules.programs.hyprland.enable = lib.mkEnableOption "hyprland module";
+  options.modules.programs.wayland.hyprland.enable = lib.mkEnableOption "hyprland module";
 
   config = lib.mkIf cfg.enable {
     # Manage configuration for hyprland
@@ -20,12 +20,9 @@ in
       '';
     };
 
-    xdg.configFile."hypr/hyprland".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.hyprland}/.config/hypr/hyprland";
-
-    # Add scripts that config depends on
-    home.packages = [
-      (import ./_swapworkspace.nix { inherit pkgs; })
-      (import ./_swapmonitor.nix { inherit pkgs; })
-    ];
+    home.file = {
+      ".local/share/hyprland/scripts".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.hyprland}/.local/share/hyprland/scripts";
+      ".config/hypr/hyprland".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.hyprland}/.config/hypr/hyprland";
+    };
   };
 }

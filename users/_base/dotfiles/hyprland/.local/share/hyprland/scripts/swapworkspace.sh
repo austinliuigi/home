@@ -1,6 +1,3 @@
-{ pkgs }:
-
-pkgs.writeShellScriptBin "hyprland_swapworkspace" ''
 # Swaps the active workspace with another workspace
 # $1 => the workspace param of the target workspace
 
@@ -50,4 +47,3 @@ echo "$TARGET_WS_WINDOWS" | xargs -I {} hyprctl dispatch movetoworkspacesilent "
 
 # move all windows from current workspace to target workspace
 echo "$CURRENT_WS_WINDOWS" | xargs -I {} hyprctl dispatch movetoworkspacesilent "$TARGET_WS_ID",address:{}
-''
