@@ -1,3 +1,8 @@
+if [ -n "$(command -v kitty)" ]; then
+  echo
+  kitty +kitten icat ~/.config/zsh/config/headers/shroomish.png 2> /dev/null
+fi
+
 # Environment Variables
 export EDITOR="nvim"
 export PATH="${HOME}/.local/bin:${PATH}"
