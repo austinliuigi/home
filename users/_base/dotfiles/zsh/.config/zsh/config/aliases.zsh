@@ -1,5 +1,5 @@
 ### Modernized Core Commands
-if ! [ -z "$(command -v z)" ]; then
+if ! [ -z "$(command -v zoxide)" ]; then
     alias cd='z'
 fi
 
