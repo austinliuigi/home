@@ -44,3 +44,6 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^[[A" history-beginning-search-backward-end # up arrow takes into account what is currently typed
 bindkey "^[[B" history-beginning-search-forward-end # down arrow takes into account what is currently typed
 
+neogit() { nvim -c "Neogit kind=replace" }
+zle -N neogit
+bindkey "^g" neogit
