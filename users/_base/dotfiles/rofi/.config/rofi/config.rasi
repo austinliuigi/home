@@ -19,12 +19,13 @@ configuration {
 window {
   width: 40%;
   height: 45%;
+  background-color: transparent;
 }
 
   mainbox {
     orientation: vertical;
     children: [ inputbar, message, listview ];
-    border: 1;
+    border: 2;
     border-radius: 4;
     border-color: @base05;
   }
