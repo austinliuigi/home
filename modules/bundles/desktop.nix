@@ -27,6 +27,7 @@ in
         c.enable          = true;
         common.enable     = true;
         core.enable       = true;
+        fzf.enable        = true;
         ios.enable        = true;
         kdeconnect.enable = true;
         kitty.enable      = true;
