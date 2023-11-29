@@ -10,7 +10,7 @@ in
     home.packages = [ pkgs.fzf ];
 
     home.file = {
-      ".local/share/fzf/theme.sh" = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.fzf}/.local/share/fzf/theme.sh"}"; comment_start = "#"; };
+      ".local/share/fzf/theme.sh".text = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.fzf}/.local/share/fzf/theme.sh"}"; comment_start = "#"; };
       ".config/fzf".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.fzf}/.config/fzf";
     };
 

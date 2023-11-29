@@ -68,12 +68,12 @@ let
   # Interpolate values in a configuration file
   #   - param file: str|path path to the configuration file to interpolate
   #   - return { source = <substituted_file> }: attr - <substituted_file> is a derivation that builds the file with substituted replacements
+  #
+  # e.g. home.file."foo/bar".source = interpolateConfigFile "/nix/store/.../foo/bar"
   interpolateConfigFile = file:
-    {
-      source = pkgs.substituteAll ({
-        src = "${file}";
-      } // cfg.substitutions);
-    };
+    pkgs.substituteAll ({
+      src = "${file}";
+    } // cfg.substitutions);
 
 
   # Interpolate values in configuration files with added message
@@ -81,6 +81,8 @@ let
   #   - param comment_start: str string which config files use to start comments
   #   - param comment_end: str string which config files use to end comments
   #   - return { text = <contents> }: attr - <contents> is a string representing the new file's contents
+  #
+  # e.g. home.file."foo/bar".text = interpolateConfigFileWithMsg { file = "/nix/store/.../foo/bar"; comment_start = "#"; }
   interpolateConfigFileWithMsg = { file, comment_start ? "", comment_end ? "" }:
     let
       msg = ''
@@ -92,7 +94,7 @@ let
         src = "${file}";
       } // cfg.substitutions);
     in
-    { text = "${msg}" + builtins.readFile(interpolatedFile); };
+    "${msg}" + builtins.readFile(interpolatedFile);
 in
   {
     options.configuration = {

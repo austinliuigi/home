@@ -10,7 +10,12 @@ in
     home.packages = [ pkgs.kitty ];
 
     home.file = {
-      ".local/share/kitty/theme.conf" = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.kitty}/.local/share/kitty/theme.conf"}"; comment_start = "#"; };
+      ".local/share/kitty/theme.conf" = {
+        text = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.kitty}/.local/share/kitty/theme.conf"}"; comment_start = "#"; };
+        onChange = ''
+          kill -SIGUSR1 $(${pkgs.busybox}/bin/pgrep kitty)
+        '';
+      };
       ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.kitty}/.config/kitty";
     };
   };
