@@ -16,11 +16,13 @@ in
       source = ${config.home.homeDirectory}/.config/hypr/hyprland/settings.conf
       source = ${config.home.homeDirectory}/.config/hypr/hyprland/keybinds.conf
       source = ${config.home.homeDirectory}/.config/hypr/hyprland/rules.conf
+      source = ${config.home.homeDirectory}/.local/share/hyprland/palette.conf
       exec-once = waybar & hyprpaper &
       '';
     };
 
     home.file = {
+      ".local/share/hyprland/palette.conf" = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.hyprland}/.local/share/hyprland/palette.conf"}"; comment_start = "#"; };
       ".local/share/hyprland/scripts".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.hyprland}/.local/share/hyprland/scripts";
       ".config/hypr/hyprland".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.hyprland}/.config/hypr/hyprland";
     };
