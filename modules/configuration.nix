@@ -18,7 +18,7 @@ let
           {
             name = file;
             value = pkgs.substituteAll ({
-              src = "${dir}/${file}";
+              src = "${utils.toStorePath dir}/${file}";
             } // replacements);
           }
         )
@@ -49,15 +49,12 @@ let
   #     - key = <filepath>: str - filepath relative to dir
   #     - val = { text = <contents> }: attr - <contents> is a string representing the new file's contents
   interpolateConfigDirWithMsg = { dir, comment_start ? "", comment_end ? "" }:
-    let
-      msg = ''
-        ${comment_start} NOTE: This is an interpolated copy and shouldn't be modified directly. ${comment_end}
-
-      '';
-    in
     builtins.mapAttrs
       (file: interpolatedFile: {
-        text = "${msg}" + builtins.readFile(interpolatedFile);
+        text = ''
+        ${comment_start} NOTE: This is an interpolated copy of the respective file in ${dir}/${file} ${comment_end}
+
+        '' + builtins.readFile(interpolatedFile);
       })
       (substituteDirFiles { 
         dir = dir;
@@ -72,7 +69,7 @@ let
   # e.g. home.file."foo/bar".source = interpolateConfigFile "/nix/store/.../foo/bar"
   interpolateConfigFile = file:
     pkgs.substituteAll ({
-      src = "${file}";
+        src = utils.toStorePath file;
     } // cfg.substitutions);
 
 
@@ -86,12 +83,12 @@ let
   interpolateConfigFileWithMsg = { file, comment_start ? "", comment_end ? "" }:
     let
       msg = ''
-        ${comment_start} NOTE: This is an interpolated copy and shouldn't be modified directly. ${comment_end}
+        ${comment_start} NOTE: This is an interpolated copy of ${file} ${comment_end}
 
       '';
 
       interpolatedFile = pkgs.substituteAll ({
-        src = "${file}";
+        src = utils.toStorePath file;
       } // cfg.substitutions);
     in
     "${msg}" + builtins.readFile(interpolatedFile);

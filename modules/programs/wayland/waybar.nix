@@ -11,7 +11,7 @@ in
 
     home.file = {
       ".local/share/waybar/palette.css" = {
-        text = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.waybar}/.local/share/waybar/palette.css"}"; comment_start = "/*"; comment_end = "*/"; };
+        text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.waybar}/.local/share/waybar/palette.css"; comment_start = "/*"; comment_end = "*/"; };
         onChange = ''
           procs=$(${pkgs.busybox}/bin/pgrep waybar)
           if [ -n "$procs" ]; then kill $procs; fi

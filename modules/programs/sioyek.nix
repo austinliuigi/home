@@ -12,7 +12,7 @@ in
     ];
 
     xdg.configFile = {
-      "sioyek/prefs_user.config".text = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.sioyek}/.config/sioyek/prefs_user.config"}"; comment_start = "#"; };
+      "sioyek/prefs_user.config".text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.sioyek}/.config/sioyek/prefs_user.config"; comment_start = "#"; };
       "sioyek/keys_user.config".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.sioyek}/.config/sioyek/keys_user.config";
     };
   };

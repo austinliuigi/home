@@ -11,7 +11,7 @@ in
 
     home.file = {
       ".local/share/kitty/palette.conf" = {
-        text = config.configuration.interpolateConfigFileWithMsg { file = "${/. + "${config.dotfiles.kitty}/.local/share/kitty/palette.conf"}"; comment_start = "#"; };
+        text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.kitty}/.local/share/kitty/palette.conf"; comment_start = "#"; };
         onChange = ''
           kill -SIGUSR1 $(${pkgs.busybox}/bin/pgrep kitty)
         '';
