@@ -39,7 +39,7 @@
     },
     "wireplumber": {
         "format": "{volume}% {icon} ",
-        "format-muted": " ",
+        "format-muted": "{volume}%  ",
         "on-click": "helvum",
         "format-icons": ["", "", ""]
     },
