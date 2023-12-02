@@ -17,7 +17,8 @@ HISTFILE="$HOME/.local/state/zsh/zsh_history"   # File to store history in
 HISTSIZE=999999                 # Number of lines of history to keep in memory
 SAVEHIST=$HISTSIZE              # Number of lines to keep in history file
 
-setopt HIST_IGNORE_ALL_DUPS     # Do not put duplicated command into history list
+setopt HIST_IGNORE_DUPS         # Do not put command into history if it's a dup of the previous command
+unsetopt HIST_IGNORE_ALL_DUPS   # Do not put duplicated command into list
 setopt HIST_SAVE_NO_DUPS        # Do not save duplicated command
 setopt HIST_REDUCE_BLANKS       # Remove unnecessary blanks
 setopt INC_APPEND_HISTORY_TIME  # Append command to history file immediately after execution
