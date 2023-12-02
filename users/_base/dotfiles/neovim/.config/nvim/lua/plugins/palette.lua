@@ -12,11 +12,13 @@ return {
           vim.notify("config: palette config not found", vim.log.levels.ERROR)
         end
       end, {})
+
       vim.cmd("PaletteLoad")
 
       vim.api.nvim_create_autocmd("Signal", {
         pattern = "SIGUSR1",
         command = "PaletteLoad",
+        nested = true,
       })
     end,
   },
