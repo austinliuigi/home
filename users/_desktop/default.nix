@@ -28,6 +28,7 @@
       lua.enable          = true;
       neovim.enable       = true;
       nix.enable          = true;
+      pcmanfm.enable      = true;
       python.enable       = true;
       sioyek.enable       = true;
       syncthing.enable    = true;
