@@ -1,6 +1,6 @@
 return {
   {
-    'stevearc/oil.nvim',
+    "stevearc/oil.nvim",
     opts = {
       -- See :help oil-columns
       columns = {
@@ -35,11 +35,10 @@ return {
         ["<C-v>"] = "actions.select_vsplit",
         -- ["<C-h>"] = "actions.select_split",
         ["<C-t>"] = "actions.select_tab",
-        -- ["<C-p>"] = "actions.preview",
-        -- ["<C-c>"] = "actions.close",
-        -- ["<C-l>"] = "actions.refresh",
+        ["<C-p>"] = "actions.preview",
+        ["<C-S-l>"] = "actions.refresh",
         ["<BS>"] = "actions.parent",
-        -- ["_"] = "actions.open_cwd",
+        ["<leader>y"] = "actions.copy_entry_path",
         ["`"] = "actions.cd",
         ["~"] = "actions.tcd",
         ["g."] = "actions.toggle_hidden",
@@ -60,6 +59,6 @@ return {
           winblend = 10,
         },
       },
-    }
+    },
   },
 }
