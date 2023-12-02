@@ -13,7 +13,11 @@ in
       ".local/share/kitty/palette.conf" = {
         text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.kitty}/.local/share/kitty/palette.conf"; comment_start = "#"; };
         onChange = ''
-          kill -SIGUSR1 $(${pkgs.busybox}/bin/pgrep kitty)
+          procs=$(${pkgs.busybox}/bin/pgrep kitty)
+          if [ -n "$procs" ]; then
+            echo "kitty: reloading config"
+            kill -SIGUSR1 $procs
+          fi
         '';
       };
       ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.kitty}/.config/kitty";
