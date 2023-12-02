@@ -12,11 +12,12 @@ join() {
 
 # available modes
 modes=(
-"run"
 "drun"
+"run"
+"wifi"
+"power"
 "ssh"
 "window"
-"power"
 )
 
 # selected mode
@@ -29,12 +30,24 @@ fi
 
 # set script if a selected mode is a script mode
 case "$mode" in
-    "power") script="${HOME}/.local/share/rofi/scripts/power.sh" ;;
-esac
+    # bulitin modes
+    "drun")
+        ;&
+    "run")
+        ;&
+    "ssh")
+        ;&
+    "window")
+        rofi -show "$mode"
+        ;;
 
-# run rofi on selected mode
-if [ -n "$script" ]; then
-    rofi -show "$mode" -modes "${mode}:${script}"
-else
-    rofi -show "$mode"
-fi
+    # rofi script modes
+    "power")
+        script="${script:-${HOME}/.local/share/rofi/scripts/power.sh}"
+        rofi -show "$mode" -modes "${mode}:${script}"
+        ;;
+
+    # rofi dmenu scripts
+    "wifi")
+        eval "${HOME}/.local/share/rofi/scripts/wifi_dmenu.sh"
+esac
