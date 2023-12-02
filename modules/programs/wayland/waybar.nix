@@ -14,10 +14,13 @@ in
         text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.waybar}/.local/share/waybar/palette.css"; comment_start = "/*"; comment_end = "*/"; };
         onChange = ''
           procs=$(${pkgs.busybox}/bin/pgrep waybar)
-          if [ -n "$procs" ]; then kill $procs; fi
+          if [ -n "$procs" ]; then
+            echo "waybar: reloading config"
+            kill $procs
+          fi
 
           PATH=${pkgs.hyprland}/bin:$PATH # wayland needs hyprctl for hyprland ipc
-          ${pkgs.waybar}/bin/waybar &
+          ${pkgs.waybar}/bin/waybar >/dev/null &
         '';
       };
       ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.waybar}/.config/waybar";

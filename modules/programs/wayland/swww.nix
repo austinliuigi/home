@@ -16,6 +16,8 @@ in
           ${config.colorscheme.name}
         '';
         onChange = ''
+          echo "swww: generating wallpaper"
+
           ${pkgs.imagemagick}/bin/convert ${config.dotfiles._wallpapers}/wallpaper.png -fill \#${config.colorscheme.colors.base02} -tint 100 ~/wallpapers/wallpaper.png 2> /dev/null
 
           ${pkgs.swww}/bin/swww img ~/wallpapers/wallpaper.png

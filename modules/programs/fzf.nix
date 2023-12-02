@@ -14,6 +14,10 @@ in
       ".config/fzf".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.fzf}/.config/fzf";
     };
 
+    # TODO: source palette.sh on colorscheme change
+    #  - make script that uses bash trap builtin to handle SIGUSR1 signal
+    #  - run script in background in bashrc
+    #  - kill -SIGUSR1 the script onChange
     programs.bash.initExtra = ''
       source ${pkgs.fzf}/share/fzf/completion.bash
       source ${pkgs.fzf}/share/fzf/key-bindings.bash
