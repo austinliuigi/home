@@ -22,7 +22,13 @@ in
     };
 
     home.file = {
-      ".local/share/hyprland/palette.conf".text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.hyprland}/.local/share/hyprland/palette.conf"; comment_start = "#"; };
+      ".local/share/hyprland/palette.conf" = {
+        text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.hyprland}/.local/share/hyprland/palette.conf"; comment_start = "#"; };
+        onChange = ''
+          echo "hyprland: reloading config"
+          ${pkgs.hyprland}/bin/hyprctl reload >/dev/null
+        '';
+      };
       ".local/share/hyprland/scripts".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.hyprland}/.local/share/hyprland/scripts";
       ".config/hypr/hyprland".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.hyprland}/.config/hypr/hyprland";
     };
