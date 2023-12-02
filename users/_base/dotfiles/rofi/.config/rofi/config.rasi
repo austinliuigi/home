@@ -1,6 +1,8 @@
 configuration {
-  font: "Mononoki Nerd Font Medium 10";
+  font: "Mononoki Nerd Font 12";
   modi: "run,drun,ssh,window";
+
+  case-sensitive: false;
 
   kb-mode-next: "Control+period";
   kb-mode-previous: "Control+comma";
@@ -101,7 +103,8 @@ window {
 
   listview {
     orientation: horizontal;
-    children: [ element, scrollbar ];
+    children: [ element ];
+    scrollbar: true;
   }
 
     element {
@@ -124,7 +127,27 @@ window {
 
       element-icon {
         background-color: inherit;
+        padding: 0 10 0 20;
+      }
+
+      element-index {
+        text-color: @base02;
+        background-color: inherit;
         padding: 0 0 0 20;
       }
+
+      element-index.selected {
+        text-color: @base03;
+        background-color: inherit;
+        padding: 0 0 0 20;
+      }
+
+    scrollbar {
+      width: 4px ;
+      background-color: @base01;
+      handle-color: @base0D;
+      border: 1;
+      border-color: @base03;
+    }
 
 // vim: ft=sass
