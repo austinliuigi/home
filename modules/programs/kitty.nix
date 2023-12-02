@@ -13,7 +13,7 @@ in
       ".local/share/kitty/palette.conf" = {
         text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.kitty}/.local/share/kitty/palette.conf"; comment_start = "#"; };
         onChange = ''
-          procs=$(${pkgs.busybox}/bin/pgrep kitty)
+          procs=$(${pkgs.busybox}/bin/pgrep kitty || true)
           if [ -n "$procs" ]; then
             echo "kitty: reloading config"
             kill -SIGUSR1 $procs

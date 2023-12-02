@@ -13,7 +13,7 @@ in
       ".local/share/waybar/palette.css" = {
         text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.waybar}/.local/share/waybar/palette.css"; comment_start = "/*"; comment_end = "*/"; };
         onChange = ''
-          procs=$(${pkgs.busybox}/bin/pgrep waybar)
+          procs=$(${pkgs.busybox}/bin/pgrep waybar || true)
           if [ -n "$procs" ]; then
             echo "waybar: reloading config"
             kill $procs
