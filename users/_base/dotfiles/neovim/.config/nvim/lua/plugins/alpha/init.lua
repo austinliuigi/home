@@ -2,10 +2,9 @@ return {
   {
     "goolord/alpha-nvim",
     config = function()
-      local alpha = require('alpha')
-      require('alpha.term')
-      local dashboard = require'alpha.themes.dashboard'
-
+      local alpha = require("alpha")
+      require("alpha.term")
+      local dashboard = require("alpha.themes.dashboard")
 
       --[[ Terminal header ]]
       -- dashboard.section.terminal.command = "kitty +kitten icat " .. os.getenv("HOME") .. "/Pictures/Pokemon/shroomish.png"
@@ -22,13 +21,13 @@ return {
 
       --[[ Buttons ]]
       dashboard.section.buttons.val = {
-         -- dashboard.button( "e", "  New file" , ":ene <BAR><CR>"),
-         dashboard.button( "<Esc>", "  Quit" , ":qa<CR>"),
+        -- dashboard.button( "e", "  New file" , ":ene <BAR><CR>"),
+        dashboard.button("<Esc>", "  Quit", ":qa<CR>"),
       }
 
       --[[ Footer ]]
       local function footer()
-        local total_plugins = #vim.tbl_keys(require('lazy').plugins())
+        local total_plugins = #vim.tbl_keys(require("lazy").plugins())
         local version = vim.version()
         local nvim_version_info = "  Neovim v" .. version.major .. "." .. version.minor .. "." .. version.patch
         return " " .. total_plugins .. " plugins  " .. nvim_version_info
@@ -48,7 +47,7 @@ return {
 
       --[[ Layout ]]
       local marginTopPercent = 0.18
-      local headerPadding = vim.fn.max({2, vim.fn.floor(vim.fn.winheight(0) * marginTopPercent) })
+      local headerPadding = vim.fn.max({ 2, vim.fn.floor(vim.fn.winheight(0) * marginTopPercent) })
 
       dashboard.config.layout = {
         -- { type = "padding", val = 1 },
@@ -63,21 +62,20 @@ return {
 
       alpha.setup(dashboard.config)
 
-
-      vim.api.nvim_create_augroup("AlphaKeymaps", {clear = true})
+      vim.api.nvim_create_augroup("AlphaKeymaps", { clear = true })
       vim.api.nvim_create_autocmd("FileType", {
-        group   = "AlphaKeymaps",
-        pattern = {'alpha'},
+        group = "AlphaKeymaps",
+        pattern = { "alpha" },
         callback = function()
-          local keys = { "i", "a", "o", "p", "q", ":", "I", "A", "O", "P", }
+          local keys = { "i", "a", "o", "p", "q", ":", "I", "A", "O", "P" }
           for _, key in ipairs(keys) do
             vim.keymap.set("n", key, function()
               vim.cmd("enew")
-              vim.fn.feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), "n")
+              vim.fn.feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), "ni")
             end, { buffer = 0 })
           end
-        end
+        end,
       })
-    end
+    end,
   },
 }
