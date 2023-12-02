@@ -6,6 +6,7 @@
     pkgs.deno
     pkgs.gimp
     pkgs.inkscape
+    pkgs.gnome.adwaita-icon-theme
     pkgs.nodejs
     pkgs.nyxt
     pkgs.pandoc
@@ -19,6 +20,7 @@
       c.enable            = true;
       common.enable       = true;
       core.enable         = true;
+      dunst.enable        = true;
       fzf.enable          = true;
       ios.enable          = true;
       kdeconnect.enable   = true;
