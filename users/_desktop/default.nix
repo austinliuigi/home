@@ -22,6 +22,7 @@
       core.enable         = true;
       dunst.enable        = true;
       fzf.enable          = true;
+      gtk.enable          = true;
       ios.enable          = true;
       kdeconnect.enable   = true;
       kitty.enable        = true;
