@@ -337,6 +337,13 @@ keymap("n", "<C-\\>", function()
   return "<cmd>vnew %:h<CR>"
 end, { noremap = true, silent = true, expr = true })
 
+keymap("n", "g<C-\\>", function()
+  if vim.fn.expand("%") == "" then
+    return "<cmd>e .<CR>"
+  end
+  return "<cmd>e %:h<CR>"
+end, { noremap = true, silent = true, expr = true })
+
 keymap("n", "<leader><C-\\>", function()
   if vim.fn.expand("%") == "" then
     return "<cmd>tabe .<CR>"
@@ -384,6 +391,8 @@ keymap("x", "<leader>?", "<esc>?\\%V", { noremap = true })
 -- Terminal mode mappings {{{
 
 keymap({ "n", "i", "t" }, "<C-CR>", "<cmd>vnew | term<CR>", { noremap = true })
+
+keymap({ "n" }, "g<C-CR>", "<cmd>term<CR>", { noremap = true })
 
 keymap({ "n" }, "<leader><C-CR>", "<cmd>tabnew | term<CR>", { noremap = true })
 
