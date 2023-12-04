@@ -15,7 +15,6 @@
   ];
 
   modules = {
-    scripts.enable = true;
     programs = {
       c.enable            = true;
       common.enable       = true;

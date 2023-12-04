@@ -2,7 +2,9 @@
 
 {
   modules = {
-    scripts.enable = true;
+    scripts = {
+      wayland.screenshot.enable = true;
+    };
     programs = {
       wayland.hyprland.enable   = true;
       wayland.swayidle.enable   = true;
