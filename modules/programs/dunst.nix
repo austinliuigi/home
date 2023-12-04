@@ -10,7 +10,9 @@ in
     home.packages = [ pkgs.dunst pkgs.libnotify ];
 
     home.file = {
-    ".local/share/dunst/palette" = {
+      ".config/dunst".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.dunst}/.config/dunst";
+
+      ".local/share/dunst/palette" = {
         text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.dunst}/.local/share/dunst/palette"; comment_start = "#"; };
         onChange = ''
           procs=$(${pkgs.busybox}/bin/pgrep dunst || true)
@@ -20,7 +22,6 @@ in
           fi
         '';
       };
-      ".config/dunst".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.dunst}/.config/dunst";
     };
 
     xdg.dataFile."dbus-1/services/org.knopwob.dunst.service".source =
