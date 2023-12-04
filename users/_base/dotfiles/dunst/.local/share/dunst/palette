@@ -19,6 +19,8 @@
     # present (e.g. xcompmgr, compiz, etc.). (X11 only)
     transparency = 0
 
+    highlight = "#@base0C@"
+
 
 [urgency_low]
     background = "#@base01@"
@@ -31,6 +33,7 @@
 [urgency_critical]
     background = "#@base08@"
     foreground = "#@base05@"
+    highlight = "#@base08@"
     frame_color = "#@base05@"
 
 # vim: ft=cfg
