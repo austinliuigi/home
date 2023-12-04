@@ -67,12 +67,16 @@
         "format": "{:%A %b %d │ %I:%M %p} "
     },
 
-    "custom/separator": {
-      "exec": "echo '┆  '"
+    "custom/icon": {
+      "exec": "echo ' '"
     },
 
     "custom/space": {
       "exec": "echo ' '"
+    },
+
+    "custom/separator": {
+      "exec": "echo '┆  '"
     },
 
     "custom/hyprland_fullscreen": {
