@@ -5,7 +5,8 @@
   ];
 
   modules = {
-    scripts.enable = true;
+    scripts = {
+    };
     programs = {
       neovim.enable     = true;
     };

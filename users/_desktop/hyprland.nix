@@ -3,6 +3,8 @@
 {
   modules = {
     scripts = {
+      brightness.enable = true;
+      volume.enable = true;
       wayland.screenshot.enable = true;
     };
     programs = {
