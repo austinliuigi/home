@@ -37,5 +37,8 @@
       zoxide.enable       = true;
       zsh.enable          = true;
     };
+    tin = {
+      shroomish.enable = true;
+    };
   };
 }

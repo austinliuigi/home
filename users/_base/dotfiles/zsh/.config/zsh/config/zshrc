@@ -1,6 +1,6 @@
-if [ -n "$(command -v kitty)" ]; then
+if [ -n "$(command -v kitty)" ] && [ -f "$HOME/.cache/tin/shroomish.png" ]; then
   echo
-  kitty +kitten icat ~/.config/zsh/config/headers/shroomish.png 2> /dev/null
+  kitty +kitten icat $HOME/.cache/tin/shroomish.png 2>/dev/null
 fi
 
 # Environment Variables
