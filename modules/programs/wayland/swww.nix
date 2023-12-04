@@ -9,20 +9,14 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [ pkgs.swww ];
 
+    modules.tin.wallpaper.enable = true;
+
     home.file = {
-      "wallpapers/palette.dummy" = {
-        text = ''
-          # this is a dummy file used to detect a colorscheme change in nix
-          ${config.colorscheme.name}
-        '';
-        onChange = ''
-          echo "swww: generating wallpaper"
+      ".cache/palette.dummy".onChange = lib.mkAfter ''
+        echo "swww: updating wallpaper"
 
-          ${pkgs.imagemagick}/bin/convert ${config.dotfiles._wallpapers}/wallpaper.png -fill \#${config.colorscheme.colors.base02} -tint 100 ~/wallpapers/wallpaper.png 2> /dev/null
-
-          ${pkgs.swww}/bin/swww img ~/wallpapers/wallpaper.png
-        '';
-      };
+        ${pkgs.swww}/bin/swww img ~/.cache/tin/wallpaper.png
+      '';
     };
     # home.activation = {
     #   wallpaper = lib.hm.dag.entryAfter ["writeBoundary"] ''
