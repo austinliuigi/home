@@ -5,6 +5,7 @@ then
     # list out choices
     echo "poweroff"
     echo "restart"
+    echo "suspend"
     echo "lock"
     exit 0
 fi
@@ -12,6 +13,7 @@ fi
 # handle selected choice
 case "$1" in
     "poweroff") poweroff ;;
-    "restart") reboot ;;
+    "reboot") reboot ;;
+    "suspend") systemctl suspend ;;
     "lock") loginctl lock-session ;;
 esac
