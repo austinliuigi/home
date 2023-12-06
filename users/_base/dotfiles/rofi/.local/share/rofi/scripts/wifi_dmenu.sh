@@ -55,7 +55,7 @@ function collect_networks() {
 while [ true ]; do
     collect_networks
 
-    network="$(echo -ne "$network_entries" | rofi -dmenu -show-icons -p "network")"
+    network="$(echo -ne "$network_entries" | rofi -dmenu -i -p "network")"
     exit_if_error "cancelled"
 
     case "$network" in
@@ -71,9 +71,28 @@ while [ true ]; do
     esac
 done
 
+strength="$(echo "$network_dump" | grep "$network" | awk '{print $NF}' | grep -o "*" | wc -l)"
+
+function notify() {
+    if [ "$?" -eq 0 ]; then
+        if [ "$strength" -ge 4 ]; then
+            icon="$HOME/.cache/tin/icons/wifi-strong.png"
+        elif [ "$strength" -ge 2 ]; then
+            icon="$HOME/.cache/tin/icons/wifi-ok.png"
+        else
+            icon="$HOME/.cache/tin/icons/wifi-weak.png"
+        fi
+        notify-send --urgency=normal --icon="$icon" "WiFi" "Successfully connected to $network"
+    else
+        icon="$HOME/.cache/tin/icons/wifi-none.png"
+        notify-send --urgency=normal --icon="$icon" "WiFi" "Failed to connect to $network"
+    fi
+}
 
 if [ "$(echo "$known_networks" | grep -c "$network")" -gt 0 ]; then
     iwctl station wlan0 connect "$network"
+    notify
 else
     iwctl station wlan0 connect "$network" --passphrase "$(rofi -dmenu -p "passphrase for network $network")"
+    notify
 fi

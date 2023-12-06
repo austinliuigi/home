@@ -3,6 +3,7 @@
 {
   modules = {
     scripts = {
+      battery.enable = true;
       brightness.enable = true;
       volume.enable = true;
       wayland.screenshot.enable = true;
