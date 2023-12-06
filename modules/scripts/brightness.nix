@@ -19,7 +19,7 @@ let
 
         if [ $brightness -ge 75 ]; then
             icon="$HOME/.cache/tin/icons/brightness-high.png"
-        elif [ $brightness -ge 45 ]; then
+        elif [ $brightness -ge 35 ]; then
             icon="$HOME/.cache/tin/icons/brightness-medium.png"
         else
             icon="$HOME/.cache/tin/icons/brightness-low.png"
