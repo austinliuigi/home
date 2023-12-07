@@ -49,5 +49,5 @@ case "$mode" in
 
     # rofi dmenu scripts
     "wifi")
-        eval "${HOME}/.local/share/rofi/scripts/wifi_dmenu.sh"
+        eval "${HOME}/.local/share/rofi/scripts/wifi/default.sh"
 esac
