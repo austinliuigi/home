@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Swaps the active workspace with another workspace
 # $1 => the workspace param of the target workspace
 

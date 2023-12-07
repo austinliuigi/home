@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Swaps the active monitor with another monitor
 # $1 => the monitor param of the target monitor
 
