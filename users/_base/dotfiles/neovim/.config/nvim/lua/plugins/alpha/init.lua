@@ -22,7 +22,7 @@ return {
       --[[ Buttons ]]
       dashboard.section.buttons.val = {
         -- dashboard.button( "e", "  New file" , ":ene <BAR><CR>"),
-        dashboard.button("<Esc>", "  Quit", ":qa<CR>"),
+        -- dashboard.button("<Esc>", "  Quit", ":qa<CR>"),
       }
 
       --[[ Footer ]]

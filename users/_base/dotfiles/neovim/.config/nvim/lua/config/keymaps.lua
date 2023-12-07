@@ -1,5 +1,5 @@
 local keymap = vim.keymap.set
-toggle_key = "\\"
+toggle_key = "-"
 
 -- Mapping Functions {{{
 
@@ -80,26 +80,26 @@ end, { expr = true })
 keymap({ "n", "x" }, "<leader><C-u>", function()
   local count = math.floor(vim.fn.winheight(0) / 4 + 0.5)
   return count .. "<C-u><cmd>set scroll=0<CR>"
-end, { remap = true, expr = true })
+end, { remap = true, expr = true, desc = "Scroll up a quarter of the screen height" })
 
 keymap({ "n", "x" }, "<leader><C-d>", function()
   local count = math.floor(vim.fn.winheight(0) / 4 + 0.5)
   return count .. "<C-d><cmd>set scroll=0<CR>"
-end, { remap = true, expr = true })
+end, { remap = true, expr = true, desc = "Scroll down a quarter of the screen height" })
 
 keymap({ "n", "x" }, "g/", function()
   local cursor_line = vim.fn.line(".")
   local win_bot_line = vim.fn.line("w$")
 
   return "/\\%>" .. (cursor_line - 1) .. "l\\%<" .. (win_bot_line + 1) .. "l"
-end, { remap = false, expr = true })
+end, { remap = false, expr = true, desc = "Search forwards from the cursor to the bottom of the visible screen" })
 
 keymap({ "n", "x" }, "g?", function()
   local win_top_line = vim.fn.line("w0")
   local cursor_line = vim.fn.line(".")
 
   return "?\\%>" .. (win_top_line - 1) .. "l\\%<" .. (cursor_line + 1) .. "l"
-end, { remap = false, expr = true })
+end, { remap = false, expr = true, desc = "Search backwards from the cursor to the top of the visible screen" })
 
 keymap({ "n", "x" }, "n", function()
   local char
@@ -383,9 +383,9 @@ keymap("x", "<", "<gv", { noremap = true })
 
 keymap("x", ">", ">gv", { noremap = true })
 
-keymap("x", "<leader>/", "<esc>/\\%V", { noremap = true })
+keymap("x", "<leader>/", "<esc>/\\%V", { noremap = true, desc = "Search forwards in visual selection" })
 
-keymap("x", "<leader>?", "<esc>?\\%V", { noremap = true })
+keymap("x", "<leader>?", "<esc>?\\%V", { noremap = true, desc = "Search backwards in visual selection" })
 
 -- }}}
 -- Terminal mode mappings {{{
