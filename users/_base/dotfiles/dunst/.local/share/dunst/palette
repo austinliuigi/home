@@ -21,6 +21,8 @@
 
     highlight = "#@base0C@"
 
+    font = @font@ 11
+
 
 [urgency_low]
     background = "#@base01@"
@@ -33,7 +35,7 @@
 [urgency_critical]
     background = "#@base08@"
     foreground = "#@base05@"
-    highlight = "#@base08@"
+    highlight = "#@base05@"
     frame_color = "#@base05@"
 
 # vim: ft=cfg

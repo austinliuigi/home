@@ -20,6 +20,7 @@
       common.enable       = true;
       core.enable         = true;
       dunst.enable        = true;
+      fonts.enable        = true;
       fzf.enable          = true;
       gtk.enable          = true;
       ios.enable          = true;

@@ -7,11 +7,11 @@
 
   config = {
     # https://github.com/tinted-theming/base16-schemes
-    colorscheme = inputs.nix-colors.colorschemes.gruvbox-dark-medium;
+    colorscheme = inputs.nix-colors.colorschemes.nord;
 
     home.file = {
       ".cache/palette.dummy".text = ''
-        # this is a dummy file used to detect a colorscheme change in nix
+        # this is a dummy file used to detect a palette change in nix
         ${config.colorscheme.name}
       '';
     };

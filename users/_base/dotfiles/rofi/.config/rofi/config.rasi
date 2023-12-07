@@ -1,5 +1,4 @@
 configuration {
-  font: "Mononoki Nerd Font 12";
   modi: "run,drun,ssh,window";
 
   case-sensitive: false;
