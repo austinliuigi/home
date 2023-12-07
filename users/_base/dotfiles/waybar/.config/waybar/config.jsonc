@@ -6,9 +6,11 @@
     "spacing": 14,     // gaps between modules
 
     /* Section definitions */
-    "modules-left": ["hyprland/workspaces", "custom/separator", "cpu", "memory", "disk"],
-    "modules-center": ["custom/hyprland_fullscreen", "hyprland/window"],
-    "modules-right": ["network", "wireplumber", "backlight", "battery", "clock"],
+    // "modules-left": ["hyprland/workspaces", "custom/separator", "cpu", "memory", "disk"],
+    "modules-left": ["hyprland/workspaces", "custom/separator", "network", "wireplumber", "backlight", "battery"],
+    "modules-center": ["custom/fullscreen", "hyprland/window", "custom/space"],
+    // "modules-right": ["network", "wireplumber", "backlight", "battery", "clock"],
+    "modules-right": ["cpu", "memory", "disk", "clock"],
 
     /* Module configurations */
     "hyprland/window": {
@@ -52,7 +54,7 @@
         "bat": "BAT0",
         "states": {
             "warning": 30,
-            "critical": 15
+            "critical": 20
         },
         "format": "{capacity}% {icon} ",
         "format-charging": "{capacity}% 󱊥 ",
@@ -64,7 +66,7 @@
     "clock": {
         "timezone": "America/Los_Angeles",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format": "{:%A %b %d │ %I:%M %p} "
+        "format": "{:%A %b. %d │ %I:%M %p} "
     },
 
     "custom/icon": {
@@ -73,6 +75,10 @@
 
     "custom/space": {
       "exec": "echo ' '"
+    },
+
+    "custom/fullscreen": {
+      "exec": "echo '󰍉'"
     },
 
     "custom/separator": {

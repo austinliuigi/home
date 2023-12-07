@@ -6,6 +6,10 @@
   /* margin: 0px 4px 0px 4px; */
 }
 
+label {
+  padding: 0 4px 0 4px;
+}
+
 window#waybar {
   color: @base05;
   background: @base01;
@@ -20,17 +24,45 @@ tooltip label {
   color: @base05;
 }
 
+#window {
+  text-shadow: 0 0 5px @base04;
+}
+
+#custom-fullscreen {
+  color: @base01;
+}
+
+window#waybar.fullscreen #custom-fullscreen {
+  color: @base0A;
+  text-shadow: 0 0 5px @base04;
+}
+
+#network {
+  text-shadow: 0 0 3px @base0D;
+}
+
+#wireplumber {
+  text-shadow: 0 0 3px @base0E;
+}
+
+#backlight {
+  text-shadow: 0 0 3px @base0A;
+}
+
 #battery {
-  background: transparent;
+  background: @base01;
+  text-shadow: 0 0 3px @base09;
 }
 
 @keyframes battery_charging {
   to {
     color: @base02;
+    text-shadow: none;
   }
 }
 
 #battery.charging {
+  text-shadow: 0 0 5px @base0B;
   animation-name: battery_charging;
   animation-duration: 1.5s;
   animation-timing-function: linear;
@@ -41,10 +73,12 @@ tooltip label {
 @keyframes battery_critical {
   to {
     color: @base08;
+    text-shadow: none;
   }
 }
 
 #battery.critical {
+  text-shadow: 0 0 5px @base08;
   animation-name: battery_critical;
   animation-duration: 0.75s;
   animation-timing-function: linear;
@@ -52,23 +86,33 @@ tooltip label {
   animation-direction: alternate;
 }
 
-#workspaces button.active {
-  font-weight: bolder;
-  color: @base05;
+#clock {
+  text-shadow: 0 0 2px @base04;
+}
+
+#cpu, #memory, #disk {
+  text-shadow: 0 0 5px @base0F;
 }
 
 #workspaces button {
   color: @base03;
   background: @base01;
   border-width: 0px;
-  box-shadow: none;
   padding: 8px;
+  box-shadow: none;
+  text-shadow: 0 0 2px @base02;
+}
+
+#workspaces button.active {
+  font-weight: bolder;
+  color: @base05;
+  text-shadow: 0 0 3px @base04;
 }
 
 #workspaces button:hover {
   color: @base02;
-  text-shadow: 0 0 4px @base01;
   background: @base04;
+  text-shadow: 0 0 3px @base01;
 }
 
 #custom-icon {
