@@ -3,17 +3,17 @@
 if [ "$#" -eq 0 ]
 then
     # list out choices
-    echo "poweroff"
-    echo "restart"
-    echo "suspend"
     echo "lock"
+    echo "suspend"
+    echo "reboot"
+    echo "poweroff"
     exit 0
 fi
 
 # handle selected choice
 case "$1" in
-    "poweroff") poweroff ;;
-    "reboot") reboot ;;
-    "suspend") systemctl suspend ;;
     "lock") loginctl lock-session ;;
+    "suspend") systemctl suspend ;;
+    "reboot") reboot ;;
+    "poweroff") poweroff ;;
 esac
