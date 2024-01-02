@@ -14,6 +14,7 @@ in
         pynvim
       ]))
       pkgs.nodePackages_latest.pyright
+      pkgs.manim
     ];
   };
 }
