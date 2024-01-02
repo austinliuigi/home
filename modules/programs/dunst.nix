@@ -38,8 +38,6 @@ in
         Type = "dbus";
         BusName = "org.freedesktop.Notifications";
         ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.coreutils}/bin/cat /home/austin/.config/dunst/dunstrc /home/austin/.local/share/dunst/palette | ${pkgs.dunst}/bin/dunst -config -'";
-        # Environment = lib.optionalString (cfg.waylandDisplay != "")
-        #   "WAYLAND_DISPLAY=${cfg.waylandDisplay}";
       };
     };
   };
