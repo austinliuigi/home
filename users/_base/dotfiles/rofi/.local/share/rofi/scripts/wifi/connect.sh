@@ -90,7 +90,7 @@ function notify() {
 }
 
 if [ "$(echo "$known_networks" | grep -c "$network")" -gt 0 ]; then
-    iwctl station wlan0 connect "$network"
+    iwctl station wlan0 connect "$network" || true
     notify
 else
     iwctl station wlan0 connect "$network" --passphrase "$(rofi -dmenu -p "passphrase for network $network")"
