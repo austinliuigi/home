@@ -11,13 +11,14 @@ in
       let 
         # lock_cmd = "${pkgs.swaylock-effects}/bin/swaylock -fF --color 0000ff --ring-color aaaaaa --key-hl-color dddddd -l";
         lock_cmd = lib.strings.concatStringsSep " " [
-          "${pkgs.swaylock-effects}/bin/swaylock"
-          "--screenshots"
-          "--effect-blur 7x5"
+          "${pkgs.swaylock}/bin/swaylock"
+          # "--screenshots"
+          # "--effect-blur 7x5"
           # "--fade-in 0.5"
-          "--font 'Hack Nerd Font'"
-          "--clock"
-          "--indicator"
+          # "--font 'Hack Nerd Font'"
+          # "--clock"
+          # "--indicator"
+          "--color ${config.colorscheme.colors.base01}"
 
           "--key-hl-color ${config.colorscheme.colors.base0D}"   # color of line that shows on keypress
           "--separator-color 00000000"                           # color of border of line that shows on keypress
