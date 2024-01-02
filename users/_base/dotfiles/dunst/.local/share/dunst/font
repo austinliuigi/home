@@ -1,0 +1,5 @@
+[global]
+
+font = @font@ 11
+
+# vim: ft=cfg

@@ -11,6 +11,8 @@ configuration {
 
 @theme "_palette"
 
+@import "_font"
+
 * {
   text-color: @base05;
   background-color: @base00;

@@ -22,6 +22,17 @@ in
           fi
         '';
       };
+
+      ".local/share/dunst/font" = {
+        text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.dunst}/.local/share/dunst/font"; comment_start = "#"; };
+        onChange = ''
+          procs=$(${pkgs.busybox}/bin/pgrep dunst || true)
+          if [ -n "$procs" ]; then
+            echo "dunst: reloading config"
+            kill $procs
+          fi
+        '';
+      };
     };
 
     xdg.dataFile."dbus-1/services/org.knopwob.dunst.service".source =
@@ -37,7 +48,7 @@ in
       Service = {
         Type = "dbus";
         BusName = "org.freedesktop.Notifications";
-        ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.coreutils}/bin/cat /home/austin/.config/dunst/dunstrc /home/austin/.local/share/dunst/palette | ${pkgs.dunst}/bin/dunst -config -'";
+        ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.coreutils}/bin/cat ${config.home.homeDirectory}/.config/dunst/dunstrc ${config.home.homeDirectory}/.local/share/dunst/font ${config.home.homeDirectory}/.local/share/dunst/palette | ${pkgs.dunst}/bin/dunst -config -'";
       };
     };
   };

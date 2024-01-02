@@ -1,5 +1,6 @@
 /* gtk css doesn't support env vars */
 @import url("../../.local/share/waybar/palette.css");
+@import url("../../.local/share/waybar/font.css");
 
 * {
   font-size: 16px;

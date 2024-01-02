@@ -16,7 +16,7 @@ in
       #
       # ".config/gtk-3.0/gtk.css".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/gtk-4.0/gtk.css";
 
-      ".cache/palette.dummy".onChange = ''
+      ".cache/font.dummy".onChange = ''
         echo "gtk: updating font"
 
         ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface font-name '${config.font} 12'

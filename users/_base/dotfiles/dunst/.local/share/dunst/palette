@@ -21,8 +21,6 @@
 
     highlight = "#@base0C@"
 
-    font = @font@ 11
-
 
 [urgency_low]
     background = "#@base01@"

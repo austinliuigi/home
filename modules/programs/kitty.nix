@@ -20,6 +20,18 @@ in
           fi
         '';
       };
+
+      ".local/share/kitty/font.conf" = {
+        text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.kitty}/.local/share/kitty/font.conf"; comment_start = "#"; };
+        onChange = ''
+          procs=$(${pkgs.busybox}/bin/pgrep kitty || true)
+          if [ -n "$procs" ]; then
+            echo "kitty: reloading config"
+            kill -SIGUSR1 $procs
+          fi
+        '';
+      };
+
       ".config/kitty".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.kitty}/.config/kitty";
     };
   };
