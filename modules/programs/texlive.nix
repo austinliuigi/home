@@ -10,7 +10,7 @@ in
     programs.texlive = {
       enable = true;
       extraPackages = tpkgs: {
-        inherit (tpkgs) scheme-medium standalone;
+        inherit (tpkgs) scheme-full standalone;
       };
     };
   };
