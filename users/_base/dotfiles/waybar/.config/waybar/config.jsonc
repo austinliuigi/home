@@ -3,7 +3,7 @@
     "layer": "top",
     "position": "top", // waybar position (top|bottom|left|right)
     "height": 34,      // waybar height (remove for auto height)
-    "spacing": 14,     // gaps between modules
+    // "spacing": 14,     // gaps between modules
 
     /* Section definitions */
     // "modules-left": ["hyprland/workspaces", "custom/separator", "cpu", "memory", "disk"],

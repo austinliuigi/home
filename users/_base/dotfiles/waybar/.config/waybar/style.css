@@ -6,8 +6,25 @@
   /* margin: 0px 4px 0px 4px; */
 }
 
-label {
-  padding: 0 4px 0 4px;
+/* label { */
+/*   padding: 0 14px 0 14px; */
+/* } */
+
+/* .modules-left { */
+/*   padding-left: 4px; */
+/* } */
+
+.modules-left widget label {
+  padding-right: 1.5em;
+}
+
+.modules-center widget label {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.modules-right widget label {
+  padding-left: 1.5em;
 }
 
 window#waybar {
@@ -35,6 +52,10 @@ tooltip label {
 window#waybar.fullscreen #custom-fullscreen {
   color: @base0A;
   text-shadow: 0 0 5px @base04;
+}
+
+#custom-separator {
+  padding: 0 0.75em 0 0.75em;
 }
 
 #network {
@@ -101,6 +122,10 @@ window#waybar.fullscreen #custom-fullscreen {
   padding: 8px;
   box-shadow: none;
   text-shadow: 0 0 2px @base02;
+}
+
+#workspaces button label {
+  padding: 0px 4px 0px 4px;
 }
 
 #workspaces button.active {
