@@ -3,7 +3,9 @@
 {
   home.packages = [
     pkgs.xclip
+    pkgs.xdg-utils
     pkgs.deno
+    pkgs.pamixer
     pkgs.gimp
     pkgs.inkscape
     pkgs.gnome.adwaita-icon-theme
@@ -26,6 +28,7 @@
       ios.enable          = true;
       kdeconnect.enable   = true;
       kitty.enable        = true;
+      live-server.enable  = true;
       lua.enable          = true;
       neovim.enable       = true;
       nix.enable          = true;
