@@ -18,6 +18,7 @@ let
     function exit_if_error() {
         if [ "$?" == 1 ]; then
             echo "$1" >&2
+            notify-send --urgency=normal "Screenshot" "$1"
             exit
         fi
     }
@@ -29,20 +30,23 @@ let
     }
 
     dir="$(echo -e "clipboard\n$(fd . ~ --type=d)" | rofi -dmenu -p '(Directory or clipboard)')"
-    exit_if_error "screenshot cancelled"
+    exit_if_error "Cancelled"
 
     if [ "$dir" == "clipboard" ]; then
+        SAVED_OPTS=$(set +o)
+        set -o pipefail
         grim -t png -g "$(slurp -d)" - | wl-copy -t image/png
-        exit_if_error "screenshot cancelled"
+        exit_if_error "Cancelled"
+        eval "$SAVED_OPTS"
 
         notify "$dir"
     else
         filename="$(rofi -dmenu -p "(Filename) $dir")"
-        exit_if_error "screenshot cancelled"
+        exit_if_error "Cancelled"
 
         filepath="''${dir}''${filename}"
         grim -t png -g "$(slurp -d)" "$filepath"
-        exit_if_error "screenshot cancelled"
+        exit_if_error "Cancelled"
 
         notify "$filepath"
     fi
