@@ -12,6 +12,10 @@ in
     #     - this is needed for some gui systemd reliant programs, e.g. kdeconnect
     wayland.windowManager.hyprland = {
       enable = true;
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+      plugins = [
+        # inputs.hyprland-plugins.packages.${pkgs.system}.borders-plus-plus
+      ];
       extraConfig = ''
       source = ${config.home.homeDirectory}/.config/hypr/hyprland/settings.conf
       source = ${config.home.homeDirectory}/.config/hypr/hyprland/keybinds.conf

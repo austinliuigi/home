@@ -11,11 +11,18 @@
         nixpkgs.follows = "nixpkgs";  # have hm inherit nixpkgs from current flake
       };
     };
+    nix-colors = {
+      url = "github:misterio77/nix-colors";
+    };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
     };
-    nix-colors = {
-      url = "github:misterio77/nix-colors";
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+    };
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
     };
   };
 
