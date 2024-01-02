@@ -63,7 +63,7 @@ keymap({ "n", "x" }, "0", function()
   return vim.o.wrap and "g0" or "0"
 end, { expr = true })
 
-keymap({ "x" }, "$", function()
+keymap({ "n", "x" }, "$", function()
   -- determines if current line is wrapped
   local is_wrapped = vim.api.nvim_win_text_height(0, {
     start_row = (vim.fn.line(".") - 1),
@@ -74,7 +74,7 @@ keymap({ "x" }, "$", function()
   if is_wrapped then
     return "g$"
   end
-  return "$h"
+  return "$"
 end, { expr = true })
 
 keymap({ "n", "x" }, "<leader><C-u>", function()
