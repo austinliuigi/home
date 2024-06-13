@@ -12,6 +12,9 @@ in
     home.packages = [
       (pkgs.python311.withPackages (ps: with ps; [
         pynvim
+        virtualenv
+        debugpy
+        pylint
       ]))
       pkgs.nodePackages_latest.pyright
       pkgs.manim
