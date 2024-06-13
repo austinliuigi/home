@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-unstable";
+      url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     };
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -12,18 +12,19 @@
       };
     };
     nix-colors = {
-      url = "github:misterio77/nix-colors";
+      # url = "github:austinliuigi/nix-colors";
+      url = "git+file:///home/austin/projects/nix-colors?ref=refs/heads/main&rev=b86e8be53bb6a09a4be3a1ff0d19889495f0dd67";
     };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
     };
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-    };
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
+    # hyprland = {
+    #   url = "github:hyprwm/Hyprland";
+    # };
+    # hyprland-plugins = {
+    #   url = "github:hyprwm/hyprland-plugins";
+    #   inputs.hyprland.follows = "hyprland";
+    # };
   };
 
   outputs = { nixpkgs, home-manager, ... }@inputs:

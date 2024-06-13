@@ -8,7 +8,8 @@
     scripts = {
     };
     programs = {
-      neovim.enable     = true;
+      fonts.enable = true;
+      neovim.enable = true;
     };
   };
 }
