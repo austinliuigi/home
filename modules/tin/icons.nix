@@ -14,7 +14,7 @@ in
         echo "tin: generating icons"
 
         cd ~/.local/share/tin/icons
-        mkdir -p ~/.cache/tin/icons && ${pkgs.imagemagick}/bin/magick mogrify -fill "#${config.colorscheme.colors.base0D}" -colorize 100% -path ~/.cache/tin/icons *.png
+        mkdir -p ~/.cache/tin/icons && ${pkgs.imagemagick}/bin/magick mogrify -fill "#${config.colorscheme.palette.base0D}" -colorize 100% -path ~/.cache/tin/icons *.png
       '';
     };
   };

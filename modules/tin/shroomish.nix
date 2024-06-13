@@ -15,7 +15,7 @@ in
 
         export PATH=${pkgs.imagemagick}/bin:${pkgs.gnumake}/bin:$PATH
         cd ~/.local/share/tin/shroomish
-        make tinted COLOR="#${config.colorscheme.colors.base0D}" >/dev/null
+        make tinted COLOR="#${config.colorscheme.palette.base0D}" >/dev/null
         mkdir -p ~/.cache/tin && cp shroomish.png ~/.cache/tin/shroomish.png
         make clean >/dev/null
       '';

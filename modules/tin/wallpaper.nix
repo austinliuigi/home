@@ -14,7 +14,7 @@ in
         echo "tin: generating wallpaper"
 
         cd ~/.local/share/tin/wallpapers
-        mkdir -p ~/.cache/tin && ${pkgs.imagemagick}/bin/magick _wallpaper.png -fill "#${config.colorscheme.colors.base02}" -tint 100 ~/.cache/tin/wallpaper.png 2>/dev/null
+        mkdir -p ~/.cache/tin && ${pkgs.imagemagick}/bin/magick _wallpaper.png -fill "#${config.colorscheme.palette.base02}" -tint 100 ~/.cache/tin/wallpaper.png 2>/dev/null
       '';
     };
   };

@@ -61,7 +61,7 @@ in
         share = false;
         extended = false;
       };
-      enableAutosuggestions = true;
+      autosuggestion.enable = true;
       syntaxHighlighting = {
         enable = true;
       };
