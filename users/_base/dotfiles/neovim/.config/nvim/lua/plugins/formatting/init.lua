@@ -17,7 +17,13 @@ return {
       end,
     })
 
-    -- formatexpr for `gq`
+    -- formatexpr for `gq` or textwidth being exceeded in insert mode
+    --   if triggered by textwidth being exceeded in insert mode
+    --     use internal formatting
+    --   if triggered by gq
+    --     if filetype has configured formatters, use those
+    --     elseif lsp_fallback is set, use that
+    --     else do nothing
     vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
   end,
 }

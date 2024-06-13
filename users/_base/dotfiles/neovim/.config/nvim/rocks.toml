@@ -1,0 +1,97 @@
+# List of non-Neovim rocks.
+# This includes things like `toml` or other lua packages.
+[rocks]
+
+# List of Neovim plugins to install alongside their versions.
+# If the plugin name contains a dot then you must add quotes to the key name!
+[plugins]
+"aerial.nvim" = "1.7.0"
+"bartender.nvim" = { dir = "~/projects/bartender.nvim" }
+"blame.nvim" = { git = "FabijanZulj/blame.nvim" }
+"conform.nvim" = "5.8.0"
+"diffview.nvim" = "scm"
+"flatten.nvim" = "0.5.1"
+"lasso.nvim" = { git = "austinliuigi/lasso.nvim" }
+"oil.nvim" = "2.9.0"
+"palette.nvim" = { dir = "~/projects/palette.nvim" }
+"smoothie.nvim" = { dir = "~/projects/mysmoothie.nvim" }
+"rainbow-delimiters.nvim" = "0.4.0"
+"rocks-config.nvim" = "1.6.0"
+"rocks-dev.nvim" = "1.2.1"
+"rocks-git.nvim" = "1.5.1"
+"rocks.nvim" = "2.29.0" # rocks.nvim can also manage itself :D
+"telescope-fzf-native.nvim" = { git = "nvim-telescope/telescope-fzf-native.nvim", build = "make" }
+"telescope.nvim" = "scm"
+alpha-nvim = { version = "scm", config = "plugin.alpha" }
+cmp-buffer = { git = "hrsh7th/cmp-buffer" }
+cmp-calc = { git = "hrsh7th/cmp-calc" }
+cmp-cmdline = { git = "hrsh7th/cmp-cmdline" }
+cmp-cmdline-history = { git = "dmitmel/cmp-cmdline-history" }
+cmp-dap = { git = "rcarriga/cmp-dap" }
+cmp-digraphs = { git = "dmitmel/cmp-digraphs" }
+cmp-luasnip = { git = "saadparwaiz1/cmp_luasnip" }
+cmp-nvim-lsp = { git = "hrsh7th/cmp-nvim-lsp" }
+cmp-nvim-lsp-signature-help = { git = "hrsh7th/cmp-nvim-lsp-signature-help" }
+cmp-nvim-lua = { git = "hrsh7th/cmp-nvim-lua" }
+cmp-path = { git = "hrsh7th/cmp-path" }
+firenvim = { git = "glacambre/firenvim", build = ":firenvim#install(0)" }
+luasnip = "2.3.0"
+neogen = "2.17.1"
+neogit = "1.0.0"
+neorg = "8.5.0"
+nvim-cmp = { git = "hrsh7th/nvim-cmp" }
+nvim-colorizer = { git = "mehalter/nvim-colorizer.lua" }
+nvim-dap = "0.8.0"
+nvim-dap-ui = "4.0.0"
+nvim-dap-virtual-text = "scm"
+nvim-lint = "scm"
+nvim-lspconfig = "0.1.8"
+nvim-navic = "scm"
+nvim-notify = "3.13.5"
+nvim-surround = "2.1.5"
+nvim-treesitter = "0.9.2"
+nvim-treesitter-textobjects = "scm"
+nvim-ts-autotag = { version = "scm", config = "plugin.autotag" }
+vim-easy-align = { git = "junegunn/vim-easy-align", config = "plugin.align" }
+vim-matchup = { git = "andymass/vim-matchup" }
+vim-mundo = { git = "simnalamburt/vim-mundo" }
+vim-smoothie = { git = "psliwka/vim-smoothie" }
+wordmotion = { git = "chaoren/vim-wordmotion" }
+nvim-silicon = { git = "michaelrommel/nvim-silicon" }
+
+[bundles.cmp]
+items = [
+  "cmp-buffer",
+  "cmp-calc",
+  "cmp-cmdline",
+  "cmp-cmdline-history",
+  "cmp-digraphs",
+  "cmp-nvim-lsp",
+  "cmp-nvim-lsp-signature-help",
+  "cmp-nvim-lua",
+  "cmp-path",
+  "nvim-cmp",
+]
+
+[bundles.dap]
+items = [
+  "nvim-dap",
+  "nvim-dap-ui",
+  "nvim-dap-virtual-text",
+]
+
+[bundles.git]
+items = [
+  "blame.nvim",
+  "diffview.nvim",
+  "neogit",
+]
+
+[bundles.lsp]
+items = [
+  "nvim-lspconfig",
+]
+
+[config]
+plugins_dir = "plugin/"
+auto_setup = false

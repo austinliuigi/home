@@ -1,9 +1,9 @@
 local config = {
   -- string: keys to press in normal mode to visually select region
   -- table: list of strings that are consecutive viml commands; visually selects region
-  -- function: return string type
+  -- function: returns string type
   motions = {
-    ["f"] = {
+    ["F"] = {
       inside = {
         "lua require('scripts.text-objects').MoveToFirstNonBlankLine()",
         "normal! V",

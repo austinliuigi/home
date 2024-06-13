@@ -11,7 +11,11 @@ in
       inputs.neovim-nightly-overlay.overlay
     ];
 
-    home.packages = [ pkgs.neovim-nightly ];
+    home.packages = [
+      pkgs.neovim-nightly
+      pkgs.luajit # required for luarocks.nvim
+      pkgs.silicon
+    ];
 
     home.file = {
       ".local/share/nvim/palette.lua" = {

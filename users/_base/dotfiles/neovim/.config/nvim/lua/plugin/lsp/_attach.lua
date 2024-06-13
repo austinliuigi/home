@@ -30,7 +30,7 @@ end
 
 local function on_attach(client, bufnr)
   local bufopts = { remap = false, silent = true, buffer = bufnr }
-  vim.lsp.inlay_hint.enable(true, {})
+  vim.lsp.inlay_hint.enable(false, {})
 
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
   vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, bufopts)
