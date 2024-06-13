@@ -6,6 +6,7 @@ then
     echo "lock"
     echo "suspend"
     echo "reboot"
+    echo "hibernate"
     echo "poweroff"
     exit 0
 fi
@@ -15,5 +16,6 @@ case "$1" in
     "lock") loginctl lock-session ;;
     "suspend") systemctl suspend ;;
     "reboot") reboot ;;
+    "hibernate") systemctl hibernate ;;
     "poweroff") poweroff ;;
 esac
