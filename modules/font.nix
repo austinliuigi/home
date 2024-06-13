@@ -8,6 +8,12 @@
 
   config = rec {
     font = "Mononoki Nerd Font";
+    # font = "JetBrainsMono Nerd Font";
+
+    # experimental
+    #   - need to figure out a concrete way to decide when each should be used
+    # font_primary = "Mononoki Nerd Font";
+    # font_secondary = "Jetbrains Mono Nerd Font";
 
     home.file = {
       ".cache/font.dummy".text = ''
@@ -24,6 +30,8 @@
 
     configuration.substitutions = {
       font = "${config.font}";
+      # font_primary = "${config.font_primary}";
+      # font_secondary = "${config.font_secondary}";
     };
   };
 }
