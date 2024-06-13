@@ -18,6 +18,7 @@ in
           # "--font 'Hack Nerd Font'"
           # "--clock"
           # "--indicator"
+          "--daemonize"
           "--color ${config.colorscheme.colors.base01}"
 
           "--key-hl-color ${config.colorscheme.colors.base0D}"   # color of line that shows on keypress

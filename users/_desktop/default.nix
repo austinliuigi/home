@@ -30,6 +30,7 @@
       kitty.enable        = true;
       live-server.enable  = true;
       lua.enable          = true;
+      mpv.enable          = true;
       neovim.enable       = true;
       nix.enable          = true;
       pcmanfm.enable      = true;
@@ -37,6 +38,7 @@
       sioyek.enable       = true;
       syncthing.enable    = true;
       texlive.enable      = true;
+      wezterm.enable      = true;
       zoxide.enable       = true;
       zsh.enable          = true;
     };
