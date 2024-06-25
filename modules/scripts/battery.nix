@@ -28,7 +28,7 @@ let
     prev_battery="$(cat "$HOME/.local/state/battery/percentage")"
 
     if [ "$battery" -le 3 ] && [ "$prev_battery" -gt 3 ]; then
-      systemctl suspend
+      systemctl hibernate
     elif ([ "$battery" -le 5 ] && [ "$prev_battery" -gt 5 ]) \
       || ([ "$battery" -le 10 ] && [ "$prev_battery" -gt 10 ]) \
       || ([ "$battery" -le 20 ] && [ "$prev_battery" -gt 20 ]) \
