@@ -17,6 +17,12 @@ in
         "Agave"
       ]; })
       pkgs.dejavu_fonts
+      pkgs.liberation_ttf
+      pkgs.open-sans
+      pkgs.ubuntu_font_family
+      pkgs.source-sans-pro
+      pkgs.charis-sil
+      pkgs.fira
     ];
   };
 }

@@ -19,7 +19,7 @@ in
       ".cache/font.dummy".onChange = ''
         echo "gtk: updating font"
 
-        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface font-name '${config.font} 12'
+        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface font-name '${config.font.sans} 12'
       '';
 
       ".local/share/gtk/palette/gtk3.css" = {

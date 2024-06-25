@@ -2,23 +2,25 @@
 
 {
   options.font = lib.mkOption {
-    type = lib.types.str;
+    type = lib.types.attrs;
     default = "Monospace";
   };
 
   config = rec {
-    font = "Mononoki Nerd Font";
-    # font = "JetBrainsMono Nerd Font";
+    # font = "Mononoki Nerd Font";
 
-    # experimental
-    #   - need to figure out a concrete way to decide when each should be used
-    # font_primary = "Mononoki Nerd Font";
-    # font_secondary = "Jetbrains Mono Nerd Font";
+    font = {
+      mono = "JetBrainsMono Nerd Font";
+      sans = "Ubuntu";
+      serif = "Liberation Serif";
+    };
 
     home.file = {
       ".cache/font.dummy".text = ''
         # this is a dummy file used to detect a font change in nix
-        ${config.font}
+        ${config.font.mono}
+        ${config.font.sans}
+        ${config.font.serif}
       '';
     };
 
@@ -29,9 +31,9 @@
     # };
 
     configuration.substitutions = {
-      font = "${config.font}";
-      # font_primary = "${config.font_primary}";
-      # font_secondary = "${config.font_secondary}";
+      font_mono = "${config.font.mono}";
+      font_sans = "${config.font.sans}";
+      font_serif = "${config.font.serif}";
     };
   };
 }

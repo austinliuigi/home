@@ -6,4 +6,4 @@ if not font_ok then
   return wezterm.font("Inconsolata") -- fallback
 end
 
-return wezterm.font(font.monospace .. " Mono")
+return wezterm.font(font.mono .. " Mono")
