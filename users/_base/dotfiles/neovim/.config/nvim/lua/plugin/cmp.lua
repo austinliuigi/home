@@ -35,7 +35,7 @@ cmp.setup({
   },
   sorting = {
     priority_weight = 2,
-    comparators = {
+    comparators = { -- https://github.com/hrsh7th/nvim-cmp/blob/5260e5e8ecadaf13e6b82cf867a909f54e15fd07/lua/cmp/config/compare.lua & https://www.youtube.com/watch?v=p7TIag1GRDE
       compare.score, -- prefer higher source priority, as calculated in :h cmp-config.sorting.priority_weight
       compare.offset, -- prefer matches that are closer to the beginning of the entry
       compare.exact, -- prefer entries with exact matches

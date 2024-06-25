@@ -8,4 +8,5 @@ return {
   ["lua_ls"] = require("plugin.lsp._configurations.lua_ls"),
   ["nil_ls"] = require("plugin.lsp._configurations.nil_ls"),
   ["pyright"] = require("plugin.lsp._configurations.pyright"),
+  ["texlab"] = require("plugin.lsp._configurations.texlab"),
 }

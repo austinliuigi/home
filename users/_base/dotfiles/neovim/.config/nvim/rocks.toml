@@ -14,7 +14,7 @@
 "lasso.nvim" = { git = "austinliuigi/lasso.nvim" }
 "oil.nvim" = "2.9.0"
 "palette.nvim" = { dir = "~/projects/palette.nvim" }
-"smoothie.nvim" = { dir = "~/projects/mysmoothie.nvim" }
+"smoothie.nvim" = { dir = "~/projects/smoothie.nvim", config = "plugin.mysmoothie" }
 "rainbow-delimiters.nvim" = "0.4.0"
 "rocks-config.nvim" = "1.6.0"
 "rocks-dev.nvim" = "1.2.1"
