@@ -12,8 +12,17 @@ in
     ];
 
     home.file = {
-      ".config/sioyek/prefs_user.config".text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.sioyek}/.config/sioyek/prefs_user.config"; comment_start = "#"; };
-      ".config/sioyek/keys_user.config".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.sioyek}/.config/sioyek/keys_user.config";
+      ".local/share/sioyek/palette.config" = {
+        text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.sioyek}/.local/share/sioyek/palette.config"; comment_start = "#"; };
+        onChange = ''
+          procs=$(${pkgs.busybox}/bin/pgrep sioyek || true)
+          if [ -n "$procs" ]; then
+            echo "sioyek: reloading config"
+            touch "${config.dotfiles.sioyek}/.config/sioyek/prefs_user.config"
+          fi
+        '';
+      };
+      ".config/sioyek".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.sioyek}/.config/sioyek";
     };
   };
 }
