@@ -12,8 +12,8 @@ join() {
 
 # available modes
 modes=(
-"drun"
-"run"
+"apps"
+"commands"
 "wifi"
 "power"
 "ssh"
@@ -31,10 +31,12 @@ fi
 # set script if a selected mode is a script mode
 case "$mode" in
     # bulitin modes
-    "drun")
-        ;&
-    "run")
-        ;&
+    "apps")
+        rofi -show "drun"
+        ;;
+    "commands")
+        rofi -show "run"
+        ;;
     "ssh")
         ;&
     "window")
