@@ -12,6 +12,7 @@
     pkgs.nodejs
     pkgs.nyxt
     pkgs.pandoc
+    pkgs.signal-desktop
     pkgs.ttyper
     pkgs.vlc
   ];
