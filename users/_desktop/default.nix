@@ -8,7 +8,6 @@
     pkgs.pamixer
     pkgs.gimp
     pkgs.inkscape
-    pkgs.gnome.adwaita-icon-theme
     pkgs.nodejs
     pkgs.nyxt
     pkgs.pandoc

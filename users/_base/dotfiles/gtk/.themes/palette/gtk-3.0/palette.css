@@ -1,0 +1,3 @@
+/* source user configuration overrides in ~/.local/share/gtk */
+/* - assumes the theme is placed in ~/.themes */
+@import url("../../../.local/share/gtk/palette.css"); 
