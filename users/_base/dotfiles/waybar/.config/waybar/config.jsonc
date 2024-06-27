@@ -61,7 +61,7 @@
         "format-plugged": "{capacity}%  ",
         "tooltip-format": "{timeTo}",
         "format-icons": ["", "", "", "", ""],
-        "interval": 10
+        "interval": 5
     },
     "clock": {
         "timezone": "America/Los_Angeles",

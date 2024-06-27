@@ -43,16 +43,16 @@ tooltip label {
 }
 
 #window {
-  text-shadow: 0 0 5px @base04;
+  font-weight: 500; /* https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-weight */
 }
 
+/* hide custom-fullscreen component when not fullscreen */
 #custom-fullscreen {
   color: @base01;
 }
 
 window#waybar.fullscreen #custom-fullscreen {
   color: @base0A;
-  text-shadow: 0 0 5px @base04;
 }
 
 #custom-separator {
