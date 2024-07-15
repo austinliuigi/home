@@ -361,6 +361,10 @@ keymap("n", "<leader>P", "<cmd>put!<CR>", { noremap = true, silent = true })
 
 keymap("n", "zC", "zCvzC", { noremap = true })
 
+keymap("n", "<C-]>", "<cmd>tcd %:p:h<CR>", {})
+
+keymap("n", "<C-[>", "<cmd>tcd ..<CR>", {})
+
 -- }}}
 -- Insert mode mappings {{{
 

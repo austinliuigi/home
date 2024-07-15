@@ -148,6 +148,9 @@ vim.opt.concealcursor = ""
 -- Set conceal level
 vim.o.conceallevel = 2
 
+-- Set default wrap value
+vim.o.wrap = false
+
 -- Make wrapped lines have same indentation as original line
 vim.opt.breakindent = true
 

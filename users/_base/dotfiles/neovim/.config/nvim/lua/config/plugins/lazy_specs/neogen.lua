@@ -1,0 +1,4 @@
+return {
+  "neogen",
+  cmd = "Neogen",
+}

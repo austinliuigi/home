@@ -1,0 +1,4 @@
+return {
+  "neogit",
+  cmd = "Neogit",
+}

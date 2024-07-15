@@ -1,97 +1,78 @@
-# List of non-Neovim rocks.
-# This includes things like `toml` or other lua packages.
+# Location of plugin configs for rocks-config.nvim
+[config]
+plugins_dir = "config/plugins/configurations/"
+auto_setup = false
+
+# Location of lazy specs written in lua for rocks-lazy.nvim
+#   - all files in this directory will be imported (name does not matter)
+#   - for plugins in this dir, opt must be set to true in their rockspec in order for them to be lazy loaded
+[rocks_lazy]
+import = "config/plugins/lazy_specs_post"
+
+# List of non-Neovim rocks, e.g. `toml`
 [rocks]
 
-# List of Neovim plugins to install alongside their versions.
-# If the plugin name contains a dot then you must add quotes to the key name!
+# List of Neovim plugins to install
+#   - plugins with a dot in the name must be quoted
 [plugins]
-"aerial.nvim" = "1.7.0"
-"bartender.nvim" = { dir = "~/projects/bartender.nvim" }
-"blame.nvim" = { git = "FabijanZulj/blame.nvim" }
-"conform.nvim" = "5.8.0"
-"diffview.nvim" = "scm"
-"flatten.nvim" = "0.5.1"
-"lasso.nvim" = { git = "austinliuigi/lasso.nvim" }
-"oil.nvim" = "2.9.0"
+
+# ====== LUAROCKS ======
+"actions-preview.nvim" = { version = "scm", opt = true }
+"aerial.nvim" = { version = "scm", opt = true }
+"conform.nvim" = { version = "6.0.0", opt = true }
+"diffview.nvim" = { version = "scm", opt = true }
+"flatten.nvim" = { version = "0.5.1", opt = true }
+"oil.nvim" = { version = "2.11.0", opt = true }
+"rainbow-delimiters.nvim" = { version = "0.4.0", opt = true }
+"rocks-config.nvim" = { version = "2.1.3" }
+"rocks-dev.nvim" = { version = "1.2.3", opt = true }
+"rocks-git.nvim" = { version = "1.5.1", opt = true }
+"rocks-lazy.nvim" = { version = "1.0.0" }
+"rocks.nvim" = { version = "2.35.1" }
+"telescope.nvim" = { version = "scm", opt = true }
+luasnip = { version = "2.3.0", opt = true }
+neogen = { version = "2.17.1", opt = false }
+neogit = { version = "1.0.0", opt = true }
+neorg = { version = "8.9.0", opt = true }
+nvim-dap = { version = "0.8.0", opt = true }
+nvim-dap-ui = { version = "4.0.0", opt = true }
+nvim-dap-virtual-text = { version = "scm", opt = true }
+nvim-lint = { version = "scm", opt = true }
+nvim-lspconfig = { version = "0.1.8", opt = true }
+nvim-navic = { version = "scm", opt = true }
+nvim-notify = { version = "3.13.5", opt = true }
+nvim-surround = { version = "2.1.5", opt = true }
+nvim-treesitter-textobjects = { version = "scm", opt = true }
+nvim-ts-autotag = { version = "scm", opt = true }
+
+# ====== GIT PLUGINS ======
+"blame.nvim" = { git = "FabijanZulj/blame.nvim", opt = true }
+"lasso.nvim" = { git = "austinliuigi/lasso.nvim", opt = true }
+"telescope-fzf-native.nvim" = { git = "nvim-telescope/telescope-fzf-native.nvim", build = "make", opt = true }
+cmp-buffer = { git = "hrsh7th/cmp-buffer", opt = true }
+cmp-calc = { git = "hrsh7th/cmp-calc", opt = true }
+cmp-cmdline = { git = "hrsh7th/cmp-cmdline", opt = true }
+cmp-cmdline-history = { git = "dmitmel/cmp-cmdline-history", opt = true }
+cmp-dap = { git = "rcarriga/cmp-dap", opt = true }
+cmp-digraphs = { git = "dmitmel/cmp-digraphs", opt = true }
+cmp-luasnip = { git = "saadparwaiz1/cmp_luasnip", opt = true }
+cmp-nvim-lsp = { git = "hrsh7th/cmp-nvim-lsp", opt = true }
+cmp-nvim-lsp-signature-help = { git = "hrsh7th/cmp-nvim-lsp-signature-help", opt = true }
+cmp-nvim-lua = { git = "hrsh7th/cmp-nvim-lua", opt = true }
+cmp-path = { git = "hrsh7th/cmp-path", opt = true }
+firenvim = { git = "glacambre/firenvim", build = ":call firenvim#install(0)" }
+nvim-cmp = { git = "hrsh7th/nvim-cmp", opt = true }
+nvim-colorizer = { git = "mehalter/nvim-colorizer.lua", opt = true }
+nvim-silicon = { git = "michaelrommel/nvim-silicon", opt = true }
+nvim-treesitter = { git = "nvim-treesitter/nvim-treesitter", opt = true }
+vim-easy-align = { git = "junegunn/vim-easy-align", opt = true }
+vim-matchup = { git = "andymass/vim-matchup", opt = true }
+vim-mundo = { git = "simnalamburt/vim-mundo", opt = true }
+vim-smoothie = { git = "psliwka/vim-smoothie", opt = true }
+vim-startuptime = { git = "dstein64/vim-startuptime", opt = true }
+wordmotion = { git = "chaoren/vim-wordmotion", opt = true }
+
+# ====== LOCAL PLUGINS ======
+"bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = true }
 "palette.nvim" = { dir = "~/projects/palette.nvim" }
-"smoothie.nvim" = { dir = "~/projects/smoothie.nvim", config = "plugin.mysmoothie" }
-"rainbow-delimiters.nvim" = "0.4.0"
-"rocks-config.nvim" = "1.6.0"
-"rocks-dev.nvim" = "1.2.1"
-"rocks-git.nvim" = "1.5.1"
-"rocks.nvim" = "2.29.0" # rocks.nvim can also manage itself :D
-"telescope-fzf-native.nvim" = { git = "nvim-telescope/telescope-fzf-native.nvim", build = "make" }
-"telescope.nvim" = "scm"
-alpha-nvim = { version = "scm", config = "plugin.alpha" }
-cmp-buffer = { git = "hrsh7th/cmp-buffer" }
-cmp-calc = { git = "hrsh7th/cmp-calc" }
-cmp-cmdline = { git = "hrsh7th/cmp-cmdline" }
-cmp-cmdline-history = { git = "dmitmel/cmp-cmdline-history" }
-cmp-dap = { git = "rcarriga/cmp-dap" }
-cmp-digraphs = { git = "dmitmel/cmp-digraphs" }
-cmp-luasnip = { git = "saadparwaiz1/cmp_luasnip" }
-cmp-nvim-lsp = { git = "hrsh7th/cmp-nvim-lsp" }
-cmp-nvim-lsp-signature-help = { git = "hrsh7th/cmp-nvim-lsp-signature-help" }
-cmp-nvim-lua = { git = "hrsh7th/cmp-nvim-lua" }
-cmp-path = { git = "hrsh7th/cmp-path" }
-firenvim = { git = "glacambre/firenvim", build = ":firenvim#install(0)" }
-luasnip = "2.3.0"
-neogen = "2.17.1"
-neogit = "1.0.0"
-neorg = "8.5.0"
-nvim-cmp = { git = "hrsh7th/nvim-cmp" }
-nvim-colorizer = { git = "mehalter/nvim-colorizer.lua" }
-nvim-dap = "0.8.0"
-nvim-dap-ui = "4.0.0"
-nvim-dap-virtual-text = "scm"
-nvim-lint = "scm"
-nvim-lspconfig = "0.1.8"
-nvim-navic = "scm"
-nvim-notify = "3.13.5"
-nvim-surround = "2.1.5"
-nvim-treesitter = "0.9.2"
-nvim-treesitter-textobjects = "scm"
-nvim-ts-autotag = { version = "scm", config = "plugin.autotag" }
-vim-easy-align = { git = "junegunn/vim-easy-align", config = "plugin.align" }
-vim-matchup = { git = "andymass/vim-matchup" }
-vim-mundo = { git = "simnalamburt/vim-mundo" }
-vim-smoothie = { git = "psliwka/vim-smoothie" }
-wordmotion = { git = "chaoren/vim-wordmotion" }
-nvim-silicon = { git = "michaelrommel/nvim-silicon" }
-
-[bundles.cmp]
-items = [
-  "cmp-buffer",
-  "cmp-calc",
-  "cmp-cmdline",
-  "cmp-cmdline-history",
-  "cmp-digraphs",
-  "cmp-nvim-lsp",
-  "cmp-nvim-lsp-signature-help",
-  "cmp-nvim-lua",
-  "cmp-path",
-  "nvim-cmp",
-]
-
-[bundles.dap]
-items = [
-  "nvim-dap",
-  "nvim-dap-ui",
-  "nvim-dap-virtual-text",
-]
-
-[bundles.git]
-items = [
-  "blame.nvim",
-  "diffview.nvim",
-  "neogit",
-]
-
-[bundles.lsp]
-items = [
-  "nvim-lspconfig",
-]
-
-[config]
-plugins_dir = "plugin/"
-auto_setup = false
+# "smoothie.nvim" = { dir = "~/projects/smoothie.nvim", config = "plugin.mysmoothie" }
