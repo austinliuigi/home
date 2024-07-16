@@ -73,6 +73,6 @@ vim-startuptime = { git = "dstein64/vim-startuptime", opt = true }
 wordmotion = { git = "chaoren/vim-wordmotion", opt = true }
 
 # ====== LOCAL PLUGINS ======
-"bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = true }
-"palette.nvim" = { dir = "~/projects/palette.nvim" }
+"bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = false }
+"palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
 # "smoothie.nvim" = { dir = "~/projects/smoothie.nvim", config = "plugin.mysmoothie" }
