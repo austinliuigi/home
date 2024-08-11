@@ -14,7 +14,8 @@ in
       (pkgs.nerdfonts.override { fonts = [
         "JetBrainsMono"
         "Mononoki"
-        "Agave"
+        "FiraCode"
+        "CascadiaCode"
       ]; })
       pkgs.dejavu_fonts
       pkgs.liberation_ttf
@@ -23,6 +24,7 @@ in
       pkgs.source-sans-pro
       pkgs.charis-sil
       pkgs.fira
+      inputs.sf-mono-nerd-font.packages.x86_64-linux.sf-mono # TODO: update this to be generic to different systems
     ];
   };
 }

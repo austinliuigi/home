@@ -18,6 +18,10 @@
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
     };
+    sf-mono-nerd-font = {
+      url = "github:austinliuigi/sf-mono-nerd-font-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # hyprland = {
     #   url = "github:hyprwm/Hyprland";
     # };

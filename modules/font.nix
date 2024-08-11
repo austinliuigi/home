@@ -10,7 +10,7 @@
     # font = "Mononoki Nerd Font";
 
     font = {
-      mono = "JetBrainsMono Nerd Font";
+      mono = "SFMono Nerd Font";
       sans = "Ubuntu";
       serif = "Liberation Serif";
     };
