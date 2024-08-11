@@ -237,7 +237,8 @@
         "home-manager": "home-manager",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-colors": "nix-colors",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_2",
+        "sf-mono-nerd-font": "sf-mono-nerd-font"
       }
     },
     "schemes-source": {
@@ -253,6 +254,26 @@
       "original": {
         "owner": "austinliuigi",
         "repo": "schemes",
+        "type": "github"
+      }
+    },
+    "sf-mono-nerd-font": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1719443792,
+        "narHash": "sha256-P7HuAeZRpdoCRJ6XwbMfQjZCbmTcVUEaueNQ1/I8Rfo=",
+        "owner": "austinliuigi",
+        "repo": "sf-mono-nerd-font-flake",
+        "rev": "eb66a7869c1d2277e047f39a9b9f7794b4570c1e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "austinliuigi",
+        "repo": "sf-mono-nerd-font-flake",
         "type": "github"
       }
     },

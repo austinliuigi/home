@@ -7,9 +7,7 @@
     };
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";  # have hm inherit nixpkgs from current flake
-      };
+      inputs.nixpkgs.follows = "nixpkgs";  # have hm inherit nixpkgs from current flake
     };
     nix-colors = {
       url = "github:austinliuigi/nix-colors";
