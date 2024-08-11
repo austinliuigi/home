@@ -9,6 +9,7 @@
     pkgs.gimp
     pkgs.inkscape
     pkgs.nodejs
+    # pkgs.brave
     pkgs.nyxt
     pkgs.pandoc
     pkgs.signal-desktop
@@ -26,6 +27,7 @@
       fzf.enable         = true;
       gtk.enable         = true;
       ios.enable         = true;
+      javascript.enable  = true;
       kdeconnect.enable  = true;
       kitty.enable       = true;
       live-server.enable = true;
