@@ -28,5 +28,6 @@ require("scripts.dashboard")
 require("scripts.lastplace")
 require("scripts.quarter")
 require("scripts.text-objects")
+require("scripts.highlighter")
 
 vim.cmd([[silent! packadd rocks-dev.nvim]]) -- temporary fix until https://github.com/nvim-neorocks/rocks-dev.nvim/issues/8 gets fixed
