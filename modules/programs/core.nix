@@ -11,6 +11,7 @@ in
       pkgs.acpi
       pkgs.ncdu
       pkgs.file
+      pkgs.pstree
       pkgs.stow
       pkgs.tree
       pkgs.unzip
