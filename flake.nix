@@ -12,8 +12,7 @@
       };
     };
     nix-colors = {
-      # url = "github:austinliuigi/nix-colors";
-      url = "git+file:///home/austin/projects/nix-colors?ref=refs/heads/main&rev=b86e8be53bb6a09a4be3a1ff0d19889495f0dd67";
+      url = "github:austinliuigi/nix-colors";
     };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
