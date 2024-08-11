@@ -75,4 +75,5 @@ wordmotion = { git = "chaoren/vim-wordmotion", opt = true }
 # ====== LOCAL PLUGINS ======
 "bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = false }
 "palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
+"dye.nvim" = { dir = "~/projects/dye.nvim", opt = false }
 # "smoothie.nvim" = { dir = "~/projects/smoothie.nvim", config = "plugin.mysmoothie" }
