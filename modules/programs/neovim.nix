@@ -8,11 +8,11 @@ in
 
   config = lib.mkIf cfg.enable {
     nixpkgs.overlays = [
-      inputs.neovim-nightly-overlay.overlay
+      inputs.neovim-nightly-overlay.overlays.default
     ];
 
     home.packages = [
-      pkgs.neovim-nightly
+      pkgs.neovim
       pkgs.luajit # required for luarocks.nvim
       pkgs.silicon
     ];

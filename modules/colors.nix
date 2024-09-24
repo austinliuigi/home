@@ -6,8 +6,8 @@
   ];
 
   config = {
-    # https://github.com/tinted-theming/schemes
-    colorscheme = inputs.nix-colors.colorschemes.base16.nord;
+    # https://github.com/tinted-theming/base16-schemes
+    colorscheme = inputs.nix-colors.colorschemes.base16.gruvbox-dark-medium;
     # colorScheme = {
       # slug = "custom";
       # name = "Custom";

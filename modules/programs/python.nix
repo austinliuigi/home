@@ -17,7 +17,7 @@ in
         debugpy
         pylint
       ]))
-      pkgs.nodePackages_latest.pyright
+      pkgs.pyright
       pkgs.manim
     ];
   };
