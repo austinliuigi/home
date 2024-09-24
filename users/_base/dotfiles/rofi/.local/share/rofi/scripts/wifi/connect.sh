@@ -18,9 +18,9 @@ function collect_networks() {
     network_dump="$(iwctl station wlan0 get-networks \
     | tail -n +5 \
     | sed -e "s:\[1;30m::g" \
-          -e "s:\[0m::g" \
           -e "s:\*\x1b.*:\*:g" \
           -e "s:\x1b::g" \
+          -e "s:\[0m::g" \
           -e "s:\[1;90m>::g")"
 
 

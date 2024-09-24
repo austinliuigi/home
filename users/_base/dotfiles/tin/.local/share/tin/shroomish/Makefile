@@ -1,3 +1,5 @@
+# Example usage: make COLOR="#83a598"
+
 .PHONY: all clean
 
 colorized: _shroomish.png colorized.png mask.png
