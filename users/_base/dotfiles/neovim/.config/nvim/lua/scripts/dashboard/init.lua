@@ -78,7 +78,7 @@ function dashboard.create_buffer()
 
   local banner = random(require("scripts.dashboard.banners"))
   local hl_group = random({
-    "Base02",
+    -- "Base02",
     "Base05",
     "Base08",
     "Base09",
