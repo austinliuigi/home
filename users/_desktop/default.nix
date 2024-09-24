@@ -15,6 +15,12 @@
     pkgs.signal-desktop
     pkgs.ttyper
     pkgs.vlc
+
+    pkgs.glxinfo
+    pkgs.wlr-randr
+    pkgs.lshw
+    pkgs.dmidecode
+    pkgs.gparted
   ];
 
   modules = {

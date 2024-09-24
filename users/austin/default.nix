@@ -3,8 +3,8 @@
 {
   imports = [
     ../_base
-    ../_desktop/default.nix
-    ../_desktop/hyprland.nix
+    ../_desktop
+    ../_desktop/environments/hyprland.nix
   ];
 
   config = {
