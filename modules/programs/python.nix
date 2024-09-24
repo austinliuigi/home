@@ -10,6 +10,7 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
+      pkgs.poetry
       (pkgs.python311.withPackages (ps: with ps; [
         pynvim
         virtualenv

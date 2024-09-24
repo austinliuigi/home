@@ -6,8 +6,8 @@
   ];
 
   config = {
-    # https://github.com/tinted-theming/base16-schemes
-    colorscheme = inputs.nix-colors.colorschemes.base16.grayscale-dark;
+    # https://github.com/tinted-theming/schemes
+    colorscheme = inputs.nix-colors.colorschemes.base16.nord;
     # colorScheme = {
       # slug = "custom";
       # name = "Custom";

@@ -65,6 +65,9 @@ in
       syntaxHighlighting = {
         enable = true;
       };
+      # initExtraFirst = ''
+      #   zmodload zsh/zprof
+      # '';
       initExtra = ''
         source ~/.config/zsh/config/aliases.zsh
         source ~/.config/zsh/config/keybinds.zsh

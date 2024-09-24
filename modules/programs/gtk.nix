@@ -30,7 +30,7 @@ in
       ".cache/font.dummy".onChange = ''
         echo "gtk: updating font"
 
-        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface font-name '${config.font.mono} 12'
+        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface font-name '${config.font.mono} 10'
       '';
 
       # ".config/gtk-4.0/palette.css" = {
