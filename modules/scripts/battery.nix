@@ -16,7 +16,7 @@ let
     battery="$(acpi --battery | grep -Po '\d+(?=%)')"
 
     function notify() {
-        icon="$HOME/.cache/tin/icons/battery.png"
+        icon="$HOME/.cache/txn/icons/battery.png"
         notify-send --urgency=critical --icon="$icon" --hint=int:value:"$battery" "Battery" "$battery"
     }
 
@@ -43,7 +43,7 @@ in
   options.modules.scripts.battery.enable = lib.mkEnableOption "battery script";
 
   config = lib.mkIf cfg.enable {
-    modules.tin.icons.enable = true;
+    modules.txn.icons.enable = true;
 
     systemd.user.services = {
       battery = {

@@ -26,7 +26,7 @@ let
     function notify() {
         echo "Screenshot saved to $1"
 
-        notify-send --urgency=normal --icon="$HOME/.cache/tin/icons/image.png" "Screenshot" "Saved to $1"
+        notify-send --urgency=normal --icon="$HOME/.cache/txn/icons/image.png" "Screenshot" "Saved to $1"
     }
 
     dir="$(echo -e "clipboard\n$(fd . ~ --type=d)" | rofi -dmenu -p '(Directory or clipboard)')"
@@ -56,7 +56,7 @@ in
   options.modules.scripts.wayland.screenshot.enable = lib.mkEnableOption "screenshot script";
 
   config = lib.mkIf cfg.enable {
-    modules.tin.icons.enable = true;
+    modules.txn.icons.enable = true;
     home.packages = [ screenshot ];
   };
 }

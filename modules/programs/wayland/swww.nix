@@ -9,13 +9,13 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [ pkgs.swww ];
 
-    modules.tin.wallpaper.enable = true;
+    modules.txn.wallpaper.enable = true;
 
     home.file = {
       ".cache/palette.dummy".onChange = lib.mkAfter ''
         echo "swww: updating wallpaper"
 
-        ${pkgs.swww}/bin/swww img ~/.cache/tin/wallpaper.png
+        ${pkgs.swww}/bin/swww img ~/.cache/txn/wallpaper.png
       '';
     };
     # home.activation = {

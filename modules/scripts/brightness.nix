@@ -18,11 +18,11 @@ let
         brightness="$(printf "%0.0f\n" "$(echo "scale=5; $(brightnessctl get)/$(brightnessctl max) * 100" | bc)")"
 
         if [ $brightness -ge 75 ]; then
-            icon="$HOME/.cache/tin/icons/brightness-high.png"
+            icon="$HOME/.cache/txn/icons/brightness-high.png"
         elif [ $brightness -ge 35 ]; then
-            icon="$HOME/.cache/tin/icons/brightness-medium.png"
+            icon="$HOME/.cache/txn/icons/brightness-medium.png"
         else
-            icon="$HOME/.cache/tin/icons/brightness-low.png"
+            icon="$HOME/.cache/txn/icons/brightness-low.png"
         fi
 
         echo "Brightness is $brightness"
@@ -52,7 +52,7 @@ in
   options.modules.scripts.brightness.enable = lib.mkEnableOption "brightness script";
 
   config = lib.mkIf cfg.enable {
-    modules.tin.icons.enable = true;
+    modules.txn.icons.enable = true;
     home.packages = [ brightness ];
   };
 }

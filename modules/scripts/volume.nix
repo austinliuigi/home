@@ -17,14 +17,14 @@ let
         volume="$(pamixer --get-volume)"
 
         if [ "$(pamixer --get-mute)" == "true" ]; then
-            icon="$HOME/.cache/tin/icons/volume-muted.png"
+            icon="$HOME/.cache/txn/icons/volume-muted.png"
         else
             if [ $volume -ge 80 ]; then
-                icon="$HOME/.cache/tin/icons/volume-high.png"
+                icon="$HOME/.cache/txn/icons/volume-high.png"
             elif [ $volume -ge 40 ]; then
-                icon="$HOME/.cache/tin/icons/volume-medium.png"
+                icon="$HOME/.cache/txn/icons/volume-medium.png"
             else
-                icon="$HOME/.cache/tin/icons/volume-low.png"
+                icon="$HOME/.cache/txn/icons/volume-low.png"
             fi
 
         fi
@@ -60,7 +60,7 @@ in
   options.modules.scripts.volume.enable = lib.mkEnableOption "volume script";
 
   config = lib.mkIf cfg.enable {
-    modules.tin.icons.enable = true;
+    modules.txn.icons.enable = true;
     home.packages = [ volume ];
   };
 }

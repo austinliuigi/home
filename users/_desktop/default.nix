@@ -50,8 +50,9 @@
       zoxide.enable      = true;
       zsh.enable         = true;
     };
-    tin = {
+    txn = {
       shroomish.enable = true;
+      cursors.enable = true;
     };
   };
 }
