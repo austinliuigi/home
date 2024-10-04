@@ -8,6 +8,7 @@
     pkgs.pamixer
     pkgs.gimp
     pkgs.inkscape
+    pkgs.blender
     pkgs.nodejs
     # pkgs.brave
     pkgs.nyxt
@@ -28,6 +29,7 @@
       c.enable           = true;
       common.enable      = true;
       core.enable        = true;
+      direnv.enable      = true;
       dunst.enable       = true;
       fonts.enable       = true;
       fzf.enable         = true;
