@@ -71,6 +71,7 @@ vim-mundo = { git = "simnalamburt/vim-mundo", opt = true }
 vim-smoothie = { git = "psliwka/vim-smoothie", opt = true }
 vim-startuptime = { git = "dstein64/vim-startuptime", opt = true }
 wordmotion = { git = "chaoren/vim-wordmotion", opt = true }
+committia = { git = "rhysd/committia.vim", opt = false }
 
 # ====== LOCAL PLUGINS ======
 "bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = false }

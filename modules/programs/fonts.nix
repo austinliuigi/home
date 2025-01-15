@@ -11,6 +11,7 @@ in
 
     home.packages = [
       # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/data/fonts/nerdfonts/shas.nix
+      # https://github.com/NixOS/nixpkgs/blob/nixpkgs-unstable/pkgs/data/fonts/nerd-fonts/manifests/fonts.json
       (pkgs.nerdfonts.override { fonts = [
         "JetBrainsMono"
         "Mononoki"
