@@ -10,14 +10,12 @@ in
     fonts.fontconfig.enable = true;
 
     home.packages = [
-      # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/data/fonts/nerdfonts/shas.nix
-      # https://github.com/NixOS/nixpkgs/blob/nixpkgs-unstable/pkgs/data/fonts/nerd-fonts/manifests/fonts.json
-      (pkgs.nerdfonts.override { fonts = [
-        "JetBrainsMono"
-        "Mononoki"
-        "FiraCode"
-        "CascadiaCode"
-      ]; })
+      # nerd fonts: https://github.com/NixOS/nixpkgs/blob/nixpkgs-unstable/pkgs/data/fonts/nerd-fonts/manifests/fonts.json
+      pkgs.nerd-fonts.jetbrains-mono
+      pkgs.nerd-fonts.mononoki
+      pkgs.nerd-fonts.fira-code
+      pkgs.nerd-fonts.symbols-only
+
       pkgs.dejavu_fonts
       pkgs.liberation_ttf
       pkgs.open-sans

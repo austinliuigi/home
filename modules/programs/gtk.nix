@@ -9,7 +9,7 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [
       pkgs.glib # gsettings
-      pkgs.gnome.adwaita-icon-theme # use gtk nix module instead?
+      pkgs.adwaita-icon-theme # use gtk nix module instead?
     ];
 
     # gtk = {

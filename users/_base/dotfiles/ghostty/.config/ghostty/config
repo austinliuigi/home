@@ -1,0 +1,4 @@
+theme = /home/austin/.local/share/ghostty/palette.config
+
+config-file = keybinds.config
+config-file = font.config

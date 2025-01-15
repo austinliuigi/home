@@ -33,6 +33,7 @@
       dunst.enable       = true;
       fonts.enable       = true;
       fzf.enable         = true;
+      ghostty.enable     = true;
       gtk.enable         = true;
       ios.enable         = true;
       javascript.enable  = true;
