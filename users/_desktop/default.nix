@@ -31,7 +31,6 @@
       core.enable        = true;
       direnv.enable      = true;
       dunst.enable       = true;
-      fonts.enable       = true;
       fzf.enable         = true;
       ghostty.enable     = true;
       gtk.enable         = true;
