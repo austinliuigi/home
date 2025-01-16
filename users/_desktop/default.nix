@@ -39,6 +39,7 @@
       kdeconnect.enable  = true;
       kitty.enable       = true;
       live-server.enable = true;
+      localsend.enable  = true;
       lua.enable         = true;
       mpv.enable         = true;
       neovim.enable      = true;
