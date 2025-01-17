@@ -25,6 +25,7 @@ require("config.options")
 require("config.rocks")
 
 require("scripts.dashboard")
+require("scripts.diff")
 require("scripts.lastplace")
 require("scripts.quarter")
 require("scripts.text-objects")

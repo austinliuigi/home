@@ -1,0 +1,41 @@
+[user]
+	name = Austin Liu
+	email = austinhliu@gmail.com
+	username = austinliuigi
+[init]
+	defaultBranch = main
+[core]
+	editor = nvim
+	whitespace = fix,trailing-space,cr-at-eol
+	excludesFile = ~/.config/git/.gitignore
+	; pager = delta
+[color]
+	ui = auto
+[color "branch"]
+	current = green bold
+	local = green bold
+	remote = yellow bold
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[color "status"]
+	added = green bold
+	changed = yellow bold
+	untracked = red bold
+[branch]
+	sort = committerdate
+[diff]
+	tool = nvim
+	algorithm = histogram
+[difftool "nvim"]
+	cmd = nvim -c \"DiffDir! $LOCAL $REMOTE\" -c \"lua print('local: $LOCAL | remote: $REMOTE')\"
+	prompt = true
+[merge]
+	conflictStyle = zdiff3 # https://www.ductile.systems/zdiff3/
+[pull]
+	ff = only
+[log]
+	date = iso
