@@ -31,7 +31,7 @@
 	tool = nvim
 	algorithm = histogram
 [difftool "nvim"]
-	cmd = nvim -c \"DiffDir! $LOCAL $REMOTE\" -c \"lua print('local: $LOCAL | remote: $REMOTE')\"
+	cmd = nvim -c \"DiffDir $LOCAL $REMOTE\" -c \"lua print('local: $LOCAL | remote: $REMOTE')\"
 	prompt = true
 [merge]
 	conflictStyle = zdiff3 # https://www.ductile.systems/zdiff3/
