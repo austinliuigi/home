@@ -4,7 +4,7 @@
 --   cmd: string - ex command to run, passed directly to :execute
 -- e.g. `Cp a "echo 'hello'"`
 -- note: if output requires a pager, it will only get copied if you scroll to the end
--- note: we pass args instead of fargs to :execute because fargs replaces every pair of backslashes with one backslash
+-- note: we pass args instead of fargs to :execute because fargs will remove backslashes to escape characters
 vim.api.nvim_create_user_command("Cp", function(attrs)
   local args = attrs.args
   local fargs = attrs.fargs
@@ -54,11 +54,64 @@ vim.api.nvim_create_user_command("Cp", function(attrs)
   end
 end, { nargs = "+", register = false })
 
---- Change directory to head of current buffer
+--- Change directory relative to head of current buffer
 --
-vim.api.nvim_create_user_command("Cd", function(args)
-  vim.cmd("tcd %:p:h")
-end, { nargs = 0 })
+vim.api.nvim_create_user_command("Cd", function(attrs)
+  local head = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
+  local path = head .. "/" .. attrs.args -- if no arg provided, attrs.args is "" and this just appends a trailing slash
+  local finfo = vim.uv.fs_stat(path)
+
+  if finfo == nil then
+    vim.notify("Cd: `" .. path .. "` does not exist", vim.log.levels.ERROR)
+    return
+  end
+
+  if finfo.type ~= "directory" then
+    vim.notify("Cd: `" .. path .. "` is not a directory", vim.log.levels.ERROR)
+    return
+  end
+
+  -- print(path)
+  vim.cmd("cd " .. path)
+end, { nargs = "?" })
+
+vim.api.nvim_create_user_command("Tcd", function(attrs)
+  local head = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
+  local path = head .. "/" .. attrs.args -- if no arg provided, attrs.args is "" and this just appends a trailing slash
+  local finfo = vim.uv.fs_stat(path)
+
+  if finfo == nil then
+    vim.notify("Tcd: `" .. path .. "` does not exist", vim.log.levels.ERROR)
+    return
+  end
+
+  if finfo.type ~= "directory" then
+    vim.notify("Tcd: `" .. path .. "` is not a directory", vim.log.levels.ERROR)
+    return
+  end
+
+  -- print(path)
+  vim.cmd("tcd " .. path)
+end, { nargs = "?" })
+
+vim.api.nvim_create_user_command("Lcd", function(attrs)
+  local head = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
+  local path = head .. "/" .. attrs.args -- if no arg provided, attrs.args is "" and this just appends a trailing slash
+  local finfo = vim.uv.fs_stat(path)
+
+  if finfo == nil then
+    vim.notify("Lcd: `" .. path .. "` does not exist", vim.log.levels.ERROR)
+    return
+  end
+
+  if finfo.type ~= "directory" then
+    vim.notify("Lcd: `" .. path .. "` is not a directory", vim.log.levels.ERROR)
+    return
+  end
+
+  -- print(path)
+  vim.cmd("lcd " .. path)
+end, { nargs = "?" })
 
 --- Change directory to containing git repository
 --
