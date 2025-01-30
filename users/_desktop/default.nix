@@ -31,6 +31,8 @@
       core.enable        = true;
       direnv.enable      = true;
       dunst.enable       = true;
+      foot.enable        = true;
+      fuzzel.enable      = true;
       fzf.enable         = true;
       ghostty.enable     = true;
       git.enable         = true;
