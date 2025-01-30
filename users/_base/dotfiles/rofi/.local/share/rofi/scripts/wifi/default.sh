@@ -7,7 +7,7 @@ exit_if_error "cancelled"
 
 case "$option" in
     "Connect")
-        eval "${HOME}/.local/share/rofi/scripts/wifi/connect.sh"
+        eval "${HOME}/.local/share/rofi/scripts/wifi/connect_async.sh"
         ;;
     "Disconnect")
         iwctl station wlan0 disconnect
