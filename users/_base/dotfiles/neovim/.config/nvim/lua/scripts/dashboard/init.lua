@@ -106,6 +106,13 @@ function dashboard.create_buffer()
     end, { buffer = 0 })
   end
 
+  vim.api.nvim_create_autocmd("WinLeave", {
+    buffer = 0,
+    callback = function()
+      vim.cmd("enew")
+    end,
+  })
+
   return buf
 end
 
@@ -135,11 +142,12 @@ vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     if dashboard.should_open() then
       local buf = dashboard.create_buffer()
-      vim.api.nvim_create_autocmd("BufUnload", {
+      vim.api.nvim_create_autocmd({ "BufLeave" }, {
         buffer = buf,
         callback = function()
           vim.cmd("hi Cursor blend=0")
         end,
+        once = true,
       })
     end
   end,

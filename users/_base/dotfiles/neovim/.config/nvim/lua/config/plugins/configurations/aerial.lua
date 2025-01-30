@@ -1,7 +1,7 @@
 require("aerial").setup({
   -- Priority list of preferred backends for aerial.
   -- This can be a filetype map (see :help aerial-filetype-map)
-  backends = { "treesitter", "lsp", "markdown", "man" },
+  backends = { "lsp", "treesitter", "markdown", "man" },
 
   layout = {
     max_width = { 40, 0.2 },
@@ -43,30 +43,32 @@ require("aerial").setup({
   -- it will use the mapping at require("aerial.actions").<name>
   -- Set to `false` to remove a keymap
   keymaps = {
+    ["?"] = false,
     ["g?"] = "actions.show_help",
-    ["<CR>"] = "actions.jump",
+    ["<CR>"] = "actions.scroll", -- scroll is a jump without changing the window
+    ["<C-CR>"] = "actions.jump", -- scroll is a jump without changing the window
     ["<2-LeftMouse>"] = "actions.jump",
     ["<C-v>"] = "actions.jump_vsplit",
     ["<C-s>"] = "actions.jump_split",
-    ["p"] = "actions.scroll",
-    ["<C-j>"] = "actions.down_and_scroll",
-    ["<C-k>"] = "actions.up_and_scroll",
+    ["p"] = false,
+    ["<C-j>"] = false,
+    ["<C-k>"] = false,
     ["{"] = "actions.prev",
     ["}"] = "actions.next",
     ["[["] = "actions.prev_up",
     ["]]"] = "actions.next_up",
-    ["q"] = "actions.close",
-    ["o"] = "actions.tree_toggle",
+    ["q"] = false,
+    ["o"] = false,
     ["za"] = "actions.tree_toggle",
     ["O"] = "actions.tree_toggle_recursive",
     ["zA"] = "actions.tree_toggle_recursive",
-    ["l"] = "actions.tree_open",
+    ["l"] = false,
     ["zo"] = "actions.tree_open",
-    ["L"] = "actions.tree_open_recursive",
+    ["L"] = false,
     ["zO"] = "actions.tree_open_recursive",
-    ["h"] = "actions.tree_close",
+    ["h"] = false,
     ["zc"] = "actions.tree_close",
-    ["H"] = "actions.tree_close_recursive",
+    ["H"] = false,
     ["zC"] = "actions.tree_close_recursive",
     ["zr"] = "actions.tree_increase_fold_level",
     ["zR"] = "actions.tree_open_all",

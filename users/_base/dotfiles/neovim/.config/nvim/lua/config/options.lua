@@ -17,8 +17,11 @@ vim.opt.guicursor = {
 }
 --]]
 vim.cmd([[
-  set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+  set guicursor=n-v-c:block-Cursor/lCursor
+  \,i-ci-ve:ver25-Cursor/lCursor
+  \,r-cr:hor20,o:hor50-Cursor/lCursor
+  \,t:block-blinkon500-blinkoff500-TermCursor
+  \,a:blinkwait700-blinkoff400-blinkon250
   \,sm:block-blinkwait175-blinkoff150-blinkon175
 ]])
 
@@ -43,7 +46,8 @@ vim.api.nvim_create_autocmd({ "WinLeave" }, {
 vim.opt.number = true
 vim.opt.relativenumber = false
 
--- Set vertical split window to appear on the right by default
+-- Set default split directions
+vim.opt.splitbelow = true
 vim.opt.splitright = true
 
 -- Don't show cmdline
@@ -200,6 +204,7 @@ vim.opt.foldmethod = "expr"
 
 vim.o.foldtext = ""
 vim.opt.fillchars:append({ fold = " " })
+vim.o.foldlevelstart = 1
 -- }}}
 -- Diff {{{
 -- vim.opt.fillchars += diff:╱

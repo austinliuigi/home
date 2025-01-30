@@ -7,93 +7,6 @@ require("neorg").setup({
     ["core.keybinds"] = {
       config = {
         default_keybinds = false,
-        neorg_leader = "-",
-        hook = function(keybinds)
-          local leader = keybinds.leader
-          keybinds.map_event_to_mode("norg", {
-            n = {
-              -- Marks the task under the cursor as "undone"
-              { leader .. "tu", "core.qol.todo_items.todo.task_undone", opts = { desc = "Mark as Undone" } },
-
-              -- Marks the task under the cursor as "pending"
-              { leader .. "tp", "core.qol.todo_items.todo.task_pending", opts = { desc = "Mark as Pending" } },
-
-              -- Marks the task under the cursor as "done"
-              { leader .. "td", "core.qol.todo_items.todo.task_done", opts = { desc = "Mark as Done" } },
-
-              -- Marks the task under the cursor as "on_hold"
-              { leader .. "th", "core.qol.todo_items.todo.task_on_hold", opts = { desc = "Mark as On Hold" } },
-
-              -- Marks the task under the cursor as "cancelled"
-              {
-                leader .. "tc",
-                "core.qol.todo_items.todo.task_cancelled",
-                opts = { desc = "Mark as Cancelled" },
-              },
-
-              -- Marks the task under the cursor as "recurring"
-              {
-                leader .. "tr",
-                "core.qol.todo_items.todo.task_recurring",
-                opts = { desc = "Mark as Recurring" },
-              },
-
-              -- Marks the task under the cursor as "important"
-              {
-                leader .. "ti",
-                "core.qol.todo_items.todo.task_important",
-                opts = { desc = "Mark as Important" },
-              },
-
-              -- Marks the task under the cursor as "ambiguous"
-              { leader .. "ta", "core.qol.todo_items.todo.task_ambiguous", opts = { desc = "Mark as Ambigous" } },
-
-              -- Switches the task under the cursor between a select few states
-              { leader .. "tt", "core.qol.todo_items.todo.task_cycle", opts = { desc = "Cycle Task" } },
-
-              -- Creates a new .norg file to take notes in
-              { leader .. "n", "core.dirman.new.note", opts = { desc = "Create New Note" } },
-
-              -- Hop to the destination of the link under the cursor
-              { "gl", "core.esupports.hop.hop-link", opts = { desc = "Jump to Link" } },
-
-              -- Same as `<CR>`, except opens the destination in a vertical split
-              {
-                "<leader>gl",
-                "core.esupports.hop.hop-link",
-                "vsplit",
-                opts = { desc = "Jump to Link (Vertical Split)" },
-              },
-
-              { "<leader><C-.>", "core.promo.promote", opts = { desc = "Promote Object (Non-Recursively)" } },
-              { "<leader><C-,>", "core.promo.demote", opts = { desc = "Demote Object (Non-Recursively)" } },
-
-              { "<C-.>", "core.promo.promote", "nested", opts = { desc = "Promote Object (Recursively)" } },
-              { "<C-,>", "core.promo.demote", "nested", opts = { desc = "Demote Object (Recursively)" } },
-
-              { leader .. "lt", "core.pivot.toggle-list-type", opts = { desc = "Toggle (Un)ordered List" } },
-              { leader .. "li", "core.pivot.invert-list-type", opts = { desc = "Invert (Un)ordered List" } },
-
-              -- { leader .. "id", "core.tempus.insert-date", opts = { desc = "Insert Date" } },
-            },
-            i = {
-              { "<C-t>", "core.promo.promote", opts = { desc = "Promote Object (Non-Recursively)" } },
-              { "<C-d>", "core.promo.demote", opts = { desc = "Demote Object (Non-Recursively)" } },
-              { "<C-CR>", "core.itero.next-iteration", opts = { desc = "Continue Object" } },
-              -- { "<M-d>", "core.tempus.insert-date-insert-mode", opts = { desc = "Insert Date" } },
-            },
-            v = {
-              { "<leader>>", "core.promo.promote", opts = { desc = "Promote Object (Recursively)" } },
-              { "<leader><", "core.promo.demote", opts = { desc = "Demote Object (Recursively)" } },
-              { ">", "core.promo.promote", "nested", opts = { desc = "Promote Object (Recursively)" } },
-              { "<", "core.promo.demote", "nested", opts = { desc = "Demote Object (Recursively)" } },
-            },
-          }, {
-            silent = true,
-            noremap = true,
-          })
-          keybinds.remap("norg", "n", "<leader>o", "<cmd>Neorg keybind norg core.itero.next-iteration<CR>a")
-        end,
       },
     },
 
@@ -143,3 +56,140 @@ require("neorg").setup({
     -- },
   },
 })
+
+vim.api.nvim_create_autocmd("Filetype", {
+  desc = "Create neorg keybinds",
+  pattern = "norg",
+  callback = function()
+    local neorg_leader = "-"
+    local leader = vim.g.mapleader
+
+    --------------- DIRMAN ---------------
+    vim.keymap.set("n", neorg_leader .. "n", "<Plug>(neorg.dirman.new.note)", { buffer = 0, desc = "Create New Note" })
+
+    --------------- HOP ---------------
+    vim.keymap.set("n", "gl", "<Plug>(neorg.esupports.hop.hop-link)", { buffer = 0, desc = "Jump to Link" })
+    vim.keymap.set(
+      "n",
+      "<leader>gl",
+      "<Plug>(neorg.esupports.hop.hop-link)",
+      { buffer = 0, desc = "Jump to Link (Vertical Split)" }
+    )
+
+    --------------- ITERO ---------------
+    vim.keymap.set("i", "<C-CR>", "<Plug>(neorg.itero.next-iteration)", { buffer = 0, desc = "Continue Object" })
+    vim.keymap.set("n", "<leader>o", "i<Plug>(neorg.itero.next-iteration)", { buffer = 0, desc = "Continue Object" })
+
+    --------------- PROMO ---------------
+    vim.keymap.set(
+      "i",
+      "<C-t>",
+      "<Plug>(neorg.promo.promote)",
+      { buffer = 0, desc = "Promote Object (Non-Recursively)" }
+    )
+    vim.keymap.set("i", "<C-d>", "<Plug>(neorg.promo.demote)", { buffer = 0, desc = "Demote Object (Non-Recursively)" })
+    vim.keymap.set("n", ">>", "<Plug>(neorg.promo.promote)", { buffer = 0, desc = "Promote Object (Non-Recursively)" })
+    vim.keymap.set("n", "<<", "<Plug>(neorg.promo.demote)", { buffer = 0, desc = "Demote Object (Non-Recursively)" })
+    vim.keymap.set(
+      "n",
+      leader .. ">>",
+      "<Plug>(neorg.promo.promote.nested)",
+      { buffer = 0, desc = "Promote Object (Recursively)" }
+    )
+    vim.keymap.set(
+      "n",
+      leader .. "<<",
+      "<Plug>(neorg.promo.demote.nested)",
+      { buffer = 0, desc = "Demote Object (Recursively)" }
+    )
+    vim.keymap.set(
+      "x",
+      ">",
+      "<Plug>(neorg.promo.promote.range)",
+      { buffer = 0, desc = "Promote Object (Non-Recursively)" }
+    )
+    vim.keymap.set(
+      "x",
+      "<",
+      "<Plug>(neorg.promo.demote.range)",
+      { buffer = 0, desc = "Demote Object (Non-Recursively)" }
+    )
+
+    --------------- PIVOT ---------------
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "lt",
+      "<Plug>(neorg.pivot.toggle-list-type)",
+      { buffer = 0, desc = "Toggle List Type" }
+    )
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "li",
+      "<Plug>(neorg.pivot.invert-list-type)",
+      { buffer = 0, desc = "Toggle List Type (Respecting Mixed List Types)" }
+    )
+
+    --------------- QOL TODO ---------------
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "tu",
+      "<Plug>(neorg.qol.todo-items.todo.task-undone)",
+      { buffer = 0, desc = "Mark as Undone" }
+    )
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "tp",
+      "<Plug>(neorg.qol.todo-items.todo.task-pending)",
+      { buffer = 0, desc = "Mark as Pending" }
+    )
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "td",
+      "<Plug>(neorg.qol.todo-items.todo.task-done)",
+      { buffer = 0, desc = "Mark as Done" }
+    )
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "th",
+      "<Plug>(neorg.qol.todo-items.todo.task-on-hold)",
+      { buffer = 0, desc = "Mark as On Hold" }
+    )
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "tc",
+      "<Plug>(neorg.qol.todo-items.todo.task-cancelled)",
+      { buffer = 0, desc = "Mark as Cancelled" }
+    )
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "tr",
+      "<Plug>(neorg.qol.todo-items.todo.task-recurring)",
+      { buffer = 0, desc = "Mark as Recurring" }
+    )
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "ti",
+      "<Plug>(neorg.qol.todo-items.todo.task-important)",
+      { buffer = 0, desc = "Mark as Important" }
+    )
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "ta",
+      "<Plug>(neorg.qol.todo-items.todo.task-ambiguous)",
+      { buffer = 0, desc = "Mark as Ambigous" }
+    )
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "tt",
+      "<Plug>(neorg.qol.todo-items.todo.task-cycle)",
+      { buffer = 0, desc = "Cycle Task" }
+    )
+  end,
+})
+
+-- HACK: manually trigger filetype autocmd if a norg buffer was opened before this configuration file loaded
+if vim.o.filetype == "norg" then
+  vim.api.nvim_exec_autocmds("Filetype", {
+    pattern = "norg",
+  })
+end

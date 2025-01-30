@@ -100,3 +100,7 @@ require("nvim-silicon").setup({
   --   return os.getenv("HOME") .. "/pictures/silicon_" .. os.date("!%Y-%m-%d_%H:%M:%S") .. ".png"
   -- end,
 })
+
+vim.api.nvim_create_user_command("Silicon", function()
+  require("nvim-silicon").clip()
+end, { nargs = 0, range = true })

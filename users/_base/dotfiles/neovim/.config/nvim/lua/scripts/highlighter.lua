@@ -16,7 +16,7 @@ function highlighter.highlight(motion)
   local start_row = start_line - 1
   local end_row = end_line - 1
 
-  vim.api.nvim_buf_clear_namespace(0, highlighter.ns, 0, -1)
+  -- vim.api.nvim_buf_clear_namespace(0, highlighter.ns, 0, -1)
 
   if motion == "char" then
     vim.api.nvim_buf_set_extmark(0, highlighter.ns, start_row, start_col, {
@@ -34,7 +34,7 @@ function highlighter.highlight(motion)
   elseif motion == "block" then
     for row = start_row, end_row do
       if curswant == vim.v.maxcol then
-        end_col = vim.fn.strdisplaywidth(vim.api.nvim_buf_get_lines(0, row, row + 1, false)[1]) - 1
+        end_col = #vim.api.nvim_buf_get_lines(0, row, row + 1, false)[1] - 1
       end
       vim.api.nvim_buf_set_extmark(0, highlighter.ns, row, start_col, {
         end_col = end_col + 1,
@@ -54,11 +54,11 @@ function highlighter.clear()
   vim.api.nvim_buf_clear_namespace(0, highlighter.ns, 0, -1)
 end
 
-vim.api.nvim_create_autocmd("ColorScheme", {
+vim.api.nvim_create_autocmd({ "ColorScheme", "VimEnter" }, {
   pattern = "*",
   callback = function()
     local dye = require("dye")
-    vim.api.nvim_set_hl(0, "Highlighter", { bg = dye.CursorLine.bg.blend(dye.Normal.bg.hsl, 0.5).hex })
+    vim.api.nvim_set_hl(0, "Highlighter", { bg = dye.String.fg.blend(dye.Normal.bg.hsl, 0.8).hex })
   end,
 })
 

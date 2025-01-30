@@ -400,6 +400,8 @@ keymap("x", "<leader>?", "<esc>?\\%V", { noremap = true, desc = "Search backward
 
 keymap({ "n", "i", "t" }, "<C-CR>", "<cmd>vnew | term<CR>", { noremap = true })
 
+keymap({ "n", "i", "t" }, "<C-S-CR>", "<cmd>new | term<CR>", { noremap = true })
+
 keymap({ "n" }, "g<C-CR>", "<cmd>term<CR>", { noremap = true })
 
 keymap({ "n" }, "<leader><C-CR>", "<cmd>tabnew | term<CR>", { noremap = true })

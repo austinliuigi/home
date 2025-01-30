@@ -21,7 +21,6 @@ vim.api.nvim_create_user_command("Tree", function(attrs)
   end
 
   local bufnr, node_map = tree:output_to_buffer()
-  vim.cmd("topleft vnew")
   vim.api.nvim_set_current_buf(bufnr)
   vim.bo[bufnr].modifiable = false
 
