@@ -11,7 +11,7 @@ case "$option" in
         ;;
     "Disconnect")
         iwctl station wlan0 disconnect
-        notify-send --urgency=normal --icon="$HOME/.cache/tin/icons/wifi-none.png" "WiFi" "Disconnected"
+        notify-send --urgency=normal --icon="$HOME/.cache/txn/icons/wifi-none.png" "WiFi" "Disconnected"
         ;;
     "Forget")
         eval "${HOME}/.local/share/rofi/scripts/wifi/forget.sh"

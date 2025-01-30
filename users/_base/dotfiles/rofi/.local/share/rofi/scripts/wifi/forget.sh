@@ -30,4 +30,4 @@ network="$(echo -e $known_networks | rofi -dmenu -i -p "network")"
 exit_if_error "cancelled"
 
 iwctl known-networks "$network" forget
-notify-send --urgency=normal --icon="$HOME/.cache/tin/icons/wifi-none.png" "WiFi" "Successfully forgot $network"
+notify-send --urgency=normal --icon="$HOME/.cache/txn/icons/wifi-none.png" "WiFi" "Successfully forgot $network"

@@ -76,15 +76,15 @@ strength="$(echo "$network_dump" | grep "$network" | awk '{print $NF}' | grep -o
 function notify() {
     if [ "$?" -eq 0 ]; then
         if [ "$strength" -ge 4 ]; then
-            icon="$HOME/.cache/tin/icons/wifi-strong.png"
+            icon="$HOME/.cache/txn/icons/wifi-strong.png"
         elif [ "$strength" -ge 2 ]; then
-            icon="$HOME/.cache/tin/icons/wifi-ok.png"
+            icon="$HOME/.cache/txn/icons/wifi-ok.png"
         else
-            icon="$HOME/.cache/tin/icons/wifi-weak.png"
+            icon="$HOME/.cache/txn/icons/wifi-weak.png"
         fi
         notify-send --urgency=normal --icon="$icon" "WiFi" "Successfully connected to $network"
     else
-        icon="$HOME/.cache/tin/icons/wifi-none.png"
+        icon="$HOME/.cache/txn/icons/wifi-none.png"
         notify-send --urgency=normal --icon="$icon" "WiFi" "Failed to connect to $network"
     fi
 }

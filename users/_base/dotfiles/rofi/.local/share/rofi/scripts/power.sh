@@ -2,7 +2,6 @@
 
 if [ "$#" -eq 0 ]
 then
-    # list out choices
     echo "lock"
     echo "suspend"
     echo "reboot"
