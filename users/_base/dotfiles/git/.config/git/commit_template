@@ -1,0 +1,26 @@
+
+# ^
+# Choose the type of change that you're committing.
+# <type>[(<scope>)][!]: <description>
+# ------------------------------------------------
+# feat: New feature
+# fix: Bug fix
+# perf: Code change that improves performance
+# refactor: Code change that neither fixes a bug nor adds a feature
+# style: Formatting changes that dont affect the function of the code
+# docs: Documentation-only changes
+# test: Add missing tests or correct existing tests
+# build: Changes that affect the build system or external dependencies
+# ci: Changes to the CI configuration files and scripts
+# chore: Other changes that don't modify src or test files
+
+
+# ^
+# Explain the *what* and *why* (not *how*) of the commit.
+
+
+# ^
+# Reference issues that this commit closes. If commit introduces a breaking API change,
+# add a "BREAKING CHANGE:" section that details what breaks and how to migrate.
+# ----------------------------
+# https://tinyurl.com/2sb23ja6

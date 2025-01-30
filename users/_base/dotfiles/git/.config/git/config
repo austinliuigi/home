@@ -7,7 +7,7 @@
 [core]
 	editor = nvim
 	whitespace = fix,trailing-space,cr-at-eol
-	excludesFile = ~/.config/git/.gitignore
+	excludesFile = ~/.config/git/ignore
 	; pager = delta
 [color]
 	ui = auto
@@ -27,6 +27,8 @@
 	untracked = red bold
 [branch]
 	sort = committerdate
+[commit]
+	template = ~/.config/git/commit_template
 [diff]
 	tool = nvim
 	algorithm = histogram
