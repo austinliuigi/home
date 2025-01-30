@@ -53,6 +53,7 @@
       syncthing.enable   = true;
       tex.enable         = true;
       wezterm.enable     = true;
+      xdg.enable         = true;
       zoxide.enable      = true;
       zsh.enable         = true;
     };
