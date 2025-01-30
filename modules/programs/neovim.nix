@@ -15,6 +15,7 @@ in
       pkgs.neovim
       pkgs.luajit # required for luarocks.nvim
       pkgs.silicon
+      pkgs.tree-sitter
     ];
 
     home.file = {
