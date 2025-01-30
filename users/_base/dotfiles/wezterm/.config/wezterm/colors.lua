@@ -52,7 +52,7 @@ return {
   },
 
   brights = {
-    palette.base01, -- "grey"
+    palette.base03, -- "grey"
     palette.base12, -- "red"
     palette.base14, -- "lime"
     palette.base13, -- "yellow"
