@@ -57,6 +57,9 @@
       zoxide.enable      = true;
       zsh.enable         = true;
     };
+    scripts = {
+      fzmenu.enable      = true;
+    };
     txn = {
       shroomish.enable = true;
       cursors.enable = true;
