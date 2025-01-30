@@ -32,7 +32,7 @@ fi
 case "$mode" in
     # bulitin modes
     "apps")
-        rofi -show "drun"
+        rofi -drun-use-desktop-cache -show "drun"
         ;;
     "commands")
         rofi -show "run"
