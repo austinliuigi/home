@@ -41,7 +41,11 @@ local function merge_trees(t1, t2)
   for _, child in ipairs(t2.children) do
     local relative_path = string.sub(child.path, #t2.path + 2)
     local matched_node = t1:get_node(relative_path)
-    if not matched_node then
+    if
+      not matched_node
+      or ((child.type == "directory") and (matched_node.type ~= "directory"))
+      or ((matched_node.type == "directory") and (child.type ~= "directory"))
+    then
       insert_child(t1, child)
     elseif child.type == "directory" then
       merge_trees(matched_node, child)
