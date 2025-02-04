@@ -26,6 +26,7 @@
 
   modules = {
     programs = {
+      bash.enable        = true;
       c.enable           = true;
       common.enable      = true;
       core.enable        = true;

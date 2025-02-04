@@ -1,0 +1,57 @@
+if [ -d ~/.nix-profile/etc/profile.d ]; then
+  for file in ~/.nix-profile/etc/profile.d/*; do
+    . $file
+    # echo $file
+  done
+fi
+
+
+# ============= Environment Variables =============
+export EDITOR="nvim"
+export MANPAGER='nvim +Man!'
+export PATH="${HOME}/.local/bin:${PATH}"
+
+# https://geoff.greer.fm/lscolors/
+# https://unix.stackexchange.com/questions/2897/clicolor-and-ls-colors-in-bash
+export CLICOLOR=1 # enable colors in `ls` output for BSD implementation
+export LSCOLORS="ExGxFxDxCxDxDxhbhdacEc" # set colors for `ls` for BSD implementation
+export LS_COLORS="di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32" # set colors for `ls` for GNU implementation
+
+
+# ============= General Options =============
+shopt -s autocd        # cd into directory by just typing its name
+shopt -s checkwinsize  # after each command, update $LINES and $COLUMNS if necessary
+shopt -s globstar      # allow recursive glob with **
+
+
+# ============= History =============
+HISTFILE="$HOME/.local/state/bash/bash_history"
+HISTSIZE=999999      # number of lines of history to keep in me
+HISTFILESIZE=999999  # number of lines to keep in history file
+
+if [ ! -f $HISTFILE ]; then
+  mkdir -p "$(dirname $HISTFILE)"
+  touch "$HISTFILE"
+fi
+
+shopt -s histappend       # append to the history file instead of overwriting it
+HISTCONTROL=ignoreboth    # don't put duplicate lines or lines starting with space in the history. (See bash(1) for more options)
+HISTTIMEFORMAT='%F %T - ' # set format of history entries (%F = date, %T = time)
+
+
+# ============= Completion =============
+# Enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+
+# ============= Misc =============
+# Make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"

@@ -1,8 +1,8 @@
-### Modernized Core Commands
 if ! [ -z "$(command -v zoxide)" ]; then
     alias cd='z'
 fi
 
+### ls
 if ! [ -z "$(command -v lsd)" ]; then
     alias ls='lsd --group-directories-first'
     alias tree='lsd --tree --group-directories-first'
