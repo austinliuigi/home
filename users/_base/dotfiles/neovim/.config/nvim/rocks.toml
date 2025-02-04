@@ -1,4 +1,6 @@
 # Location of plugin configs for rocks-config.nvim
+#   - the file name for a respective plugin is searched for using a set of heuristics
+#     - https://github.com/nvim-neorocks/rocks-config.nvim?tab=readme-ov-file#plugins_dir
 [config]
 plugins_dir = "config/plugins/configurations/"
 auto_setup = false
@@ -16,13 +18,19 @@ import = "config/plugins/lazy_specs_post"
 #   - plugins with a dot in the name must be quoted
 [plugins]
 
-# ====== LUAROCKS ======
+# ====== LOCAL PLUGINS ======
+"bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = false }
+"palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
+"dye.nvim" = { dir = "~/projects/dye.nvim", opt = false }
+
+# ====== LUAROCK PLUGINS ======
 "actions-preview.nvim" = { version = "scm", opt = true }
 "aerial.nvim" = { version = "scm", opt = true }
 "conform.nvim" = { version = "8.4.0", opt = true }
 "diffview.nvim" = { version = "scm", opt = true }
 "flatten.nvim" = { version = "0.5.1", opt = false }
 "oil.nvim" = { version = "2.14.0", opt = true }
+"persistence.nvim" = { version = "scm", opt = true }
 "rainbow-delimiters.nvim" = { version = "0.8.0", opt = true }
 "rocks-config.nvim" = { version = "3.1.0" }
 "rocks-dev.nvim" = { version = "1.7.0", opt = true }
@@ -30,6 +38,7 @@ import = "config/plugins/lazy_specs_post"
 "rocks-lazy.nvim" = { version = "1.1.1" }
 "rocks.nvim" = { version = "2.40.0" }
 "telescope.nvim" = { version = "scm", opt = true }
+# fzf-lua = { version = "0.0.1719", opt = true }
 luasnip = { version = "2.3.0", opt = true }
 neogen = { version = "2.20.0", opt = false }
 neogit = { version = "2.0.0", opt = true }
@@ -42,24 +51,36 @@ nvim-lspconfig = { version = "1.4.0", opt = true }
 nvim-navic = { version = "scm", opt = true }
 nvim-notify = { version = "3.15.0", opt = true }
 nvim-surround = { version = "2.1.5", opt = true }
+nvim-treesitter-context = { version = "scm", opt = true }
 nvim-treesitter-textobjects = { version = "scm", opt = true }
 nvim-ts-autotag = { version = "scm", opt = true }
 
-# ====== LOCAL PLUGINS ======
-"bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = false }
-"palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
-"dye.nvim" = { dir = "~/projects/dye.nvim", opt = false }
-
 # ====== GIT PLUGINS ======
+[plugins."fzf-lua"]
+git = "phanen/fzf-lua"
+rev = "fix-fifo-block"
+opt = true
+
 [plugins."blame.nvim"]
 git = "FabijanZulj/blame.nvim"
 rev = "39bb4cda9e658d053a43919b10ca52c0a4d738e1"
+opt = true
+
+[plugins."satellite.nvim"]
+git = "lewis6991/satellite.nvim"
+rev = "main"
 opt = true
 
 [plugins."lasso.nvim" ]
 git = "austinliuigi/lasso.nvim"
 rev = "321bb52116f470c43d83f78fa8549cefdb7f3cec"
 opt = true
+
+[plugins."blink.cmp"]
+git = "Saghen/blink.cmp"
+rev = "v0.11.0"
+opt = true
+config = "config.plugins.configurations.blink"
 
 [plugins."telescope-fzf-native.nvim" ]
 git = "nvim-telescope/telescope-fzf-native.nvim"
