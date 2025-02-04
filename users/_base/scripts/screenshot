@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+function exit_if_error() {
+    if [ "$?" != 0 ]; then
+        echo "$1" >&2
+        notify-send --urgency=normal "Screenshot" "$1"
+        exit
+    fi
+}
+
+function notify() {
+    echo "Screenshot saved to $1"
+
+    notify-send --urgency=normal --icon="$HOME/.cache/txn/icons/image.png" "Screenshot" "Saved to $1"
+}
+
+dir="$(echo -e "clipboard\n$(fd . ~ --type=d)" | fzf --no-clear --prompt="(Directory or clipboard): ")"
+exit_if_error "Cancelled"
+
+if [ "$dir" == "clipboard" ]; then
+    SAVED_OPTS=$(set +o)
+    set -o pipefail
+    grim -t png -g "$(slurp -d)" - | wl-copy -t image/png
+    exit_if_error "Cancelled"
+    eval "$SAVED_OPTS"
+
+    notify "$dir"
+else
+    filename="$(fzf --prompt="(Filename) $dir")"
+    exit_if_error "Cancelled"
+
+    filepath="${dir}${filename}"
+    grim -t png -g "$(slurp -d)" "$filepath"
+    exit_if_error "Cancelled"
+
+    notify "$filepath"
+fi
