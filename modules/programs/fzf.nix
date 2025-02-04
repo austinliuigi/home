@@ -2,49 +2,32 @@
 
 let
   cfg = config.modules.programs.fzf;
+
+  # wrap fzf to use palette
+  #   - better than an alias or function because they work in non-interactive shells
+  #     - bash allows exporting functions but zsh doesn't
+  #   - better than a signal handler that refreshes FZF_DEFAULT_OPTS because there's
+  #     a lot of edge cases to consider when finding all the shells to send a signal to
+  fzf_wrapper = pkgs.writeShellScriptBin "fzf" ''
+    source ~/.local/share/fzf/palette.sh
+
+    export FZF_DEFAULT_OPTS=\
+    " --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D"\
+    " --color=fg:$color03,header:$color0D,info:$color0A,pointer:$color0C"\
+    " --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D"
+
+    ${pkgs.fzf}/bin/fzf "$@" </proc/$$/fd/0 >/proc/$$/fd/1 2>/proc/$$/fd/2
+  '';
 in
 {
   options.modules.programs.fzf.enable = lib.mkEnableOption "fzf module";
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ pkgs.fzf ];
+    home.packages = [ fzf_wrapper ];
 
     home.file = {
       ".local/share/fzf/palette.sh" = {
         text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.fzf}/.local/share/fzf/palette.sh"; comment_start = "#"; };
-        # Source palette.sh on colorscheme change
-        #   Option 1: make script that uses bash trap builtin to handle SIGUSR1 signal
-        #     - run script in background in bashrc
-        #     - kill -SIGUSR1 the script onChange
-        #     - won't dynamically change running fzf processes
-        #   Option 2: make wrapper script around fzf that uses bash trap builtin to handle SIGUSR1 signal
-        #     - run fzf with --print-query by default
-        #     - in trap function, update FZF_DEFAULT_OPTS and run fzf with --print-query to allow
-        #        multiple calls and --query option to restore state of previous fzf
-        #     - script should forward the output of fzf with the printed query stripped away
-
-        onChange = ''
-          # note: busybox's pgrep implementation doesn't include the --full flag, but does include the synonomous -f flag
-          # bash_procs=$(${pkgs.busybox}/bin/pgrep -f bash || true)
-          # if [ -n "$bash_procs" ]; then
-          #   echo "fzf: reloading config"
-          #   # this may also catch the sub-shell that is used to invoke the kill command, so we need to ignore the error
-          #   kill -SIGUSR1 $bash_procs 2>/dev/null || true
-          # fi
-
-          # note: busybox's pgrep implementation doesn't include the --full flag, but does include the synonomous -f flag
-          zsh_procs=$(${pkgs.busybox}/bin/pgrep -f zsh || true)
-          for proc in $zsh_procs; do
-            echo $proc
-            # echo "$(${pkgs.ps}/bin/ps aux | grep $proc)"
-            kill -SIGUSR1 $zsh_procs 2>/dev/null
-          done
-          # if [ -n "$zsh_procs" ]; then
-          #   echo "fzf: reloading config"
-          #   # this may also catch the sub-shell that is used to invoke the kill command, so we need to ignore the error
-          #   kill -SIGUSR1 $zsh_procs 2>/dev/null || true
-          # fi
-        '';
       };
       ".config/fzf".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.fzf}/.config/fzf";
     };

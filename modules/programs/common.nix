@@ -10,7 +10,6 @@ in
     home.packages = [
       pkgs.btop
       pkgs.fd
-      pkgs.fzf
       pkgs.jq
       pkgs.lsd
       pkgs.ripgrep

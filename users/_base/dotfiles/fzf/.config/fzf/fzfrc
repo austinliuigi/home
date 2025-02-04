@@ -3,34 +3,3 @@
 if [ "$(command -v fd)" ]; then
     FZF_DEFAULT_COMMAND="fd --type f"
 fi
-# FZF_DEFAULT_OPTS=
-
-# FZF_CTRL_R_OPTS=
-
-# FZF_ALT_C_COMMAND=
-# FZF_ALT_C_OPTS=
-
-# FZF_CTRL_T_COMMAND=
-# FZF_CTRL_T_OPTS=
-
-
-_gen_fzf_theme() {
-source ~/.local/share/fzf/palette.sh
-
-# the non-indentation makes the line continuations of strings behave properly
-export FZF_DEFAULT_OPTS=\
-" --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D"\
-" --color=fg:$color03,header:$color0D,info:$color0A,pointer:$color0C"\
-" --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D"
-}
-# export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"\
-# " --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D"\
-# " --color=fg:$color03,header:$color0D,info:$color0A,pointer:$color0C"\
-# " --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D"
-# }
-
-_gen_fzf_theme
-
-# the process that `source`s this script inherits this trap, i.e. if it
-# receives SIGUSR1, this function runs in its environment
-trap _gen_fzf_theme SIGUSR1 
