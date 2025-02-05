@@ -32,11 +32,11 @@ import = "config/plugins/lazy_specs_post"
 "oil.nvim" = { version = "2.14.0", opt = true }
 "persistence.nvim" = { version = "scm", opt = true }
 "rainbow-delimiters.nvim" = { version = "0.8.0", opt = true }
-"rocks-config.nvim" = { version = "3.1.0" }
-"rocks-dev.nvim" = { version = "1.7.0", opt = true }
-"rocks-git.nvim" = { version = "2.5.2", opt = true }
+"rocks-config.nvim" = { version = "3.1.0", opt = false }
+"rocks-dev.nvim" = { version = "1.7.0", opt = false }
+"rocks-git.nvim" = { version = "2.5.2", opt = false }
 "rocks-lazy.nvim" = { version = "1.1.1" }
-"rocks.nvim" = { version = "2.40.0" }
+"rocks.nvim" = { version = "2.40.0", opt = false }
 "telescope.nvim" = { version = "scm", opt = true }
 # fzf-lua = { version = "0.0.1719", opt = true }
 luasnip = { version = "2.3.0", opt = true }
