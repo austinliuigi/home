@@ -10,34 +10,52 @@ if [ -d ~/.nix-profile/etc/profile.d ]; then
   done
 fi
 
-# Environment Variables
+
+# ============= Environment Variables =============
 export EDITOR="nvim"
-export PATH="${HOME}/.local/bin:${PATH}"
 export MANPAGER='nvim +Man!'
+export PATH="${HOME}/.local/bin:${PATH}"
 
-export CLICOLOR=1
-export LSCOLORS="ExGxFxDxCxDxDxhbhdacEc"
-export LS_COLORS="di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32"
+# https://geoff.greer.fm/lscolors/
+# https://unix.stackexchange.com/questions/2897/clicolor-and-ls-colors-in-bash
+export CLICOLOR=1 # enable colors in `ls` output for BSD implementation
+export LSCOLORS="ExGxFxDxCxDxDxhbhdacEc" # set colors for `ls` for BSD implementation
+export LS_COLORS="di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32" # set colors for `ls` for GNU implementation
 
-# History
+
+# ============= General Options =============
+setopt autocd       # Type directory to cd
+setopt nocaseglob   # Case insensitive globbing
+
+
+# ============= History =============
+# https://zsh.sourceforge.io/Doc/Release/Options.html#History
+# history list is in ram, history file is on disk
 HISTFILE="$HOME/.local/state/zsh/zsh_history"   # File to store history in
 HISTSIZE=999999                 # Number of lines of history to keep in memory
 SAVEHIST=$HISTSIZE              # Number of lines to keep in history file
 
-setopt HIST_IGNORE_DUPS         # Do not put command into history if it's a dup of the previous command
-unsetopt HIST_IGNORE_ALL_DUPS   # Do not put duplicated command into list
-setopt HIST_SAVE_NO_DUPS        # Do not save duplicated command
-setopt HIST_REDUCE_BLANKS       # Remove unnecessary blanks
-setopt INC_APPEND_HISTORY_TIME  # Append command to history file immediately after execution
-setopt EXTENDED_HISTORY         # Record command start time
+if [ ! -f $HISTFILE ]; then
+  mkdir -p "$(dirname $HISTFILE)"
+  touch "$HISTFILE"
+fi
 
-# General Options
-setopt autocd       # Type directory to cd
-setopt nocaseglob   # Case insensitive globbing
-# setopt correct      # Suggest corrections for mis-spelled commands
-# setopt correctall   # Suggest corrections for mis-spelled arguments
+setopt BANG_HIST                 # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt INC_APPEND_HISTORY_TIME   # Write to the history file immediately, not when the shell exits.
+unsetopt SHARE_HISTORY           # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history list.
+setopt HIST_IGNORE_DUPS          # Don't add new entry to  history list if it's a dup of the previous entry.
+unsetopt HIST_IGNORE_ALL_DUPS    # Delete duplicate entries in history list if new entry is a duplicate.
+unsetopt HIST_FIND_NO_DUPS       # Do not display a line previously found when going through history via the up and down arrow keys.
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
+unsetopt HIST_SAVE_NO_DUPS       # Delete old duplicate entries in the history file when writing it out.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+unsetopt HIST_VERIFY             # Expand commands including history expansion rather than executing it.
+setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
-# Completion Options
+
+# ============= Completion =============
 # autoload -U compinit
 zstyle ':completion:*' menu select                          # Menu completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'         # Case insensitive completion
@@ -47,7 +65,8 @@ setopt menu_complete                                        # Complete first mat
 unsetopt list_beep                                          # Turn off beeping on ambiguous completions
 setopt glob_dots                                            # Match hidden files
 
-# Plugin Options
+
+# ============= Plugin Options =============
 zstyle ':fzf-tab:*' continuous-trigger 'right'
 zstyle ':fzf-tab:complete:*' fzf-flags '--query='
 

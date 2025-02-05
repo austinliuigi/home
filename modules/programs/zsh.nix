@@ -49,18 +49,18 @@ in
           };
         }
       ];
-      history = {
-        # Note: these will get overriden by our own zshrc
-        size = 999999;
-        save = 999999;
-        path = "${config.home.homeDirectory}/.local/state/zsh/zsh_history";
-        ignoreDups = false;
-        ignoreAllDups = false;
-        ignoreSpace = false;
-        expireDuplicatesFirst = false;
-        share = false;
-        extended = false;
-      };
+      # history = {
+      #   # Note: these will get overriden by our own zshrc
+      #   size = 999999;
+      #   save = 999999;
+      #   path = "${config.home.homeDirectory}/.local/state/zsh/zsh_history";
+      #   ignoreDups = false;
+      #   ignoreAllDups = false;
+      #   ignoreSpace = false;
+      #   expireDuplicatesFirst = false;
+      #   share = false;
+      #   extended = false;
+      # };
       autosuggestion.enable = true;
       syntaxHighlighting = {
         enable = true;
