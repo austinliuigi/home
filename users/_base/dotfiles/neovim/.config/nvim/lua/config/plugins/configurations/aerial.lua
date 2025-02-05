@@ -336,3 +336,5 @@ require("aerial").setup({
     update_delay = 300,
   },
 })
+
+vim.keymap.set({ "n", "x" }, "<C-=>", "<cmd>AerialToggle<CR>", { remap = false })
