@@ -14,7 +14,6 @@ in
       pkgs.lsd
       pkgs.ripgrep
       pkgs.tealdeer
-      pkgs.zsh
     ];
   };
 }

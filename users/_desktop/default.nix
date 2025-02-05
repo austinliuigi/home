@@ -3,8 +3,7 @@
 {
   home.packages = [
     pkgs.xclip
-    pkgs.xdg-utils
-    pkgs.deno
+    # pkgs.deno
     pkgs.pamixer
     pkgs.gimp
     pkgs.inkscape
@@ -22,6 +21,9 @@
     pkgs.lshw
     pkgs.dmidecode
     pkgs.gparted
+
+    pkgs.gthumb
+    pkgs.exiv2
   ];
 
   modules = {
@@ -43,7 +45,7 @@
       kdeconnect.enable  = true;
       kitty.enable       = true;
       live-server.enable = true;
-      localsend.enable  = true;
+      localsend.enable   = true;
       lua.enable         = true;
       mpv.enable         = true;
       neovim.enable      = true;

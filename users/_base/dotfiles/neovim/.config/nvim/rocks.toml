@@ -22,6 +22,7 @@ import = "config/plugins/lazy_specs_post"
 "bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = false }
 "palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
 "dye.nvim" = { dir = "~/projects/dye.nvim", opt = false }
+# "smoothie.nvim" = { dir = "~/projects/smoothie.nvim", config = "plugin.mysmoothie" }
 
 # ====== LUAROCK PLUGINS ======
 "actions-preview.nvim" = { version = "scm", opt = true }
@@ -203,4 +204,3 @@ opt = true
 git = "rhysd/committia.vim"
 rev = "c8c0f255e8090ed90dd9d5dd2e8672994f8e3671"
 opt = false
-# "smoothie.nvim" = { dir = "~/projects/smoothie.nvim", config = "plugin.mysmoothie" }
