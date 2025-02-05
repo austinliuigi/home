@@ -1,7 +1,16 @@
+local config = {
+  bold = true,
+  italic = true,
+  transparent = false,
+  transparent_float = false,
+  dim_nc_background = false,
+  line = "underline",
+}
+
 vim.api.nvim_create_user_command("PaletteLoad", function()
-  local config_ok, config = pcall(dofile, string.format("%s/palette.lua", vim.fn.stdpath("data")))
-  if config_ok then
-    require("palette").setup(config)
+  local palette_ok, palette = pcall(dofile, string.format("%s/palette.lua", vim.fn.stdpath("data")))
+  if palette_ok then
+    require("palette").setup(vim.tbl_extend("force", config, palette))
     vim.cmd("colorscheme palette")
   else
     vim.notify("config: palette config not found", vim.log.levels.ERROR)
