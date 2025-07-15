@@ -10,26 +10,7 @@ in
     programs.zsh = {
       enable = true;
       dotDir = ".config/zsh";
-      enableCompletion = true;
       plugins = [
-        # {
-        #   name = "zsh-autosuggestions";
-        #   src = pkgs.fetchFromGitHub {
-        #     owner = "zsh-users";
-        #     repo = "zsh-autosuggestions";
-        #     rev = "v0.7.0";
-        #     sha256 = "sha256-KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
-        #   };
-        # }
-        # {
-        #   name = "zsh-syntax-highlighting";
-        #   src = pkgs.fetchFromGitHub {
-        #     owner = "zsh-users";
-        #     repo = "zsh-syntax-highlighting";
-        #     rev = "0.7.1";
-        #     sha256 = "sha256-gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
-        #   };
-        # }
         {
           name = "gitstatus";
           src = pkgs.fetchFromGitHub {
@@ -48,6 +29,15 @@ in
             sha256 = "sha256-gvZp8P3quOtcy1Xtt1LAW1cfZ/zCtnAmnWqcwrKel6w=";
           };
         }
+        # {
+        #   name = "fast-syntax-highlighting";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "zdharma-continuum";
+        #     repo = "fast-syntax-highlighting";
+        #     rev = "v1.55";
+        #     sha256 = "sha256-DWVFBoICroKaKgByLmDEo4O+xo6eA8YO792g8t8R7kA=";
+        #   };
+        # }
       ];
       # history = {
       #   # Note: these will get overriden by our own zshrc
@@ -62,12 +52,45 @@ in
       #   extended = false;
       # };
       autosuggestion.enable = true;
-      syntaxHighlighting = {
-        enable = true;
-      };
-      # initExtraFirst = ''
-      #   zmodload zsh/zprof
-      # '';
+      syntaxHighlighting.enable = true;
+      zprof.enable = false;
+      enableCompletion = true;
+      completionInit = ''
+        autoload -Uz compinit
+
+        # Only check once a day to see if zcompdump needs a rebuild
+        #   - https://gist.github.com/ctechols/ca1035271ad134841284
+        #   - https://htr3n.github.io/2018/07/faster-zsh/#optimising-completion-system
+        if [ $(date +"%j") != $(date --date="$(stat --printf=%x "''${ZDOTDIR:-$HOME}/.zcompdump")" +"%j") ]; then
+                echo checking zcompdump
+                compinit;
+                touch "''${ZDOTDIR:-$HOME}/.zcompdump" # update access time manually in case no rebulid was necessary
+        else
+                compinit -C;
+        fi;
+
+        # Compile the completion dump to increase startup speed. Run in background.
+        #   - https://news.ycombinator.com/item?id=40128826
+        #   - https://zsh.sourceforge.io/Doc/Release/Completion-System.html
+        {
+          zcompdump="''${ZDOTDIR:-$HOME}/.zcompdump"
+
+          # if zcompdump file exists, and we don't have a compiled version or the dump file is newer than the compiled file
+          if [[ -s "$zcompdump" && (! -s "''${zcompdump}.zwc" || "$zcompdump" -nt "''${zcompdump}.zwc") ]]; then
+            zcompile "$zcompdump"
+          fi
+        } &!
+      '';
+      initExtraFirst = ''
+        # Compile if the .zwc file does not exist, or the base file is newer.
+        # These jobs are asynchronous, and will not impact the interactive shell
+        #   - https://medium.com/@voyeg3r/holy-grail-of-zsh-performance-a56b3d72265d
+        zcompile_if_needed() {
+          if [[ -s ''${1} && ( ! -s ''${1}.zwc || ''${1} -nt ''${1}.zwc) ]]; then
+            zcompile ''${1}
+          fi
+        }
+      '';
       initExtra = ''
         source ~/.config/zsh/config/aliases.sh
         source ~/.config/zsh/config/keybinds.zsh
