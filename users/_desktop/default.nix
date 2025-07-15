@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
 
 {
+  home.sessionPath = [ "$HOME/.local/bin" ];
+
   home.packages = [
     pkgs.xclip
     # pkgs.deno
@@ -8,6 +10,7 @@
     pkgs.gimp
     pkgs.inkscape
     pkgs.blender
+    pkgs.obs-studio
     pkgs.nodejs
     # pkgs.brave
     pkgs.nyxt
@@ -21,9 +24,10 @@
     pkgs.lshw
     pkgs.dmidecode
     pkgs.gparted
+    pkgs.udiskie
 
     pkgs.gthumb
-    pkgs.exiv2
+    pkgs.exiftool
   ];
 
   modules = {
@@ -35,7 +39,6 @@
       direnv.enable      = true;
       dunst.enable       = true;
       foot.enable        = true;
-      fuzzel.enable      = true;
       fzf.enable         = true;
       ghostty.enable     = true;
       git.enable         = true;
@@ -53,6 +56,7 @@
       pcmanfm.enable     = true;
       python.enable      = true;
       sioyek.enable      = true;
+      sops.enable        = true;
       syncthing.enable   = true;
       tex.enable         = true;
       wezterm.enable     = true;
@@ -61,7 +65,9 @@
       zsh.enable         = true;
     };
     scripts = {
-      fzmenu.enable      = true;
+      todo.enable        = true;
+      menu.enable        = true;
+      fzmenu.enable      = true; 
     };
     txn = {
       shroomish.enable = true;
