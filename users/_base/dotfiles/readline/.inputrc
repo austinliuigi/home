@@ -1,0 +1,48 @@
+$include /etc/inputrc
+
+# ========== Options ==========
+set editing-mode vi
+set bell-style none
+# set colored-completion-prefix on       # colorize a common prefix in ambiguous completion
+set colored-stats on                     # colorize completions based on filetype
+set completion-ignore-case on            # ignorecase for completion and filename matching
+set keyseq-timeout 1
+# set mark-modified-lines on             # prefix modified history lines with a '*'
+set mark-symlinked-directories on        # append a '/' to completed symlinks that point to a dir
+# set match-hidden-files off             # require a manually supplied '.' to autocomplete hidden files
+set menu-complete-display-prefix off     # insert common prefix in when ambiguous instead of first match
+# set print-completions-horizontally on  # display completions horizontally rather than vertically
+set revert-all-at-newline on             # disable alterations to history
+set show-all-if-ambiguous on             # list matches rather than ringing bell if word has more than one possible completion
+# set show-all-if-unmodified on          # same as show-all-if-ambigious but when the matches don't share a common prefix
+set show-mode-in-prompt on               # add string to beginning of prompt that indicates editing mode
+set vi-cmd-mode-string \1\e[1 q\2
+set vi-ins-mode-string \1\e[5 q\2
+
+# ========== Bindings ==========
+# Bind xxx to complete (for show-all-if-ambiguous without completion)
+# "xxx": complete
+
+# Bind tab to menu-complete rather than complete
+TAB: menu-complete
+
+# Bind S-tab to go backwards in menu-complete
+"\e[Z": menu-complete-backward
+
+# Bind C-l to clear screen
+"\C-l": clear-screen
+
+# Bind Up to go back in history using what is currently typed as context
+"\e[A": history-search-backward
+
+# Bind Down to go forward in history using what is currently typed as context
+"\e[B": history-search-forward
+
+# Bind C-f to go forward one character
+"\C-f": forward-char
+
+# Bind C-b to go backward one character
+"\C-b": backward-char
+
+# Bind C-] to expand special keywords
+"\C-]": shell-expand-line
