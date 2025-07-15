@@ -1,11 +1,21 @@
 #!/usr/bin/env bash
 
+# ========== GTD ==========
+if [ ! -d ~/gtd ]; then
+    echo "ERROR: directory ~/gtd does not exist"
+    exit 1
+fi
+
+cd ~/gtd
+
+
+# ========== NVIM ==========
 server_addr="${TMPDIR:-/tmp}/todo.nvim.pipe"
 
 if [ ! -e "${server_addr}" ]; then
-    echo starting server on "${server_addr}"
-    nvim --listen "${server_addr}"
+    # create new instance
+    nvim --listen "${server_addr}" .
 else
-    echo connecting to server on "${server_addr}"
+    # connect to existing instance
     nvim --server "${server_addr}" --remote-ui
 fi
