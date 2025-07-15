@@ -93,5 +93,11 @@ in
       ''
         export XDG_DATA_DIRS="${schemas}/share/gsettings-schemas/${schemas.name}:$XDG_DATA_DIRS"
       '';
+
+    # GTK4 applications don't pick up the theme set by gsettings, but they do pick up the theme set by $GTK_THEME
+    #   - e.g. ghostty when its config option `window-theme` is not set to `ghostty`
+    home.sessionVariables = {
+      GTK_THEME = "palette";
+    };
   };
 }

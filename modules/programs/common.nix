@@ -13,7 +13,10 @@ in
       pkgs.jq
       pkgs.lsd
       pkgs.ripgrep
+      pkgs.ripgrep-all
       pkgs.tealdeer
+      pkgs.inetutils
+      pkgs.dig
     ];
   };
 }

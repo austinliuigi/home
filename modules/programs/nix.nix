@@ -10,7 +10,8 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      pkgs.nil
+      # pkgs.nil
+      pkgs.nixd
     ];
   };
 }

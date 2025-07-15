@@ -12,6 +12,7 @@ in
     home.file = {
       ".local/share/ghostty/palette.config" = {
         text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.ghostty}/.local/share/ghostty/palette.config"; comment_start = "#"; };
+        # TODO: do this once an ipc for ghostty releases
         # onChange = ''
         #   procs=$(${pkgs.busybox}/bin/pgrep ghostty || true)
         #   if [ -n "$procs" ]; then

@@ -9,6 +9,7 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [
       pkgs.git
+      pkgs.gh
     ];
 
     home.file = {
