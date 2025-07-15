@@ -11,12 +11,18 @@ let
   fzf_wrapper = pkgs.writeShellScriptBin "fzf" ''
     source ~/.local/share/fzf/palette.sh
 
-    export FZF_DEFAULT_OPTS=\
+    # export FZF_DEFAULT_OPTS=\
+    # " --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D"\
+    # " --color=fg:$color03,header:$color0D,info:$color0A,pointer:$color0C"\
+    # " --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D"
+
+    WRAPPER_OPTS="$(echo \
     " --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D"\
     " --color=fg:$color03,header:$color0D,info:$color0A,pointer:$color0C"\
     " --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D"
+    )"
 
-    ${pkgs.fzf}/bin/fzf "$@" </proc/$$/fd/0 >/proc/$$/fd/1 2>/proc/$$/fd/2
+    ${pkgs.fzf}/bin/fzf "$@" $WRAPPER_OPTS </proc/$$/fd/0 >/proc/$$/fd/1 2>/proc/$$/fd/2
   '';
 in
 {
@@ -36,14 +42,12 @@ in
       source ${pkgs.fzf}/share/fzf/completion.bash
       source ${pkgs.fzf}/share/fzf/key-bindings.bash
       source ~/.config/fzf/fzfrc
-      source ~/.local/share/fzf/palette.sh
     '';
 
     programs.zsh.initExtra = ''
       source ${pkgs.fzf}/share/fzf/completion.zsh
       source ${pkgs.fzf}/share/fzf/key-bindings.zsh
       source ~/.config/fzf/fzfrc
-      source ~/.local/share/fzf/palette.sh
     '';
   };
 }
