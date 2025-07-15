@@ -1,4 +1,4 @@
 return {
   "blink.cmp",
-  event = { "InsertEnter", "CmdlineEnter" },
+  event = { "InsertEnter", "CmdlineEnter", "User CodeCompanionLoadPre" },
 }

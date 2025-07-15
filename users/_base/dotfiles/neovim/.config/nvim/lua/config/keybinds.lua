@@ -1,7 +1,7 @@
 local keymap = vim.keymap.set
 vim.g.toggle_key = "\\"
-vim.g.mapleader = " "
-vim.g.maplocalleader = "-"
+vim.g.mapleader = vim.api.nvim_replace_termcodes("<Space>", true, true, true)
+vim.g.maplocalleader = vim.api.nvim_replace_termcodes("<C-Space>", true, true, true)
 
 keymap("n", "<leader>", "<nop>", { noremap = true })
 
@@ -67,7 +67,7 @@ keymap({ "n", "x" }, "<leader>!", function()
   vim.schedule(function()
     vim.notify("Sourcing vimscript/lua")
   end)
-  return ":source %"
+  return ":source %<CR>"
 end, { noremap = true, silent = false, expr = true })
 
 keymap("n", "<leader>p", "<cmd>put<CR>", { noremap = true, silent = true })
@@ -244,13 +244,13 @@ end, { noremap = true, silent = true, desc = "Toggle background theme" })
 -- Special buffer mappings {{{
 
 -- ----- Terminal buffer -----
-keymap({ "n", "i", "t" }, "<C-CR>", "<cmd>vnew | term<CR>", { noremap = true })
+keymap({ "n", "i", "t" }, "<C-;>", "<cmd>vnew | term<CR>", { noremap = true })
 
-keymap({ "n", "i", "t" }, "<C-S-CR>", "<cmd>new | term<CR>", { noremap = true })
+keymap({ "n", "i", "t" }, "<C-S-;>", "<cmd>new | term<CR>", { noremap = true })
 
-keymap({ "n" }, "<leader><C-CR>", "<cmd>term<CR>", { noremap = true })
+keymap({ "n" }, "<leader><C-;>", "<cmd>term<CR>", { noremap = true })
 
-keymap({ "n" }, "<leader><C-S-CR>", "<cmd>tabnew | term<CR>", { noremap = true })
+keymap({ "n" }, "<leader><C-S-;>", "<cmd>tabnew | term<CR>", { noremap = true })
 
 -- ----- Directory buffer -----
 local function dir_buffer(open_cmd)
@@ -377,13 +377,13 @@ keymap({ "n" }, "<leader><C-h>", "<cmd>new<CR>", { noremap = true })
 
 keymap({ "n" }, "<leader><C-v>", "<cmd>vnew<CR>", { noremap = true })
 
-keymap({ "n", "i", "t" }, "<C-h>", "<cmd>wincmd h<CR>", { noremap = true })
+keymap({ "n", "i", "t" }, "<C-h>", "<cmd>wincmd h<CR><Esc>", { noremap = true })
 
-keymap({ "n", "i", "t" }, "<C-j>", "<cmd>wincmd j<CR>", { noremap = true })
+keymap({ "n", "i", "t" }, "<C-j>", "<cmd>wincmd j<CR><Esc>", { noremap = true })
 
-keymap({ "n", "i", "t" }, "<C-k>", "<cmd>wincmd k<CR>", { noremap = true })
+keymap({ "n", "i", "t" }, "<C-k>", "<cmd>wincmd k<CR><Esc>", { noremap = true })
 
-keymap({ "n", "i", "t" }, "<C-l>", "<cmd>wincmd l<CR>", { noremap = true })
+keymap({ "n", "i", "t" }, "<C-l>", "<cmd>wincmd l<CR><Esc>", { noremap = true })
 
 ---@param direction "h"|"j"|"k"|"l"
 local function swap_window(direction)

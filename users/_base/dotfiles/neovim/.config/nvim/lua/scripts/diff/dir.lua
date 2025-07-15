@@ -131,7 +131,7 @@ vim.api.nvim_create_user_command("DiffDir", function(attrs)
       end
 
       -- note: since both string.find and nvim_buf_set_extmark work byte-wise, there doesn't need to be any conversion for wide characters
-      local start_col, end_col = string.find(line, vim.fs.basename(node_map[linenr].path))
+      local start_col, end_col = string.find(line, vim.fs.basename(node_map[linenr].path), 1, true)
       vim.api.nvim_buf_set_extmark(selection_bufnr, ns, linenr - 1, start_col - 1, {
         end_row = linenr - 1,
         end_col = end_col,

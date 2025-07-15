@@ -204,7 +204,7 @@ vim.opt.foldmethod = "expr"
 
 vim.o.foldtext = ""
 vim.opt.fillchars:append({ fold = " " })
-vim.o.foldlevelstart = 1
+vim.o.foldlevelstart = 99
 -- }}}
 -- Diff {{{
 -- vim.opt.fillchars += diff:╱

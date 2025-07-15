@@ -17,12 +17,24 @@ require("blink.cmp").setup({
       border = "rounded", -- 'none' | 'single' | 'double' | 'rounded' | 'solid' | 'shadow' | 'padded'
       draw = {
         gap = 2,
+        -- available components for each column: https://cmp.saghen.dev/configuration/completion.html#available-components
         columns = function(ctx)
-          if ctx.mode == "cmdline" then
-            return { { "kind_icon", "label", gap = 1 } }
+          if ctx.mode ~= "cmdline" then
+            return { { "label" }, { "kind_icon", "kind", gap = 1 }, { "source_name" } }
           end
-          return { { "label" }, { "kind_icon", "kind", gap = 1 } }
+          return { { "kind_icon", "label", gap = 1 } }
         end,
+        -- custom components
+        components = {
+          kind_icon = {
+            text = function(ctx)
+              if require("blink.cmp.completion.windows.render.tailwind").get_hex_color(ctx.item) then
+                return "󱓻"
+              end
+              return ctx.kind_icon .. ctx.icon_gap
+            end,
+          },
+        },
         treesitter = { "lsp" }, -- use treesitter to highlight the label text
       },
     },
@@ -55,7 +67,7 @@ require("blink.cmp").setup({
   sources = {
     -- ----- Enabled sources -----
     default = function()
-      return { "lsp", "path", "snippets", "buffer" }
+      return { "git", "lsp", "path", "snippets", "buffer" }
     end,
     per_filetype = {
       -- <ft> = { "lsp", "path" },
@@ -84,13 +96,21 @@ require("blink.cmp").setup({
         },
       },
       snippets = {
-        -- for `snippets.preset == 'luasnip'`
+        -- available options depends on the value of `snippets.preset'`
         opts = {
           use_show_condition = true, -- whether to use show_condition for filtering snippets
           show_autosnippets = true, -- whether to show autosnippets in the completion list
         },
       },
       -- --- External ---
+      git = {
+        module = "blink-cmp-git",
+        name = "Git",
+        opts = {
+          use_items_cache = true, -- use items in the cache instead of fetching from github every time completion is triggered
+          use_items_pre_cache = true, -- fetch and cache available completion itmes from github when the source is loaded
+        },
+      },
     },
   },
   -- ========== Signature-help ==========

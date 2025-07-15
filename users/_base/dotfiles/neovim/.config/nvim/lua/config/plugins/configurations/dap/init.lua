@@ -8,11 +8,11 @@ for lang, adapter in pairs(require("config.plugins.configurations.dap._adapters"
   dap.adapters[lang] = adapter
 end
 
--- TODO: Decouple from wezterm
+-- TODO: Decouple from ghostty
 dap.defaults.fallback.external_terminal = {
-  command = tostring(io.popen("command -v wezterm"):read("*line")),
+  command = tostring(io.popen("command -v ghostty"):read("*line")),
   args = {},
 }
 
-vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "Error", linehl = "", numhl = "" }) -- ●      ﴫ
-vim.fn.sign_define("DapBreakpointCondition", { text = "ﴫ", texthl = "Special", linehl = "", numhl = "" })
+vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "Special", linehl = "", numhl = "" }) -- ●      ﴫ
+vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "Special", linehl = "", numhl = "" })

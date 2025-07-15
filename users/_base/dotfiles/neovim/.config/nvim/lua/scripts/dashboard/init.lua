@@ -143,9 +143,10 @@ vim.api.nvim_create_autocmd("VimEnter", {
     if dashboard.should_open() then
       local buf = dashboard.create_buffer()
       vim.api.nvim_create_autocmd({ "BufLeave" }, {
-        buffer = buf,
+        buffer = nil, -- HACK: when reloading a session that has multiple tabs, it doesn't trigger this autcmd if it is buffer-local
         callback = function()
           vim.cmd("hi Cursor blend=0")
+          -- vim.notify("Dashboard: restore cursor")
         end,
         once = true,
       })

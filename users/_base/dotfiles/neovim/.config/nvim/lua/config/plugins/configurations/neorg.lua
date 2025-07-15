@@ -13,7 +13,22 @@ require("neorg").setup({
     ["core.concealer"] = {
       config = { -- Note that this table is optional and doesn't need to be provided
         icon_preset = "diamond",
-        -- icons = nil,
+        icons = {
+          list = {
+            icons = { "-", " -", "  -", "   -", "    -", "     -" },
+          },
+          ordered = {
+            icons = { "1.", " A.", "  a.", "   (1)", "    I.", "     i." },
+          },
+          heading = {
+            icons = { "◈", "◇", "◆", "◇", "❖", "⟡" },
+          },
+          todo = {
+            undone = {
+              icon = " ",
+            },
+          },
+        },
         -- dim_code_blocks = nil,
         content_only = true,
         adaptive = true,
@@ -23,11 +38,11 @@ require("neorg").setup({
       },
     },
 
-    ["core.completion"] = {
-      config = {
-        engine = "nvim-cmp",
-      },
-    },
+    -- ["core.completion"] = {
+    --   config = {
+    --     engine = "nvim-cmp",
+    --   },
+    -- },
 
     ["core.dirman"] = {
       config = {
@@ -187,9 +202,9 @@ vim.api.nvim_create_autocmd("Filetype", {
   end,
 })
 
--- HACK: manually trigger filetype autocmd if a norg buffer was opened before this configuration file loaded
+-- HACK: manually re-edit file if a norg buffer was opened before this configuration file loaded
+--   - some modules, as well as our keybinds, set options on FileType
+--   - some modules, e.g. indent, set options on BufEnter
 if vim.o.filetype == "norg" then
-  vim.api.nvim_exec_autocmds("Filetype", {
-    pattern = "norg",
-  })
+  vim.cmd("e")
 end

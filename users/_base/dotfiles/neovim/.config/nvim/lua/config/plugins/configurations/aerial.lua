@@ -45,22 +45,25 @@ require("aerial").setup({
   keymaps = {
     ["?"] = false,
     ["g?"] = "actions.show_help",
-    ["<CR>"] = "actions.scroll", -- scroll is a jump without changing the window
-    ["<C-CR>"] = "actions.jump", -- scroll is a jump without changing the window
+
+    ["<C-CR>"] = "actions.scroll", -- scroll is a jump without changing the window
+    ["<CR>"] = "actions.jump",
     ["<2-LeftMouse>"] = "actions.jump",
-    ["<C-v>"] = "actions.jump_vsplit",
-    ["<C-s>"] = "actions.jump_split",
-    ["p"] = false,
+    ["<C-s>"] = "actions.jump_vsplit",
+    ["<C-S-s>"] = "actions.jump_split",
     ["<C-j>"] = false,
     ["<C-k>"] = false,
+
     ["{"] = "actions.prev",
     ["}"] = "actions.next",
     ["[["] = "actions.prev_up",
     ["]]"] = "actions.next_up",
+
     ["q"] = false,
+
     ["o"] = false,
     ["za"] = "actions.tree_toggle",
-    ["O"] = "actions.tree_toggle_recursive",
+    ["O"] = false,
     ["zA"] = "actions.tree_toggle_recursive",
     ["l"] = false,
     ["zo"] = "actions.tree_open",
@@ -91,16 +94,7 @@ require("aerial").setup({
   -- A list of all symbols to display. Set to false to display all symbols.
   -- This can be a filetype map (see :help aerial-filetype-map)
   -- To see all available values, see :help SymbolKind
-  filter_kind = {
-    "Class",
-    "Constructor",
-    "Enum",
-    "Function",
-    "Interface",
-    "Module",
-    "Method",
-    "Struct",
-  },
+  filter_kind = false,
 
   -- Determines line highlighting mode when multiple splits are visible.
   -- split_width   Each open window will have its cursor location marked in the
@@ -117,7 +111,7 @@ require("aerial").setup({
   highlight_closest = true,
 
   -- Highlight the symbol in the source buffer when cursor is in the aerial win
-  highlight_on_hover = true,
+  highlight_on_hover = false,
 
   -- When jumping to a symbol, highlight the line for this many ms.
   -- Set to false to disable
@@ -129,7 +123,35 @@ require("aerial").setup({
   -- "nerd_font" option below.
   -- If you have lspkind-nvim installed, it will be the default icon set.
   -- This can be a filetype map (see :help aerial-filetype-map)
-  icons = {},
+  icons = {
+    Array = "󱡠",
+    Boolean = "󰨙",
+    Class = "󰆧",
+    Constant = "󰏿",
+    Constructor = "",
+    Enum = "",
+    EnumMember = "",
+    Event = "",
+    Field = "",
+    File = "󰈙",
+    Function = "󰊕",
+    Interface = "",
+    Key = "󰌋",
+    Method = "󰊕",
+    Module = "",
+    Namespace = "󰦮",
+    Null = "󰟢",
+    Number = "󰎠",
+    Object = "",
+    Operator = "󰆕",
+    Package = "",
+    Property = "",
+    String = "",
+    Struct = "󰆼",
+    TypeParameter = "󰗴",
+    Variable = "󰀫",
+    Collapsed = "▶",
+  },
 
   -- Control which windows and buffers aerial should ignore.
   -- Aerial will not open when these are focused, and existing aerial windows will not be updated
@@ -166,11 +188,11 @@ require("aerial").setup({
   -- Use symbol tree for folding. Set to true or false to enable/disable
   -- Set to "auto" to manage folds if your previous foldmethod was 'manual'
   -- This can be a filetype map (see :help aerial-filetype-map)
-  manage_folds = false,
+  manage_folds = true,
 
   -- When you fold code with za, zo, or zc, update the aerial tree as well.
   -- Only works when manage_folds = true
-  link_folds_to_tree = false,
+  link_folds_to_tree = true,
 
   -- Fold code when you open/collapse symbols in the tree.
   -- Only works when manage_folds = true
@@ -180,49 +202,12 @@ require("aerial").setup({
   -- "auto" will set it to true if nvim-web-devicons or lspkind-nvim is installed.
   nerd_font = "auto",
 
-  -- Call this function when aerial attaches to a buffer.
-  on_attach = function(bufnr) end,
-
-  -- Call this function when aerial first sets symbols on a buffer.
-  on_first_symbols = function(bufnr) end,
-
   -- Automatically open aerial when entering supported buffers.
   -- This can be a function (see :help aerial-open-automatic)
   open_automatic = false,
 
   -- Run this command after jumping to a symbol (false will disable)
   post_jump_cmd = "normal! zz",
-
-  -- Invoked after each symbol is parsed, can be used to modify the parsed item,
-  -- or to filter it by returning false.
-  --
-  -- bufnr: a neovim buffer number
-  -- item: of type aerial.Symbol
-  -- ctx: a record containing the following fields:
-  --   * backend_name: treesitter, lsp, man...
-  --   * lang: info about the language
-  --   * symbols?: specific to the lsp backend
-  --   * symbol?: specific to the lsp backend
-  --   * syntax_tree?: specific to the treesitter backend
-  --   * match?: specific to the treesitter backend, TS query match
-  post_parse_symbol = function(bufnr, item, ctx)
-    return true
-  end,
-
-  -- Invoked after all symbols have been parsed and post-processed,
-  -- allows to modify the symbol structure before final display
-  --
-  -- bufnr: a neovim buffer number
-  -- items: a collection of aerial.Symbol items, organized in a tree,
-  --        with 'parent' and 'children' fields
-  -- ctx: a record containing the following fields:
-  --   * backend_name: treesitter, lsp, man...
-  --   * lang: info about the language
-  --   * symbols?: specific to the lsp backend
-  --   * syntax_tree?: specific to the treesitter backend
-  post_add_all_symbols = function(bufnr, items, ctx)
-    return items
-  end,
 
   -- When true, aerial will automatically close after jumping to a symbol
   close_on_select = false,
@@ -236,44 +221,13 @@ require("aerial").setup({
   -- Customize the characters used when show_guides = true
   guides = {
     -- When the child item has a sibling below it
-    mid_item = "├─",
+    mid_item = "├─ ",
     -- When the child item is the last in the list
-    last_item = "└─",
+    last_item = "└─ ",
     -- When there are nested child guides to the right
-    nested_top = "│ ",
+    nested_top = "│  ",
     -- Raw indentation
-    whitespace = "  ",
-  },
-
-  -- Set this function to override the highlight groups for certain symbols
-  get_highlight = function(symbol, is_icon)
-    -- return "MyHighlight" .. symbol.kind
-  end,
-
-  -- Options for opening aerial in a floating win
-  float = {
-    -- Controls border appearance. Passed to nvim_open_win
-    border = "rounded",
-
-    -- Determines location of floating window
-    --   cursor - Opens float on top of the cursor
-    --   editor - Opens float centered in the editor
-    --   win    - Opens float centered in the window
-    relative = "cursor",
-
-    -- These control the height of the floating window.
-    -- They can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-    -- min_height and max_height can be a list of mixed types.
-    -- min_height = {8, 0.1} means "the greater of 8 rows or 10% of total"
-    max_height = 0.9,
-    height = nil,
-    min_height = { 8, 0.1 },
-
-    override = function(conf, source_winid)
-      -- This is the config that will be passed to nvim_open_win.
-      -- Change values here to customize the layout
-      return conf
-    end,
+    whitespace = "   ",
   },
 
   -- Options for the floating nav windows
@@ -293,11 +247,11 @@ require("aerial").setup({
     keymaps = {
       ["<CR>"] = "actions.jump",
       ["<2-LeftMouse>"] = "actions.jump",
-      ["<C-v>"] = "actions.jump_vsplit",
-      ["<C-s>"] = "actions.jump_split",
+      ["<C-s>"] = "actions.jump_vsplit",
+      ["<C-S>"] = "actions.jump_split",
       ["h"] = "actions.left",
       ["l"] = "actions.right",
-      ["<C-c>"] = "actions.close",
+      ["q"] = "actions.close",
     },
   },
 
@@ -337,4 +291,4 @@ require("aerial").setup({
   },
 })
 
-vim.keymap.set({ "n", "x" }, "<C-=>", "<cmd>AerialToggle<CR>", { remap = false })
+vim.keymap.set({ "n", "x" }, "-", "<cmd>AerialToggle<CR>", { remap = false })

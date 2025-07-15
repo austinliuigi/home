@@ -1,4 +1,4 @@
 return {
-  "persistence.nvim",
-  event = "DeferredUIEnter",
+  -- "persistence.nvim",
+  -- event = "DeferredUIEnter",
 }

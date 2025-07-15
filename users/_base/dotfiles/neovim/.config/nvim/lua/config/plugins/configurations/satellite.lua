@@ -46,7 +46,7 @@ require("satellite").setup({
     marks = {
       enable = true,
       overlap = false,
-      show_builtins = true, -- shows the builtin marks like [ ] < >
+      show_builtins = false, -- shows the builtin marks like [ ] < >
       key = "m",
       -- Highlights:
       -- SatelliteMark (default links to Normal)
