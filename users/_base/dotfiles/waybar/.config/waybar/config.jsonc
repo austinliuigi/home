@@ -1,55 +1,43 @@
 {
-    /* General options */
-    "layer": "top",
+    /********** GENERAL OPTIONS **********/
+    "layer": "bottom",
     "position": "top", // waybar position (top|bottom|left|right)
-    "height": 34,      // waybar height (remove for auto height)
-    // "spacing": 14,     // gaps between modules
+    "height": 0,      // waybar height (remove for auto height)
 
-    /* Section definitions */
-    // "modules-left": ["hyprland/workspaces", "custom/separator", "cpu", "memory", "disk"],
+
+
+    /********** LAYOUT **********/
     "modules-left": ["hyprland/workspaces", "custom/separator", "network", "wireplumber", "backlight", "battery"],
-    "modules-center": ["custom/fullscreen", "hyprland/window", "custom/space"],
-    // "modules-right": ["network", "wireplumber", "backlight", "battery", "clock"],
-    "modules-right": ["cpu", "memory", "disk", "clock"],
+    "modules-center": ["group/current_window"],
+    "modules-right": ["tray", "custom/separator", "cpu", "memory", "disk", "custom/separator", "clock"],
 
-    /* Module configurations */
-    "hyprland/window": {
-        "format": "{initialTitle}"
-    },
 
-    "cpu": {
-        "format": "{usage}% 󰍛 ",
-        "interval": 2
-    },
-    "memory": {
-        "format": "{}% 󱑵 ",
-        "tooltip-format": "RAM:  {used}GiB used out of {total}GiB\nSwap: {swapUsed}GiB used out of {swapTotal}GiB",
-        "interval": 5
-    },
-    "disk": {
-        "format": "{percentage_used}% 󰋊 ",
-        "tooltip-format": "{used} used out of {total} on {path}",
-        "interval": 30
-    },
 
+    /********** MODULE OPTIONS **********/
+
+    /***** LEFT *****/
     "network": {
         "format-wifi": "{signalStrength}% {icon} ",  // space after icon to prevent clipping (bug)
         "format-ethernet": "{ipaddr}/{cidr} 󰈀 ",
         "format-linked": "{ifname} (No IP)  ",
         "format-disconnected": "Disconnected ⚠ ",
-        "tooltip-format": "ssid: {essid}\n\n{ifname}: {ipaddr}/{cidr}"
+        "tooltip-format": "ssid: {essid}\n\n{ifname}: {ipaddr}/{cidr}",
+        "on-click": "menu wifi"
     },
+
     "wireplumber": {
         "format": "{volume}% {icon} ",
         "format-muted": "{volume}%  ",
-        "on-click": "helvum",
+        "on-click": "hyprctl dispatch exec '[float;pin;stayfocused]' 'ghostty --command=pulsemixer'",
         "format-icons": ["", "", ""]
     },
+
     "backlight": {
         "device": "intel_backlight",
         "format": "{percent}% {icon} ",
-        "format-icons": [""]
+        "format-icons": [""],
     },
+
     "battery": {
         "bat": "BAT0",
         "states": {
@@ -63,26 +51,88 @@
         "format-icons": ["", "", "", "", ""],
         "interval": 5
     },
-    "clock": {
-        "timezone": "America/Los_Angeles",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format": "{:%A %b. %d │ %I:%M %p} "
+
+
+    /***** CENTER *****/
+    "group/current_window": {
+      "orientation": "horizontal",
+      "modules": [
+        "custom/fullscreen",
+        "hyprland/window",
+        "custom/float"
+      ]
     },
 
-    "custom/icon": {
-      "exec": "echo ' '"
-    },
-
-    "custom/space": {
-      "exec": "echo ' '"
+    "hyprland/window": {
+        "format": "",
+        "icon": true,
+        "icon-size": 21,
     },
 
     "custom/fullscreen": {
-      "exec": "echo '󰍉'"
+      "exec": "echo '󰊓'",
+      "on-click": "$HOME/.local/share/hyprland/scripts/fullscreen.sh",
     },
 
+    "custom/float": {
+      "exec": "echo ''",
+      "on-click": "hyprctl dispatch togglefloating",
+    },
+
+
+    /***** RIGHT *****/
+    "tray": {
+        "icon-size": 14,
+        "show-passive-items": true,
+        "spacing": 12,
+    },
+
+    "cpu": {
+        "format": "{usage}% 󰍛 ",
+        "interval": 2,
+        "on-click": "hyprctl dispatch exec '[float;pin;stayfocused]' 'ghostty --command=btop'",
+    },
+
+    "memory": {
+        "format": "{}% 󱑵 ",
+        "tooltip-format": "RAM:  {used}GiB used out of {total}GiB\nSwap: {swapUsed}GiB used out of {swapTotal}GiB",
+        "interval": 5,
+        "on-click": "hyprctl dispatch exec '[float;pin;stayfocused]' 'ghostty --command=btop'",
+    },
+    "disk": {
+        "format": "{percentage_used}% 󰋊 ",
+        "tooltip-format": "{used} used out of {total} on {path}",
+        "interval": 30,
+        "on-click": "hyprctl dispatch exec '[float;pin;stayfocused]' 'ghostty --command=\"ncdu ~\"'",
+    },
+
+    "clock": {
+        "timezone": "America/Los_Angeles",
+        "format": "{:%A %m/%d\n%I:%M %p}",
+        "justify": "right",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+                    "mode"          : "year",
+                    "mode-mon-col"  : 3,
+                    "weeks-pos"     : "right",
+                    "on-scroll"     : 1,
+                    "format": {
+                              "months":     "<span color='#ffead3'><b>{}</b></span>",
+                              "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                              "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                              "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                              "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+                              }
+                    },
+        "actions":  {
+                    "on-click-right": "mode",
+                    }
+    },
+
+
+
     "custom/separator": {
-      "exec": "echo '┆  '"
+      "exec": "echo '┆'"
     },
 
     "custom/hyprland_fullscreen": {
