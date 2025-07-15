@@ -2,7 +2,8 @@
 
 modes="\
 apps
-emojis
+symbols
+clipboard
 wifi
 power\
 "
@@ -16,16 +17,26 @@ else
   fi
 fi
 
-current_script_dir="$(dirname "$(realpath $0)")"
+current_script_dir="$(dirname "$(realpath $BASH_SOURCE[0])")"
 
 case "$mode" in
     "apps")
         fuzzel
         ;;
+    "symbols")
+        eval "${HOME}/.config/home-manager/users/_base/scripts/menu/symbols.sh"
+        # eval "${current_script_dir}/symbols.sh"
+        ;;
+    "clipboard")
+        eval "${HOME}/.config/home-manager/users/_base/scripts/menu/clipboard.sh"
+        # eval "${current_script_dir}/clipboard.sh"
+        ;;
     "wifi")
-        eval "${current_script_dir}/wifi/default.sh"
+        eval "${HOME}/.config/home-manager/users/_base/scripts/menu/wifi/default.sh"
+        # eval "${current_script_dir}/wifi/default.sh"
         ;;
     "power")
-        eval "${current_script_dir}/power.sh"
+        eval "${HOME}/.config/home-manager/users/_base/scripts/menu/power.sh"
+        # eval "${current_script_dir}/power.sh"
         ;;
 esac

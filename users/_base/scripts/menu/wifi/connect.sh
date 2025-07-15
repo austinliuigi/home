@@ -90,6 +90,6 @@ if [ "$(echo "$known_networks" | grep -c "$network")" -gt 0 ]; then
     iwctl station wlan0 connect "$network" || true
     notify
 else
-    iwctl station wlan0 connect "$network" --passphrase "$(fuzzen --dmenu --prompt="passphrase: ")"
+    iwctl station wlan0 connect "$network" --passphrase "$(fuzzel --dmenu --prompt="passphrase: ")"
     notify
 fi
