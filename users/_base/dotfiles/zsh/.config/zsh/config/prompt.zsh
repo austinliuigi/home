@@ -109,7 +109,7 @@ function venvPromptUpdate () {
     fi
 
     if [[ "${in_venv}" = "true" ]]; then
-      VENV_PROMPT=(venv .../"$(basename "$(dirname "$VENV_PATH")")"/"$(basename "$VENV_PATH")")
+      VENV_PROMPT="(.../$(basename "$(dirname "$VENV_PATH")")/$(basename "$VENV_PATH"))-"
     fi
 }
 
@@ -137,19 +137,20 @@ function gitstatusPromptUpdate () {
     local p
 
     # Determine location of HEAD
-    local where  # branch name, tag or commit
+    local location  # branch name, tag or commit
+    local location_icon
     if [[ -n $VCS_STATUS_LOCAL_BRANCH ]]; then
-        where=$VCS_STATUS_LOCAL_BRANCH
+        location=$VCS_STATUS_LOCAL_BRANCH
     elif [[ -n $VCS_STATUS_TAG ]]; then
-        p+='%f#'
-        where=$VCS_STATUS_TAG
+        location_icon='#'
+        location=$VCS_STATUS_TAG
     else
-        p+='%f@'
-        where=${VCS_STATUS_COMMIT[1,8]}
+        location_icon='@'
+        location=${VCS_STATUS_COMMIT[1,8]}
     fi
 
-    (( $#where > 32 )) && where[13,-13]="…" # truncate long branch names and tags
-    p+="${PS_GIT}[${clean}${where//\%/%%}"     # escape %
+    (( $#location > 32 )) && location[13,-13]="…" # truncate long branch names and tags
+    p+="${PS_GIT}${location_icon}[${PS_GIT}${location//\%/%%}"     # escape %
 
     # $ if have stashes.
     (( VCS_STATUS_STASHES        )) && p+=" ${g}$"
@@ -190,8 +191,8 @@ function setPrompt () {
     venvPromptUpdate
     gitstatusPromptUpdate
 
-    local top_left=$'\n'"%f╭─${SSH_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}"
-    local top_right="${VENV_PROMPT}─╮"
+    local top_left=$'\n'"%f╭─${SSH_PROMPT}${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}"
+    local top_right="─╮"
     local bottom_left="╰─ ᛋ "
     local bottom_right="%F{green}󰟠%f ─╯"
 
