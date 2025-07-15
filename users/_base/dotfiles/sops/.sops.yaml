@@ -1,0 +1,7 @@
+keys:
+  - &personal age1xkjqrhs72l5u39x80cw0x0rjwj02faqdmksyanrmt0lmpz23dgaq6m8vd5
+creation_rules:
+  - path_regex: secrets/openai$
+    key_groups:
+    - age:
+      - *personal

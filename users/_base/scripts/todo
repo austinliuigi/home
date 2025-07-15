@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+server_addr="${TMPDIR:-/tmp}/todo.nvim.pipe"
+
+if [ ! -e "${server_addr}" ]; then
+    echo starting server on "${server_addr}"
+    nvim --listen "${server_addr}"
+else
+    echo connecting to server on "${server_addr}"
+    nvim --server "${server_addr}" --remote-ui
+fi

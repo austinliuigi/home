@@ -1,10 +1,10 @@
 { pkgs, lib, config, inputs, ... }:
 
 let
-  cfg = config.modules.programs.fuzzel;
+  cfg = config.modules.programs.wayland.fuzzel;
 in
 {
-  options.modules.programs.fuzzel.enable = lib.mkEnableOption "fuzzel module";
+  options.modules.programs.wayland.fuzzel.enable = lib.mkEnableOption "fuzzel module";
 
   config = lib.mkIf cfg.enable {
     home.packages = [ pkgs.fuzzel ];
