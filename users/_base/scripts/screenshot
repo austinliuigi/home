@@ -1,5 +1,45 @@
 #!/usr/bin/env bash
 
+# ========== INIT ==========
+
+modes="\
+image
+video
+audio/video\
+"
+
+if [ ! -z "$1" ]; then
+  mode="$1"
+else
+  mode="$(echo -e "$modes" | fuzzel --dmenu)"
+  if [ -z $mode ]; then
+      exit 0
+  fi
+fi
+
+case "$mode" in
+  "image")
+    cmd="grim -t png -g {{geometry}} {{filepath}}"
+    ;;
+  "video")
+    cmd="wl-screenrec -g {{geometry}} -f {{filepath}}"
+    ;;
+  "audio/video")
+    cmd="wl-screenrec --audio -g {{geometry}} -f {{filepath}}"
+    ;;
+esac
+
+
+
+# ========== FUNCTIONS ==========
+
+function interpolate_cmd() {
+  local geometry="$1"
+  local filepath="$2"
+
+  eval "$(echo "$cmd" | sed -e "s/{{geometry}}/\"$geometry\"/g" -e "s;{{filepath}};\"$filepath\";g")"
+}
+
 function exit_if_error() {
     if [ "$?" != 0 ]; then
         echo "$1" >&2
@@ -9,29 +49,66 @@ function exit_if_error() {
 }
 
 function notify() {
-    echo "Screenshot saved to $1"
-
-    notify-send --urgency=normal --icon="$HOME/.cache/txn/icons/image.png" "Screenshot" "Saved to $1"
+    if [ "$mode" == "image" ]; then
+      echo "Screenshot saved to $1"
+      notify-send --urgency=normal --icon="$HOME/.cache/txn/icons/image.png" "Screenshot" "Saved to $1"
+    else
+      echo "Video saved to $1"
+      notify-send --urgency=normal --icon="$HOME/.cache/txn/icons/image.png" "Video" "Saved to $1"
+    fi
 }
 
-dir="$(echo -e "clipboard\n$(fd . ~ --type=d)" | fzf --no-clear --prompt="(Directory or clipboard): ")"
+function output_locations() {
+    echo "clipboard"
+    echo "${TMPDIR:-/tmp}"
+    fd . ~ --type=d | sed 's:/$::'
+}
+
+
+
+# ========== MAIN ==========
+
+dir="$(output_locations | fuzzel --dmenu --prompt="Save to: ")"
 exit_if_error "Cancelled"
 
+# ---------- SAVE TO CLIPBOARD ----------
 if [ "$dir" == "clipboard" ]; then
-    SAVED_OPTS=$(set +o)
-    set -o pipefail
-    grim -t png -g "$(slurp -d)" - | wl-copy -t image/png
-    exit_if_error "Cancelled"
-    eval "$SAVED_OPTS"
+  slurp="$(slurp -d)"
+  exit_if_error "Cancelled"
 
-    notify "$dir"
+  # ----- SCREENSHOT -----
+  if [ "$mode" == "image" ]; then
+    interpolate_cmd "${slurp}" - | wl-copy -t image/png
+
+  # ----- SCREENREC -----
+  else
+    echo $cmd
+    tmpfile="$(mktemp -t screenrec.XXXXXX.mp4)"
+    interpolate_cmd "${slurp}" "$tmpfile"
+    exit_if_error "Unable to record screen"
+    cat "$tmpfile" | wl-copy -t video/mp4
+  fi
+
+  notify "$dir"
+
+# ---------- SAVE TO FILE ----------
 else
-    filename="$(fzf --prompt="(Filename) $dir")"
-    exit_if_error "Cancelled"
+  filename="$(fuzzel --dmenu --prompt="Filename: ${dir}/")"
+  exit_if_error "Cancelled"
+  filepath="${dir}/${filename}"
 
-    filepath="${dir}${filename}"
-    grim -t png -g "$(slurp -d)" "$filepath"
-    exit_if_error "Cancelled"
+  if [ -e "${filepath}" ]; then
+    if [ ! "$(fuzzel --dmenu --prompt="Overwrite existing file ${filepath}? (y/[n]): ")" == "y" ]; then
+      false
+      exit_if_error "Cancelled"
+    fi
+  fi
 
-    notify "$filepath"
+  slurp="$(slurp -d)"
+  exit_if_error "Cancelled"
+
+  interpolate_cmd "${slurp}" "${filepath}"
+  exit_if_error "Unable to capture screen"
+
+  notify "$filepath"
 fi

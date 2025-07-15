@@ -2,13 +2,18 @@
 
 modes="\
 apps
+emojis
 wifi
 power\
 "
 
-mode="$(echo -e "$modes" | fzf --no-clear)"
-if [ -z $mode ]; then
-    exit 0
+if [ ! -z "$1" ]; then
+  mode="$1"
+else
+  mode="$(echo -e "$modes" | fzf --no-clear)"
+  if [ -z $mode ]; then
+      exit 0
+  fi
 fi
 
 case "$mode" in
