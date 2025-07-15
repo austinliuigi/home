@@ -19,9 +19,10 @@ in
 
   config = lib.mkIf cfg.enable {
     modules.txn.icons.enable = true;
-    home.packages = dependencies ++ [ battery ];
+    home.packages = dependencies;
     home.file = {
       "scripts/battery".source = config.lib.file.mkOutOfStoreSymlink "${config.scripts.battery}";
+      ".local/bin/battery".source = config.lib.file.mkOutOfStoreSymlink "${config.scripts.battery}";
     };
 
     systemd.user.services = {
