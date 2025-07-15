@@ -1,0 +1,10 @@
+[pyprland]
+plugins = [
+    "scratchpads",
+]
+
+[scratchpads.todo]
+command = "ghostty --gtk-single-instance=true --class=scratchpads.todo"
+animation = "fromTop"
+class = "scratchpads.todo"
+size = "75% 70%"
