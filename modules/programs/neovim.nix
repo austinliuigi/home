@@ -11,8 +11,14 @@ in
       inputs.neovim-nightly-overlay.overlays.default
     ];
 
+    pythonLibraries = [
+      "pynvim"
+    ];
+
     home.packages = [
       pkgs.neovim
+
+      # FIXME: move to dependencies.nix in dotfiles
       pkgs.luajit # required for luarocks.nvim
       pkgs.silicon
       pkgs.imagemagickBig

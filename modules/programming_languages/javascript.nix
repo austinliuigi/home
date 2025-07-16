@@ -1,10 +1,10 @@
 { pkgs, lib, config, inputs, ... }:
 
 let
-  cfg = config.modules.programs.javascript;
+  cfg = config.modules.programming_languages.javascript;
 in
 {
-  options.modules.programs.javascript = {
+  options.modules.programming_languages.javascript = {
     enable = lib.mkEnableOption "javascript module";
   };
 

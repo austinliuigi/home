@@ -1,10 +1,10 @@
 { pkgs, lib, config, inputs, ... }:
 
 let
-  cfg = config.modules.programs.nix;
+  cfg = config.modules.programming_languages.nix;
 in
 {
-  options.modules.programs.nix = {
+  options.modules.programming_languages.nix = {
     enable = lib.mkEnableOption "nix module";
   };
 

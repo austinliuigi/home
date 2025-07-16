@@ -28,12 +28,13 @@
 
     pkgs.gthumb
     pkgs.exiftool
+
+    pkgs.manim
   ];
 
   modules = {
     programs = {
       bash.enable        = true;
-      c.enable           = true;
       common.enable      = true;
       core.enable        = true;
       direnv.enable      = true;
@@ -44,17 +45,13 @@
       git.enable         = true;
       gtk.enable         = true;
       ios.enable         = true;
-      javascript.enable  = true;
       kdeconnect.enable  = true;
       kitty.enable       = true;
       live-server.enable = true;
       localsend.enable   = true;
-      lua.enable         = true;
       mpv.enable         = true;
       neovim.enable      = true;
-      nix.enable         = true;
       pcmanfm.enable     = true;
-      python.enable      = true;
       sioyek.enable      = true;
       sops.enable        = true;
       syncthing.enable   = true;
@@ -63,6 +60,13 @@
       xdg.enable         = true;
       zoxide.enable      = true;
       zsh.enable         = true;
+    };
+    programming_languages = {
+      c.enable           = true;
+      javascript.enable  = true;
+      lua.enable         = true;
+      nix.enable         = true;
+      python.enable      = true;
     };
     scripts = {
       todo.enable        = true;
