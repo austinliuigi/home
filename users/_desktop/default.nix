@@ -3,6 +3,8 @@
 {
   home.sessionPath = [ "$HOME/.local/bin" ];
 
+  services.ssh-agent.enable = true;
+
   home.packages = [
     pkgs.xclip
     # pkgs.deno
