@@ -1,0 +1,35 @@
+{ config, pkgs, lib, ... }:
+
+{
+  home.sessionPath = [ "$HOME/.local/bin" ];
+
+  home.packages = [
+    pkgs.lshw
+    pkgs.dmidecode
+  ];
+
+  modules = {
+    programs = {
+      bash.enable        = true;
+      common.enable      = true;
+      core.enable        = true;
+      direnv.enable      = true;
+      fzf.enable         = true;
+      git.enable         = true;
+      neovim.enable      = true;
+      syncthing.enable   = true;
+      zoxide.enable      = true;
+      zsh.enable         = true;
+    };
+    programming_languages = {
+      c.enable           = false;
+      javascript.enable  = false;
+      lua.enable         = false;
+      nix.enable         = false;
+      python.enable      = false;
+    };
+    scripts = {
+      todo.enable        = true;
+    };
+  };
+}

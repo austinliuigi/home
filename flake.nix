@@ -14,7 +14,7 @@
       # url = "path:/home/austin/projects/nix-colors";
     };
     neovim-nightly-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
+      url = "github:nix-community/neovim-nightly-overlay/098d2af8c606ea8adc1b8b3084f454ca681a7ab3";
     };
     sf-mono-nerd-font = {
       url = "github:austinliuigi/sf-mono-nerd-font-flake";
@@ -53,12 +53,20 @@
             ./users/austin
           ];
         };
-        austin-light = home-manager.lib.homeManagerConfiguration {
+        txn-desktop = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = baseExtraSpecialArgs;
           modules = [
             ./modules
-            ./users/austin/light.nix
+            ./users/txn/desktop.nix
+          ];
+        };
+        txn-server = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          extraSpecialArgs = baseExtraSpecialArgs;
+          modules = [
+            ./modules
+            ./users/txn/server.nix
           ];
         };
       };
