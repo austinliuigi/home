@@ -165,7 +165,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function()
     -- local dye = require("dye")
     vim.api.nvim_set_hl(0, "DiffDirBoth", { link = "DiffChange" })
-    vim.api.nvim_set_hl(0, "DiffDir1", { link = "DiffAdd" })
-    vim.api.nvim_set_hl(0, "DiffDir2", { link = "DiffDelete" })
+    vim.api.nvim_set_hl(0, "DiffDir1", { link = "DiffDelete" })
+    vim.api.nvim_set_hl(0, "DiffDir2", { link = "DiffAdd" })
   end,
 })

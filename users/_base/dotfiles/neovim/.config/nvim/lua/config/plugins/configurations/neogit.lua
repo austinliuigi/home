@@ -281,7 +281,7 @@ require("neogit").setup({
       -- ["<LocalLeader>3"] = "Depth3",
       -- ["<LocalLeader>4"] = "Depth4",
       ["zx"] = "Depth4",
-      -- ["<tab>"] = "Toggle",
+      ["<tab>"] = "Toggle",
 
       ["!"] = "Command",
       ["<LocalLeader>q:"] = "CommandHistory",

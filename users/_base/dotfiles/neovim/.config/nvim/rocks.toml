@@ -41,6 +41,7 @@ import = "config/plugins/lazy_specs_post"
 "rocks.nvim" = { version = "2.40.0", opt = false }
 "snacks.nvim" = { version = "scm", opt = false }
 "telescope.nvim" = { version = "scm", opt = true }
+"venn.nvim" = { version = "scm", opt = true }
 fzf-lua = { version = "0.0.1739", opt = true }
 luasnip = { version = "2.3.0", opt = true }
 neogen = { version = "2.20.0", opt = false }
