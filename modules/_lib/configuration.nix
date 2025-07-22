@@ -3,6 +3,92 @@
 let
   cfg = config.configuration;
 
+  # FIXME: Temporary implementation until pkgs.replaceVarsWith allows using --replace-quiet instead of --replace-quit
+  # - https://github.com/hsjobeki/nixpkgs/blob/migrate-doc-comments/pkgs/build-support/replace-vars/replace-vars-with.nix
+  replaceVarsWith = {
+    src,
+    replacements,
+    dir ? null,
+    isExecutable ? false,
+    ...
+  }@attrs:
+
+  let
+    # We use `--replace-fail` instead of `--subst-var-by` so that if the thing isn't there, we fail.
+    subst-var-by = name: value: [
+      "--replace-quiet"
+      (lib.escapeShellArg "@${name}@")
+      (lib.escapeShellArg (lib.defaultTo "@${name}@" value))
+    ];
+
+    substitutions = lib.concatLists (lib.mapAttrsToList subst-var-by replacements);
+
+    left-overs = map ({ name, ... }: name) (
+      builtins.filter ({ value, ... }: value == null) (lib.attrsToList replacements)
+    );
+
+    optionalAttrs =
+      if (builtins.intersectAttrs attrs forcedAttrs == { }) then
+        builtins.removeAttrs attrs [ "replacements" ]
+      else
+        throw "Passing any of ${builtins.concatStringsSep ", " (builtins.attrNames forcedAttrs)} to replaceVarsWith is not supported.";
+
+    forcedAttrs = {
+      doCheck = true;
+      dontUnpack = true;
+      preferLocalBuild = true;
+      allowSubstitutes = false;
+
+      buildPhase = ''
+        runHook preBuild
+
+        target=$out
+        if test -n "$dir"; then
+            target=$out/$dir/$name
+            mkdir -p $out/$dir
+        fi
+
+        substitute "$src" "$target" ${lib.concatStringsSep " " substitutions}
+
+        if test -n "$isExecutable"; then
+            chmod +x $target
+        fi
+
+        runHook postBuild
+      '';
+
+      # Look for Nix identifiers surrounded by `@` that aren't substituted.
+      checkPhase =
+        let
+          lookahead =
+            if builtins.length left-overs == 0 then "" else "(?!${builtins.concatStringsSep "|" left-overs}@)";
+          regex = lib.escapeShellArg "@${lookahead}[a-zA-Z_][0-9A-Za-z_'-]*@";
+        in
+        ''
+          runHook preCheck
+          if grep -Pqe ${regex} "$target"; then
+            echo The following look like unsubstituted Nix identifiers that remain in "$target":
+            grep -Poe ${regex} "$target"
+            echo Use the more precise '`substitute`' function if this check is in error.
+            exit 1
+          fi
+          runHook postCheck
+        '';
+    };
+  in
+
+  pkgs.stdenvNoCC.mkDerivation (
+    {
+      name = baseNameOf (toString src);
+    }
+    // optionalAttrs
+    // forcedAttrs
+  );
+
+  # FIXME: Temporary implementation until pkgs.replaceVarsWith allows using --replace-quiet instead of --replace-quit
+  # - https://github.com/hsjobeki/nixpkgs/blob/migrate-doc-comments/pkgs/build-support/replace-vars/replace-vars-with.nix
+  replaceVars = src: replacements: replaceVarsWith { inherit src replacements; };
+
   # Generate a map from filepaths to substitute derivations for each file within a directory
   #   - param dir: path - top level directory that holds all files that should get substituted
   #   - param replacements: attr - map from strings that should get replaced to their respective replacements
@@ -17,9 +103,7 @@ let
         (file:
           {
             name = file;
-            value = pkgs.substituteAll ({
-              src = "${utils.toStorePath dir}/${file}";
-            } // replacements);
+            value = replaceVars "${utils.toStorePath dir}/${file}" replacements;
           }
         )
         (utils.scanDirFiles { dir = dir; })
@@ -54,7 +138,7 @@ let
         text = ''
         ${comment_start} NOTE: This is an interpolated copy of the respective file in ${dir}/${file} ${comment_end}
 
-        '' + builtins.readFile(interpolatedFile);
+        '' + builtins.readFile interpolatedFile;
       })
       (substituteDirFiles { 
         dir = dir;
@@ -68,9 +152,7 @@ let
   #
   # e.g. home.file."foo/bar".source = interpolateConfigFile "/nix/store/.../foo/bar"
   interpolateConfigFile = file:
-    pkgs.substituteAll ({
-        src = utils.toStorePath file;
-    } // cfg.substitutions);
+    replaceVars (utils.toStorePath file) cfg.substitutions;
 
 
   # Interpolate values in configuration files with added message
@@ -87,11 +169,9 @@ let
 
       '';
 
-      interpolatedFile = pkgs.substituteAll ({
-        src = utils.toStorePath file;
-      } // cfg.substitutions);
+      interpolatedFile = replaceVars (utils.toStorePath file) cfg.substitutions;
     in
-    "${msg}" + builtins.readFile(interpolatedFile);
+    "${msg}" + builtins.readFile interpolatedFile;
 in
   {
     options.configuration = {
