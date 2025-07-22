@@ -50,7 +50,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "*",
   callback = function()
     local dye = require("dye")
-    vim.api.nvim_set_hl(0, "Waldo", { bg = dye.CursorLine.bg.blend(dye.Normal.bg.hsl, 0.5).hex })
+    vim.api.nvim_set_hl(0, "Waldo", { bg = dye.CursorLine.bg.blend(dye.Normal.bg.hex, 0.5).hex })
   end,
 })
 

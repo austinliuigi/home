@@ -19,9 +19,13 @@ import = "config/plugins/lazy_specs_post"
 [plugins]
 
 # ====== LOCAL PLUGINS ======
-"bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = false }
-"palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
-"dye.nvim" = { dir = "~/projects/dye.nvim", opt = false }
+# "bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = false }
+# "palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
+# "dye.nvim" = { dir = "~/projects/dye.nvim", opt = false }
+"bartender.nvim" = { git = "austinliuigi/bartender.nvim", rev = "main", opt = false }
+"palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
+"dye.nvim" = { git = "austinliuigi/dye.nvim", rev = "main", opt = false }
+
 # "smoothie.nvim" = { dir = "~/projects/smoothie.nvim", config = "plugin.mysmoothie" }
 
 # ====== LUAROCK PLUGINS ======
@@ -70,7 +74,7 @@ blink-cmp-git = { git = "Kaiser-Yang/blink-cmp-git", rev = "master", opt = false
 firenvim  = { git = "glacambre/firenvim", rev = "c6e37476ab3b58cf01ababfe80ec9335798e70e5", build = ":call firenvim#install(0)" }
 nvim-colorizer  = { git = "mehalter/nvim-colorizer.lua", rev = "72aba5511b6af8405f26c3922c12a17bf8a680d1", opt = true }
 nvim-silicon  = { git = "michaelrommel/nvim-silicon", rev = "v1.0.0", opt = true }
-"resession.nvim" = { git = "stevearc/resession.nvim", rev = "main", opt = true }
+"resession.nvim" = { git = "stevearc/resession.nvim", rev = "master", opt = true }
 vim-easy-align  = { git = "junegunn/vim-easy-align", rev = "2.9.7^{}", opt = true }
 vim-matchup  = { git = "andymass/vim-matchup", rev = "master", opt = true }
 vim-mundo  = { git = "simnalamburt/vim-mundo", rev = "master", opt = true }

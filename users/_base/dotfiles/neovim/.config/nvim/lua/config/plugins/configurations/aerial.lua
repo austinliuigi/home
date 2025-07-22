@@ -291,4 +291,4 @@ require("aerial").setup({
   },
 })
 
-vim.keymap.set({ "n", "x" }, "-", "<cmd>AerialToggle<CR>", { remap = false })
+vim.keymap.set({ "n", "x" }, "<C-->", "<cmd>AerialToggle<CR>", { remap = false })

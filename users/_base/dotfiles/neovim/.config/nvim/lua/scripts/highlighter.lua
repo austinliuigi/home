@@ -58,7 +58,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "VimEnter" }, {
   pattern = "*",
   callback = function()
     local dye = require("dye")
-    vim.api.nvim_set_hl(0, "Highlighter", { bg = dye.String.fg.blend(dye.Normal.bg.hsl, 0.8).hex })
+    vim.api.nvim_set_hl(0, "Highlighter", { bg = dye.String.fg.blend(dye.Normal.bg.hex, 0.8).hex })
   end,
 })
 
