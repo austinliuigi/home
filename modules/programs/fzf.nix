@@ -44,7 +44,7 @@ in
       source ~/.config/fzf/fzfrc
     '';
 
-    programs.zsh.initExtra = ''
+    programs.zsh.initContent = ''
       source ${pkgs.fzf}/share/fzf/completion.zsh
       source ${pkgs.fzf}/share/fzf/key-bindings.zsh
       source ~/.config/fzf/fzfrc

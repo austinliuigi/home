@@ -13,7 +13,7 @@ in
       eval "$(zoxide init bash)"
     '';
 
-    programs.zsh.initExtra = ''
+    programs.zsh.initContent = ''
       eval "$(zoxide init zsh)"
     '';
   };

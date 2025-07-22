@@ -86,7 +86,7 @@ in
     };
 
     # https://discourse.nixos.org/t/how-is-xdg-data-dirs-set-for-some-apps/38432/4
-    programs.zsh.initExtra = 
+    programs.zsh.initContent = 
       let
         schemas = pkgs.gsettings-desktop-schemas;
       in
