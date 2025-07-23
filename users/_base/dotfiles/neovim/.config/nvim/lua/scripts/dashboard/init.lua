@@ -43,9 +43,14 @@ function dashboard.draw(banner, hl_group)
   vim.opt_local.modifiable = true
   local centered_banner, top, _, banner_rows, _ = dashboard.center(banner)
   vim.api.nvim_buf_set_lines(0, 0, -1, false, centered_banner)
-  for i = 0, banner_rows - 1 do
-    vim.api.nvim_buf_add_highlight(0, -1, hl_group, top + i - 1, 0, -1)
-  end
+  vim.hl.range(
+    0,
+    vim.api.nvim_create_namespace(""),
+    hl_group,
+    { top - 1, 0 },
+    { top + banner_rows, -1 },
+    { inclusive = false }
+  )
   vim.opt_local.modifiable = false
 end
 
