@@ -8,19 +8,36 @@ local function on_attach(client, bufnr)
   local bufopts = { remap = false, silent = true, buffer = bufnr }
   vim.lsp.inlay_hint.enable(false, {})
 
+  -- Misc
+  --------------------------------------------------------------------------------------------
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
   vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, bufopts)
+
+  -- Documentation
+  --------------------------------------------------------------------------------------------
   vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
   vim.keymap.set("n", "<leader>K", vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, bufopts)
-  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, bufopts)
+
+  -- Diagnostics
+  --------------------------------------------------------------------------------------------
+  vim.keymap.set("n", "[d", function()
+    vim.diagnostic.jump({ count = -1, float = true })
+  end, bufopts)
+  vim.keymap.set("n", "]d", function()
+    vim.diagnostic.jump({ count = 1, float = true })
+  end, bufopts)
   vim.keymap.set("n", vim.g.toggle_key .. "d", vim.diagnostic.open_float, bufopts)
   vim.keymap.set("n", vim.g.toggle_key .. "D", diagnostics.toggle_diagnostics, bufopts)
+
+  -- Hints
+  --------------------------------------------------------------------------------------------
   vim.keymap.set("n", vim.g.toggle_key .. "H", function()
     local enabled = vim.lsp.inlay_hint.is_enabled()
     vim.lsp.inlay_hint.enable(not enabled, {})
   end, bufopts)
 
+  -- Third-party plugins
+  --------------------------------------------------------------------------------------------
   if nvim_navic_ok then
     nvim_navic.attach(client, bufnr)
   end
