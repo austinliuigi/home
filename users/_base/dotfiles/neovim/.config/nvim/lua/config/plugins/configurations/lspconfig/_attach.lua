@@ -15,8 +15,12 @@ local function on_attach(client, bufnr)
 
   -- Documentation
   --------------------------------------------------------------------------------------------
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-  vim.keymap.set("n", "<leader>K", vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set("n", "K", function()
+    vim.lsp.buf.hover({ border = "rounded" })
+  end, bufopts)
+  vim.keymap.set("n", "<leader>K", function()
+    vim.lsp.buf.signature_help({ border = "rounded" })
+  end, bufopts)
 
   -- Diagnostics
   --------------------------------------------------------------------------------------------

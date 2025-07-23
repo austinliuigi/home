@@ -1,5 +1,5 @@
 local lspconfig = require("lspconfig")
-require("config.plugins.configurations.lspconfig._ui")
+require("config.plugins.configurations.lspconfig._handlers")
 require("config.plugins.configurations.lspconfig._diagnostics")
 
 local global_config = {
