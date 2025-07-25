@@ -58,16 +58,21 @@ tooltip label {
 
 /********** LEFT **********/
 
+#workspaces {
+  margin-left: 0.3em;
+}
+
 #workspaces button {
   color: @base03;
   border-width: 0px;
-  padding: 8px;
+  padding: 0 0.5em 0 0.5em;
+  margin: 0.5em 0em 0.5em 0em;
   box-shadow: none;
   text-shadow: 0 0 2px @base02;
 }
 
 #workspaces button label {
-  padding: 0px 4px 0px 4px;
+  padding: 0 0.25em 0 0.25em;
   margin: 0;
 }
 
@@ -88,18 +93,22 @@ tooltip label {
 }
 
 #network {
+  color: mix(@base05, @base0D, 0.4);
   text-shadow: 0 0 3px @base0D;
 }
 
 #wireplumber {
+  color: mix(@base05, @base0E, 0.4);
   text-shadow: 0 0 3px @base0E;
 }
 
 #backlight {
+  color: mix(@base05, @base0A, 0.4);
   text-shadow: 0 0 3px @base0A;
 }
 
 #battery {
+  color: mix(@base05, @base09, 0.4);
   text-shadow: 0 0 3px @base09;
 }
 
@@ -171,12 +180,14 @@ window#waybar.fullscreen #custom-fullscreen {
 }
 
 #cpu, #memory, #disk {
+  color: mix(@base05, @base0F, 0.6);
   text-shadow: 0 0 5px @base0F;
 }
 
 #clock {
   font-size: 0.75em;
   text-shadow: 0 0 2px @base04;
+  margin-right: 0.25em;
 }
 
 
