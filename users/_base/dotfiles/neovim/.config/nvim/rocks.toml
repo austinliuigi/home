@@ -20,10 +20,11 @@ import = "config/plugins/lazy_specs_post"
 
 # ====== LOCAL PLUGINS ======
 # "bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = false }
-# "palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
+"palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
 # "dye.nvim" = { dir = "~/projects/dye.nvim", opt = false }
+
 "bartender.nvim" = { git = "austinliuigi/bartender.nvim", rev = "main", opt = false }
-"palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
+# "palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
 "dye.nvim" = { git = "austinliuigi/dye.nvim", rev = "main", opt = false }
 
 # "smoothie.nvim" = { dir = "~/projects/smoothie.nvim", config = "plugin.mysmoothie" }
@@ -45,6 +46,7 @@ import = "config/plugins/lazy_specs_post"
 "rocks.nvim" = { version = "2.40.0", opt = false }
 "snacks.nvim" = { version = "scm", opt = false }
 "telescope.nvim" = { version = "scm", opt = true }
+"todo-comments.nvim" = { version = "scm", opt = true }
 "venn.nvim" = { version = "scm", opt = true }
 fzf-lua = { version = "0.0.1739", opt = true }
 luasnip = { version = "2.3.0", opt = true }

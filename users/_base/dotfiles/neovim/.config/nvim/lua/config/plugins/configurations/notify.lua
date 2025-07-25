@@ -9,6 +9,7 @@ require("notify").setup({
     DEBUG = "",
     TRACE = "✎",
   },
+  stages = "static",
   on_open = function(win, record)
     --------------------------------------------------------------------------------------------
     -- Show title in window border

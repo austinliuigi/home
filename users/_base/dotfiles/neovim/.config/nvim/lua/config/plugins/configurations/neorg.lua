@@ -147,58 +147,64 @@ vim.api.nvim_create_autocmd("Filetype", {
     --------------- QOL TODO ---------------
     vim.keymap.set(
       "n",
-      neorg_leader .. "tu",
+      neorg_leader .. "1",
       "<Plug>(neorg.qol.todo-items.todo.task-undone)",
       { buffer = 0, desc = "Mark as Undone" }
     )
     vim.keymap.set(
       "n",
-      neorg_leader .. "tp",
+      neorg_leader .. "2",
       "<Plug>(neorg.qol.todo-items.todo.task-pending)",
       { buffer = 0, desc = "Mark as Pending" }
     )
     vim.keymap.set(
       "n",
-      neorg_leader .. "td",
+      neorg_leader .. "3",
       "<Plug>(neorg.qol.todo-items.todo.task-done)",
       { buffer = 0, desc = "Mark as Done" }
     )
     vim.keymap.set(
       "n",
-      neorg_leader .. "th",
-      "<Plug>(neorg.qol.todo-items.todo.task-on-hold)",
-      { buffer = 0, desc = "Mark as On Hold" }
-    )
-    vim.keymap.set(
-      "n",
-      neorg_leader .. "tc",
-      "<Plug>(neorg.qol.todo-items.todo.task-cancelled)",
-      { buffer = 0, desc = "Mark as Cancelled" }
-    )
-    vim.keymap.set(
-      "n",
-      neorg_leader .. "tr",
-      "<Plug>(neorg.qol.todo-items.todo.task-recurring)",
-      { buffer = 0, desc = "Mark as Recurring" }
-    )
-    vim.keymap.set(
-      "n",
-      neorg_leader .. "ti",
+      neorg_leader .. "4",
       "<Plug>(neorg.qol.todo-items.todo.task-important)",
       { buffer = 0, desc = "Mark as Important" }
     )
     vim.keymap.set(
       "n",
-      neorg_leader .. "ta",
+      neorg_leader .. "5",
+      "<Plug>(neorg.qol.todo-items.todo.task-on-hold)",
+      { buffer = 0, desc = "Mark as On Hold" }
+    )
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "6",
+      "<Plug>(neorg.qol.todo-items.todo.task-cancelled)",
+      { buffer = 0, desc = "Mark as Cancelled" }
+    )
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "7",
       "<Plug>(neorg.qol.todo-items.todo.task-ambiguous)",
       { buffer = 0, desc = "Mark as Ambigous" }
     )
     vim.keymap.set(
       "n",
-      neorg_leader .. "tt",
-      "<Plug>(neorg.qol.todo-items.todo.task-cycle)",
-      { buffer = 0, desc = "Cycle Task" }
+      neorg_leader .. "0",
+      "<Plug>(neorg.qol.todo-items.todo.task-recurring)",
+      { buffer = 0, desc = "Mark as Recurring" }
     )
+    vim.keymap.set(
+      "n",
+      neorg_leader .. "-",
+      "<Plug>(neorg.qol.todo-items.todo.task-done)",
+      { buffer = 0, desc = "Mark as Done" }
+    )
+    -- vim.keymap.set(
+    --   "n",
+    --   neorg_leader .. neorg_leader,
+    --   "<Plug>(neorg.qol.todo-items.todo.task-cycle)",
+    --   { buffer = 0, desc = "Cycle Task" }
+    -- )
   end,
 })
 
