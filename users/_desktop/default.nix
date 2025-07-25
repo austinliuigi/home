@@ -37,12 +37,14 @@
   modules = {
     programs = {
       bash.enable        = true;
+      btop.enable        = true;
       common.enable      = true;
       core.enable        = true;
       direnv.enable      = true;
       dunst.enable       = true;
       foot.enable        = true;
       fzf.enable         = true;
+      gdu.enable         = true;
       ghostty.enable     = true;
       git.enable         = true;
       gtk.enable         = true;

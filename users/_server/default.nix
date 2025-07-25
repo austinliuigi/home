@@ -11,10 +11,12 @@
   modules = {
     programs = {
       bash.enable        = true;
+      btop.enable        = true;
       common.enable      = true;
       core.enable        = true;
       direnv.enable      = true;
       fzf.enable         = true;
+      gdu.enable         = true;
       git.enable         = true;
       neovim.enable      = true;
       syncthing.enable   = true;
