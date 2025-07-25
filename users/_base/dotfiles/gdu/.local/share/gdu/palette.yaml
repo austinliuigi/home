@@ -1,0 +1,18 @@
+style:
+    selected-row:
+        text-color: "#@base04@"
+        background-color: "#@base01@"
+    progress-modal:
+        current-item-path-max-len: 0
+    use-old-size-bar: false
+    footer:
+        text-color: "#@base00@"
+        background-color: "#@base0D@"
+        number-color: "#@base01@"
+    header:
+        text-color: "#@base00@"
+        background-color: "#@base0D@"
+        hidden: false
+    result-row:
+        number-color: "#@base0B@"
+        directory-color: "#@base0D@"
