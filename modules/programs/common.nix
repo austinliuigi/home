@@ -8,12 +8,14 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      pkgs.btop
-      pkgs.fd
-      pkgs.jq
-      pkgs.lsd
-      pkgs.ripgrep
+      pkgs.btop # htop improvement
+      pkgs.lsd # ls improvement
+      pkgs.fd # find improvement
+      pkgs.ripgrep # grep improvement
       pkgs.ripgrep-all
+      pkgs.dysk # df improvement
+
+      pkgs.jq
       pkgs.tealdeer
       pkgs.inetutils
       pkgs.dig
