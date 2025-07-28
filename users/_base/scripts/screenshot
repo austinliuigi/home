@@ -20,12 +20,15 @@ fi
 case "$mode" in
   "image")
     cmd="grim -t png -g {{geometry}} {{filepath}}"
+    ext="png"
     ;;
   "video")
     cmd="wl-screenrec -g {{geometry}} -f {{filepath}}"
+    ext="mp4"
     ;;
   "audio/video")
     cmd="wl-screenrec --audio -g {{geometry}} -f {{filepath}}"
+    ext="mp4"
     ;;
 esac
 
@@ -93,8 +96,13 @@ if [ "$dir" == "clipboard" ]; then
 
 # ---------- SAVE TO FILE ----------
 else
-  filename="$(fuzzel --dmenu --prompt="Filename: ${dir}/")"
+  default_filename="$(date +"%FT%H-%M-%S").${ext}"
+  filename="$(fuzzel --dmenu --placeholder="$default_filename" --prompt="Filename: ${dir}/")"
   exit_if_error "Cancelled"
+
+  if [ ! -n "${filename}" ]; then
+      filename="${default_filename}"
+  fi
   filepath="${dir}/${filename}"
 
   if [ -e "${filepath}" ]; then
