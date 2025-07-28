@@ -125,9 +125,9 @@ keymap({ "n", "x" }, "<leader>?", function()
   return "?\\%>" .. (win_top_line - 1) .. "l\\%<" .. (cursor_line + 1) .. "l"
 end, { remap = false, expr = true, desc = "Search backwards from the cursor to the top of the visible screen" })
 
-keymap("x", "<leader><leader>/", "<esc>/\\%V", { noremap = true, desc = "Search forwards in visual selection" })
+keymap("x", "g/", "<esc>/\\%V", { noremap = true, desc = "Search forwards in visual selection" })
 
-keymap("x", "<leader><leader>?", "<esc>?\\%V", { noremap = true, desc = "Search backwards in visual selection" })
+keymap("x", "g?", "<esc>?\\%V", { noremap = true, desc = "Search backwards in visual selection" })
 
 keymap({ "n", "x" }, "n", function()
   local char
@@ -175,8 +175,8 @@ vim.keymap.set({ "n", "x" }, "<leader>gc", function()
   return _comment_toggle()
 end, { expr = true })
 
--- visually select the previously pasted text
-vim.keymap.set("n", "gp", function()
+-- visually select the previously changed text
+vim.keymap.set("n", "<leader>gv", function()
   local visual = string.sub(vim.fn.getregtype(), 1, 1)
   if visual == "" then
     return "`[<C-v>`]"
@@ -187,6 +187,10 @@ end, { expr = true })
 -- }}}
 
 -- Toggle mappings {{{
+
+keymap({ "n", "x" }, "|", function()
+  vim.o.cursorcolumn = not vim.o.cursorcolumn
+end, {})
 
 keymap(
   "n",
