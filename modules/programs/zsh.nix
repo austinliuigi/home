@@ -1,9 +1,12 @@
-{ pkgs, lib, config, inputs, ... }:
-
-let
-  cfg = config.modules.programs.zsh;
-in
 {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}: let
+  cfg = config.modules.programs.zsh;
+in {
   options.modules.programs.zsh.enable = lib.mkEnableOption "zsh module";
 
   config = lib.mkIf cfg.enable {
@@ -81,26 +84,25 @@ in
           fi
         } &!
       '';
-      initContent = 
-        let 
-          contentTop = lib.mkBefore ''
-            # Compile if the .zwc file does not exist, or the base file is newer.
-            # These jobs are asynchronous, and will not impact the interactive shell
-            #   - https://medium.com/@voyeg3r/holy-grail-of-zsh-performance-a56b3d72265d
-            zcompile_if_needed() {
-              if [[ -s ''${1} && ( ! -s ''${1}.zwc || ''${1} -nt ''${1}.zwc) ]]; then
-                zcompile ''${1}
-              fi
-            }
-          '';
-          content = ''
-            source ~/.config/zsh/config/aliases.sh
-            source ~/.config/zsh/config/keybinds.zsh
-            source ~/.config/zsh/config/prompt.zsh
-            source ~/.config/zsh/config/zshrc
-          '';
-        in
-          lib.mkMerge [ contentTop content ];
+      initContent = let
+        contentTop = lib.mkBefore ''
+          # Compile if the .zwc file does not exist, or the base file is newer.
+          # These jobs are asynchronous, and will not impact the interactive shell
+          #   - https://medium.com/@voyeg3r/holy-grail-of-zsh-performance-a56b3d72265d
+          zcompile_if_needed() {
+            if [[ -s ''${1} && ( ! -s ''${1}.zwc || ''${1} -nt ''${1}.zwc) ]]; then
+              zcompile ''${1}
+            fi
+          }
+        '';
+        content = ''
+          source ~/.config/zsh/config/aliases.sh
+          source ~/.config/zsh/config/keybinds.zsh
+          source ~/.config/zsh/config/prompt.zsh
+          source ~/.config/zsh/config/zshrc
+        '';
+      in
+        lib.mkMerge [contentTop content];
     };
 
     home.file = {

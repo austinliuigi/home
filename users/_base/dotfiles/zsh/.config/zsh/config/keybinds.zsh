@@ -1,7 +1,11 @@
-### Vi Mode
+#===========================================================================================
+# Vi Mode
+#===========================================================================================
 bindkey -v
 export KEYTIMEOUT=1
 
+# Update cursor
+#-------------------------------------------------------------------------------------------
 # change cursor based on vi mode (bar for insert, block otherwise)
 zle-keymap-select() {
     if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
@@ -10,20 +14,24 @@ zle-keymap-select() {
         echo -ne '\e[5 q'
     fi
 }
-
 zle -N zle-keymap-select
+
 # change cursor to bar for each new prompt
 zle-line-init() {
     echo -ne '\e[5 q'
 }
 zle -N zle-line-init
 
-# edit current command line in vim with ctrl-e
-autoload edit-command-line
-zle -N edit-command-line
-bindkey '^e' edit-command-line
+# Fix vi keybinds
+#-------------------------------------------------------------------------------------------
+bindkey -M viins "^?" backward-delete-char
+bindkey -M viins '^h' backward-delete-char
+bindkey -M viins '^w' backward-kill-word
 
-# add text objects
+bindkey -M visual "D" vi-delete
+
+# Add text objects
+#-------------------------------------------------------------------------------------------
 autoload -Uz select-bracketed select-quoted
 zle -N select-quoted
 zle -N select-bracketed
@@ -37,12 +45,19 @@ for km in viopp visual; do
   done
 done
 
-### Bindings
+#===========================================================================================
+# Vi Mode
+#===========================================================================================
 autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey "^[[A" history-beginning-search-backward-end # up arrow takes into account what is currently typed
 bindkey "^[[B" history-beginning-search-forward-end # down arrow takes into account what is currently typed
+
+# edit current command line in vim with ctrl-e
+autoload edit-command-line
+zle -N edit-command-line
+bindkey '^e' edit-command-line
 
 neogit() { nvim -c "Neogit kind=replace" }
 zle -N neogit
