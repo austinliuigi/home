@@ -7,7 +7,7 @@
 
   config = {
     # https://github.com/tinted-theming/schemes
-    colorscheme = inputs.nix-colors.colorschemes.base16.mocha;
+    colorscheme = inputs.nix-colors.colorschemes.base16.rose-pine-moon;
     # colorScheme = {
       # slug = "custom";
       # name = "Custom";
