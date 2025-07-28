@@ -36,7 +36,7 @@
   folderBase = {
     devices =
       if (hostname == hub)
-      then builtins.AttrNames (builtins.removeAttrs devices [hub])
+      then builtins.attrNames (builtins.removeAttrs devices [hub])
       else [hub];
     # versioning = {
     #   type = "";
