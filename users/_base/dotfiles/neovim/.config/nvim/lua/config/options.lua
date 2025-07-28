@@ -2,6 +2,10 @@
 -- Make system clipboard the default
 vim.opt.clipboard:append("unnamedplus")
 
+if vim.env.SSH_TTY then
+  vim.g.clipboard = "osc52"
+end
+
 -- Allow use of mouse in all modes
 vim.opt.mouse = "a"
 
