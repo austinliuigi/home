@@ -12,6 +12,7 @@ in
     home.packages = [
       # pkgs.nil
       pkgs.nixd
+      pkgs.alejandra
     ];
   };
 }

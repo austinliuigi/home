@@ -4,7 +4,7 @@ require("conform").setup({
     cpp = { "clang_format" },
     lua = { "stylua" },
     javascript = { "prettierd" },
-    -- nix = { "nixfmt" },
+    nix = { "alejandra" },
   },
 })
 
