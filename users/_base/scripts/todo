@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 # ========== GTD ==========
-if [ ! -d ~/gtd ]; then
-    echo "ERROR: directory ~/gtd does not exist"
+if [ ! -d ~/todo ]; then
+    echo "ERROR: directory ~/todo does not exist"
     exit 1
 fi
 
-cd ~/gtd
+cd ~/todo
 
 
 # ========== NVIM ==========
@@ -14,7 +14,7 @@ server_addr="${TMPDIR:-/tmp}/todo.nvim.pipe"
 
 if [ ! -e "${server_addr}" ]; then
     # create new instance
-    nvim --listen "${server_addr}" .
+    nvim --listen "${server_addr}" tasks.norg
 else
     # connect to existing instance
     nvim --server "${server_addr}" --remote-ui

@@ -11,33 +11,47 @@
 }: let
   cfg = config.modules.programs.syncthing;
   hub = "cloudlab"; # the server that acts as the central hub in my cluster
+
+  # NOTE: any syncthing device configuration parameters can be put here: https://docs.syncthing.net/v1.29.3/users/config.html#device-element
+  #   - types are defined [here](https://github.com/syncthing/syncthing/blob/main/lib/config/deviceconfiguration.go)
+  #   - you can also see an example json configuration by querying an existing syncthing instance, e.g. `curl -X GET -H "X-API-Key: <API_KEY>" http://localhost:8384/rest/config/devices/UNUYF5C-Q5K4AGX-FCBNG35-ET3W2YN-TYFDGVG-WQNGWDN-EOE66R3-WTOR7QH`
   devices = {
     cloudlab = {
       id = "ST7U3RW-RE6UF3O-72N57KP-C54CPWS-B2ZTCVP-TTM47LW-447V7IP-36SVBQC";
-      # autoAcceptFolders = true;
+      autoAcceptFolders = false;
+      introducer = true;
     };
     x1-carbon = {
       id = "UNUYF5C-Q5K4AGX-FCBNG35-ET3W2YN-TYFDGVG-WQNGWDN-EOE66R3-WTOR7QH";
-      # autoAcceptFolders = true;
+      autoAcceptFolders = false;
+      introducer = false;
     };
     m1-macbook-air = {
       id = "INADG3A-GATQUGJ-GHNIWTK-32LQDID-DGWB36R-CZJNZPS-JPJI36C-BSNJKQL";
-      # autoAcceptFolders = true;
+      autoAcceptFolders = false;
+      introducer = false;
     };
     ghost-s1 = {
       id = "2DWIXMI-ALEUPVJ-NR344RT-RIIBG6E-JLT4ABC-Y6JW23K-WWH3L67-VURIGAC";
-      # autoAcceptFolders = true;
+      autoAcceptFolders = false;
+      introducer = false;
     };
     phone = {
       id = "DSL3FCT-A44MBOJ-MJBRQDO-5Y2V2QY-NMS3YQJ-OIL5GYV-OBAXMB3-NE7OQAM";
-      # autoAcceptFolders = true;
+      autoAcceptFolders = false;
+      introducer = false;
     };
   };
+
+  # NOTE: any syncthing folder configuration parameters can be put here: https://docs.syncthing.net/v1.29.3/users/config.html#folder-element
+  #   - types are defined [here](https://github.com/syncthing/syncthing/blob/main/lib/config/folderconfiguration.go)
+  #   - you can also see an example json configuration by querying an existing syncthing instance, e.g. `curl -X GET -H "X-API-Key: <API_KEY>" http://localhost:8384/rest/config/folders/pypev-zfwnm`
   folderBase = {
     devices =
       if (hostname == hub)
       then builtins.attrNames (builtins.removeAttrs devices [hub])
       else [hub];
+    rescanIntervalS = 1800;
     # versioning = {
     #   type = "";
     #   params = {
@@ -73,11 +87,18 @@ in {
               path = "${config.home.homeDirectory}/cookbook";
             }
             // folderBase;
-          "gtd" =
+          "checklists" =
+            {
+              enable = true;
+              id = "jnvdc-tncl6";
+              path = "${config.home.homeDirectory}/checklists";
+            }
+            // folderBase;
+          "todo" =
             {
               enable = true;
               id = "mwxtf-jm7w5";
-              path = "${config.home.homeDirectory}/gtd";
+              path = "${config.home.homeDirectory}/todo";
             }
             // folderBase;
           "guides" =
