@@ -96,7 +96,7 @@ cmp-nvim-lsp  = { git = "hrsh7th/cmp-nvim-lsp", rev = "99290b3ec1322070bcfb9e846
 cmp-nvim-lsp-signature-help  = { git = "hrsh7th/cmp-nvim-lsp-signature-help", rev = "031e6ba70b0ad5eee49fd2120ff7a2e325b17fa7", opt = true }
 cmp-nvim-lua  = { git = "hrsh7th/cmp-nvim-lua", rev = "f12408bdb54c39c23e67cab726264c10db33ada8", opt = true }
 cmp-path  = { git = "hrsh7th/cmp-path", rev = "91ff86cd9c29299a64f968ebb45846c485725f23", opt = true }
-# HACK: use this plenary takes priority over the luarocks simple because it gets searched first; remove this when plenary creates a new luarocks release (https://github.com/nvim-lua/plenary.nvim/issues/629)
+# HACK: this plenary takes priority over the luarocks simply because it gets searched first; remove this when plenary creates a new luarocks release (https://github.com/nvim-lua/plenary.nvim/issues/629)
 "plenary.nvim" = { git = "nvim-lua/plenary.nvim", rev = "master", opt = false }
 # use main branch when neorg doesn't require nvim-treesitter as a dependency, branch = "main", opt = true }
-nvim-treesitter  = { git = "nvim-treesitter/nvim-treesitter", rev = "v0.9.3^{}" }
+nvim-treesitter  = { git = "nvim-treesitter/nvim-treesitter", rev = "master", opt = false }
