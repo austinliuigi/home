@@ -3,7 +3,20 @@
 vim.opt.clipboard:append("unnamedplus")
 
 if vim.env.SSH_TTY then
-  vim.g.clipboard = "osc52"
+  vim.api.nvim_create_autocmd("UIEnter", {
+    callback = function()
+      -- HACK: wait after vim.g.termfeatures.osc52 is potentially set by the autocmd in https://github.com/neovim/neovim/blob/release-0.11/runtime/plugin/osc52.lua
+      vim.defer_fn(function()
+        -- vim.print(vim.g.termfeatures)
+        if vim.g.termfeatures.osc52 then
+          vim.g.clipboard = "osc52"
+          -- HACK: manually trigger clipboard provider to re-execute, otherwise the manually set vim.g.clipboard won't take effect
+          -- - https://github.com/neovim/neovim/blob/release-0.11/runtime/autoload/provider/clipboard.vim
+          vim.fn["provider#clipboard#Executable"]()
+        end
+      end, 500)
+    end,
+  })
 end
 
 -- Allow use of mouse in all modes
