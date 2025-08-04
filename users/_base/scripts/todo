@@ -14,7 +14,7 @@ server_addr="${TMPDIR:-/tmp}/todo.nvim.pipe"
 
 if [ ! -e "${server_addr}" ]; then
     # create new instance
-    nvim --listen "${server_addr}" tasks.norg
+    nvim --listen "${server_addr}" -o inbox.norg "calendar/$(date +"%Y/%m/%d").norg"
 else
     # connect to existing instance
     nvim --server "${server_addr}" --remote-ui
