@@ -42,8 +42,12 @@
     };
     servers = ["cloudlab"];
     desktops = ["x1-carbon" "ghost-s1"];
+    trace = false;
   in
-    nixpkgs.lib.debug.traceValSeqN 2 {
+    (expr:
+      if trace
+      then nixpkgs.lib.debug.traceValSeqN 2 expr
+      else expr) {
       homeConfigurations =
         {
           bootstrap = home-manager.lib.homeManagerConfiguration {
