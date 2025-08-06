@@ -1,9 +1,15 @@
 local snippets = {
-  s("shebang", fmt([[
+  s(
+    "shebang",
+    fmt(
+      [[
     #!{}
-  ]], {
-    c(1, { t("/bin/bash"), t("/usr/bin/env bash"), t("") }),
-  })),
+  ]],
+      {
+        c(1, { t("/usr/bin/env bash"), t("/bin/bash"), t("") }),
+      }
+    )
+  ),
 }
 
 return snippets
