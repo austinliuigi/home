@@ -104,6 +104,30 @@ local function handle_relative_day(spec)
   return computed_date
 end
 
+---@param spec string -- Expected format: (+|-)<N>w (e.g. +5w)
+---@return string? computed_date
+local function handle_relative_week(spec)
+  local _, _, direction, n_weeks = string.find(spec, "^([+-])(%d+)w$")
+  if direction == nil then
+    return nil
+  end
+
+  local start_time = get_start_time()
+  local computed_time = (direction == "+") and (start_time + (60 * 60 * 24 * 7 * n_weeks))
+    or (start_time - (60 * 60 * 24 * 7 * n_weeks))
+
+  local computed_date = os.date("%Y/%m/%d", computed_time)
+  local computed_date_file = string.format("%s/%s.norg", calendar_dir, computed_date)
+  if vim.uv.fs_stat(computed_date_file) then
+    vim.cmd(string.format("edit %s/%s.norg", calendar_dir, computed_date))
+  else
+    vim.notify(string.format("File '%s' does not exist", computed_date_file), vim.log.levels.WARN, { title = "Todo" })
+  end
+
+  ---@diagnostic disable-next-line: return-type-mismatch
+  return computed_date
+end
+
 ---@param spec string -- Expected format: (+|-)<N>m (e.g. +8m)
 ---@return string? computed_date
 local function handle_relative_month(spec)
@@ -184,8 +208,13 @@ vim.api.nvim_create_user_command("Todo", function(attrs)
   local nargs = #attrs.fargs
 
   if nargs == 0 then
+    local cell_aspect_ratio = 2 / 1 -- heuristic; it actually depends on the font
     vim.cmd(string.format("edit %s/inbox.norg", todo_dir))
-    vim.cmd(string.format("split %s/%s.norg", calendar_dir, os.date("%Y/%m/%d")))
+    if vim.api.nvim_win_get_height(0) * cell_aspect_ratio > vim.api.nvim_win_get_width(0) then
+      vim.cmd(string.format("split %s/%s.norg", calendar_dir, os.date("%Y/%m/%d")))
+    else
+      vim.cmd(string.format("vsplit %s/%s.norg", calendar_dir, os.date("%Y/%m/%d")))
+    end
   end
 
   for _, arg in ipairs(attrs.fargs) do
@@ -195,9 +224,26 @@ vim.api.nvim_create_user_command("Todo", function(attrs)
     elseif handle_absolute_month(arg) then
     elseif handle_absolute_year(arg) then
     elseif handle_relative_day(arg) then
+    elseif handle_relative_week(arg) then
     elseif handle_relative_month(arg) then
     elseif handle_relative_year(arg) then
     elseif handle_exact_date(arg) then
     end
   end
 end, { nargs = "?" })
+
+--====================================================================================================
+-- Mapping
+--====================================================================================================
+vim.api.nvim_create_autocmd("BufRead", {
+  callback = function()
+    if string.match(vim.api.nvim_buf_get_name(0), todo_dir) then
+      vim.keymap.set("n", "(", function()
+        vim.cmd(string.format("Todo -%dd", vim.v.count1))
+      end, { buffer = 0 })
+      vim.keymap.set("n", ")", function()
+        vim.cmd(string.format("Todo +%dd", vim.v.count1))
+      end, { buffer = 0 })
+    end
+  end,
+})
