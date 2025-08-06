@@ -182,6 +182,8 @@ function gitstatusPromptUpdate () {
 
 # ========== PROMPT ==========
 
+is_pty="$(tty | grep 'pts' --silent && echo "true" || echo "false")" # 0 if true, else 1
+
 function setPrompt () {
     # Use default zsh options
     emulate -L zsh
@@ -191,10 +193,17 @@ function setPrompt () {
     venvPromptUpdate
     gitstatusPromptUpdate
 
-    local top_left=$'\n'"%f╭─${SSH_PROMPT}${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}"
-    local top_right="─╮"
-    local bottom_left="╰─ ᛋ "
-    local bottom_right="%F{green}󰟠%f ─╯"
+    if [ "$is_pty" = "true" ]; then
+      local top_left=$'\n'"%f╭─${SSH_PROMPT}${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}"
+      local top_right="─╮"
+      local bottom_left="╰─ ᛋ "
+      local bottom_right="%F{green}󰟠%f ─╯"
+    else
+      local top_left=$'\n'"%f┌─${SSH_PROMPT}${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}"
+      local top_right="─┐"
+      local bottom_left="└─ $ "
+      local bottom_right="├─┘"
+    fi
 
     # Call padMiddle to set RETURN
     padMiddle "$top_left" "$top_right"
@@ -205,7 +214,11 @@ function setPrompt () {
 }
 
 function setPastPrompt () {
-    PROMPT=$'\n'"%f╭─${SSH_PROMPT}${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}%f"$'\n'"%f╰─ ᛋ "
+    if [ "$is_pty" = "true" ]; then
+      PROMPT=$'\n'"%f╭─${SSH_PROMPT}${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}%f"$'\n'"%f╰─ ᛋ "
+    else
+      PROMPT=$'\n'"%f┌─${SSH_PROMPT}${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}%f"$'\n'"%f└─ $ "
+    fi
     RPROMPT=''
 }
 
