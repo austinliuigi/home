@@ -39,7 +39,7 @@ require("snacks").setup({
   },
   quickfile = { enabled = true },
   scroll = {
-    enabled = true,
+    enabled = false,
     animate = {
       duration = { step = 25, total = 300 },
       easing = "outQuad",

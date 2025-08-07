@@ -28,7 +28,7 @@ require("todo-comments").setup({
   --==========================================================================================
   gui_style = {
     fg = "NONE", -- The gui style to use for the fg highlight group.
-    bg = "BOLD,REVERSE,UNDERDASHED", -- The gui style to use for the bg highlight group.
+    bg = "BOLD,REVERSE,UNDERLINE", -- The gui style to use for the bg highlight group.
   },
   highlight = {
     multiline = true, -- enable multine todo comments
@@ -37,7 +37,7 @@ require("todo-comments").setup({
     before = "", -- "fg" or "bg" or empty
     keyword = "bg", -- "fg", "bg", "wide" or empty. (wide is the same as bg, but will also highlight surrounding characters)
     after = "fg", -- "fg" or "bg" or empty
-    pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlightng (vim regex)
+    pattern = [[.*<(KEYWORDS)\s*]], -- pattern or table of patterns, used for highlightng (vim regex)
     comments_only = true, -- uses treesitter to match keywords in comments only
     max_line_len = 400, -- ignore lines longer than this
     exclude = {}, -- list of file types to exclude highlighting
@@ -66,6 +66,6 @@ require("todo-comments").setup({
     },
     -- regex that will be used to match keywords with the search command
     -- (KEYWORDS) will be interpolated
-    pattern = [[\b(KEYWORDS):]], -- ripgrep regex
+    pattern = [[\b(KEYWORDS)]], -- ripgrep regex
   },
 })
