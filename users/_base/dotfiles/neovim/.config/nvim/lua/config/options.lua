@@ -9,10 +9,14 @@ if vim.env.SSH_TTY then
       vim.defer_fn(function()
         -- vim.print(vim.g.termfeatures)
         if vim.g.termfeatures.osc52 then
+          vim.notify("Using OSC52 as clipboard provider", vim.log.levels.INFO, { title = "Clipboard" } )
           vim.g.clipboard = "osc52"
           -- HACK: manually trigger clipboard provider to re-execute, otherwise the manually set vim.g.clipboard won't take effect
-          -- - https://github.com/neovim/neovim/blob/release-0.11/runtime/autoload/provider/clipboard.vim
-          vim.fn["provider#clipboard#Executable"]()
+          -- - to reload, we re-source autoload/provider/clipboard.vim, because eval_has_provider() is dependent on the value of vim.g.loaded_clipboard_provider, which is set only when the script is executed
+          --   - https://github.com/neovim/neovim/blob/release-0.11/runtime/autoload/provider/clipboard.vim#L356
+          --   - https://github.com/neovim/neovim/blob/release-0.11/src/nvim/eval.c#L8590
+          vim.cmd("unlet g:loaded_clipboard_provider")
+          vim.cmd("runtime autoload/provider/clipboard.vim")
         end
       end, 500)
     end,
