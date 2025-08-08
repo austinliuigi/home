@@ -24,6 +24,7 @@
       gdu.enable = true;
       git.enable = true;
       neovim.enable = true;
+      pet.enable = true;
       syncthing.enable = true;
       zoxide.enable = true;
       zsh.enable = true;

@@ -60,6 +60,7 @@
       mpv.enable = true;
       neovim.enable = true;
       pcmanfm.enable = true;
+      pet.enable = true;
       sioyek.enable = true;
       sops.enable = true;
       syncthing.enable = true;
