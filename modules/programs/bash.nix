@@ -1,9 +1,12 @@
-{ pkgs, lib, config, inputs, ... }:
-
-let
-  cfg = config.modules.programs.bash;
-in
 {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}: let
+  cfg = config.modules.programs.bash;
+in {
   options.modules.programs.bash.enable = lib.mkEnableOption "bash module";
 
   config = lib.mkIf cfg.enable {
@@ -18,6 +21,7 @@ in
       initExtra = ''
         # source ~/.config/bash/config/aliases.sh
         source ~/.config/bash/config/prompt.sh
+        source ~/.config/bash/config/keybinds.sh
         source ~/.config/bash/config/bashrc
       '';
     };

@@ -46,7 +46,7 @@ for km in viopp visual; do
 done
 
 #===========================================================================================
-# Vi Mode
+# Misc
 #===========================================================================================
 autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
@@ -62,3 +62,28 @@ bindkey '^e' edit-command-line
 neogit() { nvim -c "Neogit kind=replace" }
 zle -N neogit
 bindkey "^g" neogit
+
+# https://github.com/knqyf263/pet?tab=readme-ov-file#select-snippets-at-the-current-line-like-c-r-recommended
+function pet-select() {
+  BUFFER=$(pet search --raw --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle redisplay
+}
+zle -N pet-select
+bindkey '^_' pet-select # ctrl+slash generates the same character code as ctrl-underscore for some reason
+
+# https://github.com/pindexis/marker/blob/ef68f2a26fe479f75bbaf5c30d3cd0fd7fd45a45/bin/marker.sh#L87C1-L96C6
+function _pet_move_cursor_to_next_parameter() {
+    match="$(echo "$BUFFER" | perl -nle 'print $& if /<.*?>/')"
+    if [ ! -z "$match" ]; then
+      default="$(echo "$match" | perl -nle 'print $& if /(?<==).*(?=>)/')"
+      match_len=${#match}
+      default_len=${#default}
+      parameter_offset=${#BUFFER%%$match*}
+
+      CURSOR="$((${parameter_offset} + ${default_len}))"
+      BUFFER="${BUFFER[1,$parameter_offset]}${default}${BUFFER[$parameter_offset+$match_len+1,-1]}"
+    fi        
+}
+zle -N _pet_move_cursor_to_next_parameter
+bindkey '^n' _pet_move_cursor_to_next_parameter 
