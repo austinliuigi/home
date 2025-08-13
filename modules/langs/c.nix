@@ -1,10 +1,13 @@
-{ pkgs, lib, config, inputs, ... }:
-
-let
-  cfg = config.modules.programming_languages.c;
-in
 {
-  options.modules.programming_languages.c = {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}: let
+  cfg = config.modules.langs.c;
+in {
+  options.modules.langs.c = {
     enable = lib.mkEnableOption "c module";
   };
 

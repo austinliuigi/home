@@ -71,8 +71,9 @@
       zoxide.enable = true;
       zsh.enable = true;
     };
-    programming_languages = {
+    langs = {
       c.enable = true;
+      java.enable = true;
       javascript.enable = true;
       lua.enable = true;
       nix.enable = true;

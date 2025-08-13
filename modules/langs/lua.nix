@@ -1,10 +1,13 @@
-{ pkgs, lib, config, inputs, ... }:
-
-let
-  cfg = config.modules.programming_languages.lua;
-in
 {
-  options.modules.programming_languages.lua = {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}: let
+  cfg = config.modules.langs.lua;
+in {
+  options.modules.langs.lua = {
     enable = lib.mkEnableOption "lua module";
   };
 
