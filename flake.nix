@@ -40,8 +40,22 @@
       inherit inputs;
       inherit utils;
     };
-    servers = ["cloudlab"];
-    desktops = ["x1-carbon" "ghost-s1"];
+    servers = [
+      {
+        hostname = "cloudlab";
+        system = "x86_64-linux";
+      }
+    ];
+    desktops = [
+      {
+        hostname = "x1-carbon";
+        system = "x86_64-linux";
+      }
+      {
+        hostname = "ghost-s1";
+        system = "x86_64-linux";
+      }
+    ];
     trace = false;
   in
     (expr:
@@ -60,14 +74,14 @@
         }
         // nixpkgs.lib.pipe desktops [
           (builtins.map
-            (hostname: {
-              name = "austin@${hostname}";
+            (host: {
+              name = "austin@${host.hostname}";
               value = home-manager.lib.homeManagerConfiguration {
-                pkgs = nixpkgs.legacyPackages.x86_64-linux;
+                pkgs = nixpkgs.legacyPackages.${host.system};
                 extraSpecialArgs =
                   baseExtraSpecialArgs
                   // {
-                    inherit hostname;
+                    hostname = host.hostname;
                   };
                 modules = [
                   ./modules
@@ -79,14 +93,14 @@
         ]
         // nixpkgs.lib.pipe servers [
           (builtins.map
-            (hostname: {
-              name = "txn@${hostname}";
+            (host: {
+              name = "txn@${host.hostname}";
               value = home-manager.lib.homeManagerConfiguration {
-                pkgs = nixpkgs.legacyPackages.x86_64-linux;
+                pkgs = nixpkgs.legacyPackages.${host.system};
                 extraSpecialArgs =
                   baseExtraSpecialArgs
                   // {
-                    inherit hostname;
+                    hostname = host.hostname;
                   };
                 modules = [
                   ./modules
@@ -98,14 +112,14 @@
         ]
         // nixpkgs.lib.pipe desktops [
           (builtins.map
-            (hostname: {
-              name = "txn@${hostname}";
+            (host: {
+              name = "txn@${host.hostname}";
               value = home-manager.lib.homeManagerConfiguration {
-                pkgs = nixpkgs.legacyPackages.x86_64-linux;
+                pkgs = nixpkgs.legacyPackages.${host.system};
                 extraSpecialArgs =
                   baseExtraSpecialArgs
                   // {
-                    inherit hostname;
+                    hostname = host.hostname;
                   };
                 modules = [
                   ./modules
