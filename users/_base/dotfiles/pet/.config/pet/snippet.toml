@@ -1,0 +1,5 @@
+[[Snippets]]
+  Description = "Output csv data in a formatted table"
+  Output = ""
+  Tag = ["formatting"]
+  command = "column -t -s, -o\" | \" <csv_file>"

@@ -4,7 +4,7 @@
   Color = false # enables output coloring with fzf, same as '--color' flag
   Column = 40 # column size for list command
   Editor = "nvim" # your favorite text editor
-  Format = "[$description]: $command $tags" # controls the format of the output when searching
+  Format = "$command    ($description)  [$tags]" # controls the format of the output when searching
   SelectCmd = "fzf --ansi --layout=reverse --border --height=90% --pointer=* --cycle --prompt=Snippets:" # selector command for edit command (fzf or peco)
   SnippetFile = "~/.config/pet/snippet.toml" # specify snippet directory
   SortBy = "recency" # specify how snippets get sorted (recency (default), -recency, description, -description, command, -command, output, -output)
