@@ -36,7 +36,9 @@
 	cmd = nvim -c \"DiffDir $LOCAL $REMOTE\" -c \"lua print('local: $LOCAL | remote: $REMOTE')\"
 	prompt = true
 [merge]
-	conflictStyle = zdiff3 # https://www.ductile.systems/zdiff3/
+	conflictStyle = diff3
+[rebase]
+    autosquash = true
 [pull]
 	ff = only
 [log]
