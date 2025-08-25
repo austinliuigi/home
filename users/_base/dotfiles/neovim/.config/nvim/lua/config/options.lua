@@ -1,7 +1,8 @@
--- General {{{
--- Make system clipboard the default
-vim.opt.clipboard:append("unnamedplus")
+-- CLIPBOARD {{{
+--------------------------------------------------
+vim.opt.clipboard:append("unnamedplus") -- set default clipboard
 
+-- Use osc52 clipboard in ssh sessions
 if vim.env.SSH_TTY then
   vim.api.nvim_create_autocmd("UIEnter", {
     callback = function()
@@ -9,7 +10,7 @@ if vim.env.SSH_TTY then
       vim.defer_fn(function()
         -- vim.print(vim.g.termfeatures)
         if vim.g.termfeatures.osc52 then
-          vim.notify("Using OSC52 as clipboard provider", vim.log.levels.INFO, { title = "Clipboard" } )
+          vim.notify("Using OSC52 as clipboard provider", vim.log.levels.INFO, { title = "Clipboard" })
           vim.g.clipboard = "osc52"
           -- HACK: manually trigger clipboard provider to re-execute, otherwise the manually set vim.g.clipboard won't take effect
           -- - to reload, we re-source autoload/provider/clipboard.vim, because eval_has_provider() is dependent on the value of vim.g.loaded_clipboard_provider, which is set only when the script is executed
@@ -22,228 +23,132 @@ if vim.env.SSH_TTY then
     end,
   })
 end
+-- }}}
 
--- Allow use of mouse in all modes
-vim.opt.mouse = "a"
+-- CURSOR {{{
+--------------------------------------------------
+vim.opt.mouse = "a" -- modes to enable mouse in
 
--- Set cursor shapes for each mode
---[[
-vim.opt.guicursor = {
-  n-v-c = 'block',
-  i-ci-ce = 'ver25',
-  r-cr = 'hor20',
-  o = 'hor50',
-  a = 'blinkwait700-blinkoff400-blinkon250-Cursor/lCursor',
-  sm = 'block-blinkwait175-blinkoff150-blinkon175'
-}
---]]
-vim.cmd([[
-  set guicursor=n-v-c:block-Cursor/lCursor
-  \,i-ci-ve:ver25-Cursor/lCursor
-  \,r-cr:hor20,o:hor50-Cursor/lCursor
-  \,t:block-blinkon500-blinkoff500-TermCursor
-  \,a:blinkwait700-blinkoff400-blinkon250
-  \,sm:block-blinkwait175-blinkoff150-blinkon175
-]])
+vim.opt.guicursor = table.concat({
+  "n-v-c:block-Cursor/lCursor",
+  "i-ci-ve:ver25-Cursor/lCursor",
+  "r-cr:hor20",
+  "o:hor50-Cursor/lCursor",
+  "t:block-blinkon500-blinkoff500-TermCursor",
+  "a:blinkwait700-blinkoff400-blinkon250",
+  "sm:block-blinkwait175-blinkoff150-blinkon175",
+}, ",")
+-- }}}
 
--- Highlight the line that the cursor is on
-vim.api.nvim_create_augroup("Cursorline", { clear = true })
-vim.api.nvim_create_autocmd({ "VimEnter", "BufWinEnter", "WinEnter" }, {
-  group = "Cursorline",
-  pattern = { "*" },
-  callback = function()
-    vim.wo.cursorline = true
-  end,
-})
-vim.api.nvim_create_autocmd({ "WinLeave" }, {
-  group = "Cursorline",
-  pattern = { "*" },
-  callback = function()
-    vim.wo.cursorline = false
-  end,
-})
+-- STATUS BARS {{{
+--------------------------------------------------
+vim.opt.number = true -- show line numbers
+vim.opt.relativenumber = false -- make line numbers relative to current position
+vim.opt.signcolumn = "auto:1" -- set signcolumn visibility and width
+vim.opt.foldcolumn = "auto:1"
 
--- Show line numbers and make them relative to current line
-vim.opt.number = true
-vim.opt.relativenumber = false
+vim.opt.laststatus = 3 -- set statusline visibility
+vim.opt.showtabline = 2 -- set tabline visibility
+-- }}}
 
--- Set default split directions
-vim.opt.splitbelow = true
-vim.opt.splitright = true
+-- SCROLL {{{
+--------------------------------------------------
+vim.opt.scrolloff = 0 -- number of lines to keep around the cursor
+vim.opt.sidescrolloff = 999 -- number of columns to keep around the cursor
+vim.opt.sidescroll = 1 -- number of lines to scroll at a time horizontally
+vim.opt.smoothscroll = true -- scroll by number of screen lines rather than text lines (matters when wrap is set)
+-- }}}
 
--- Don't show cmdline
--- vim.opt.cmdheight = 0
+-- CMDLINE {{{
+--------------------------------------------------
+vim.opt.cmdheight = 1 -- height of command line
+
+vim.opt.showmode = false -- show mode on cmdline
+
+-- Messages that show in command line
+vim.opt.shortmess:append("c")
+vim.opt.shortmess:remove("S")
 
 -- Command-line completion
 vim.opt.wildmenu = true
 vim.opt.wildoptions = { "pum" }
 vim.cmd("set wildcharm=<Tab>")
-
--- Number of lines/columns to keep around the cursor
-vim.opt.scrolloff = 0
-vim.opt.sidescrolloff = 999
-
--- Number of lines to scroll at a time horizontally
-vim.opt.sidescroll = 1
-
--- Don't show mode on cmdline
-vim.opt.showmode = false
-
--- Show matching symmetric delimiter when typing
-vim.opt.showmatch = true
-
--- Make tilde act like an operator
-vim.opt.tildeop = true
-
--- Set messages that show in command line
-vim.opt.shortmess:append("c")
-vim.opt.shortmess:remove("S")
-
--- Set events that don't ring the bell
-vim.opt.belloff = { "esc", "cursor", "error" }
-
--- Turn on signcolumn
-vim.opt.signcolumn = "yes:1"
-
--- Global statusline
-vim.opt.laststatus = 3
-
--- Default .tex filetype
-vim.g.tex_flavor = "latex"
-
--- Always show tabline
-vim.o.showtabline = 2
-
--- Set format options
-vim.api.nvim_create_augroup("FormatOptions", { clear = true })
-vim.api.nvim_create_autocmd("FileType", {
-  command = "set formatoptions=qnjp",
-  group = "FormatOptions",
-  pattern = { "*" },
-})
-
--- Set relative number line for help windows
-vim.api.nvim_create_augroup("HelpWindowNumLine", { clear = true })
-vim.api.nvim_create_autocmd("BufWinEnter", {
-  command = 'if &buftype == "help" | setlocal relativenumber | endif',
-  group = "HelpWindowNumLine",
-  pattern = { "*" },
-  desc = "Set relative number line for help windows",
-})
 -- }}}
--- Colors {{{
--- Use GUI colors in terminal, Note: must come before setting colorscheme
-vim.opt.termguicolors = true
 
--- Highlight TODO everywhere (not just in comments) for text and markdown files
-vim.api.nvim_create_augroup("Todo", { clear = true })
-vim.api.nvim_create_autocmd("Syntax", {
-  command = "syn keyword myTodo TODO XXX containedin=ALL | hi! link myTodo TODO",
-  group = "Todo",
-  pattern = { "*.txt", "*.md" },
-  desc = "Highlight TODO everywhere (not just in comments) for text and markdown files",
-})
+-- SEARCH {{{
+--------------------------------------------------
+vim.opt.hlsearch = true -- turn on search highlighting
+vim.opt.incsearch = true -- search as you type
 
--- Highlight yanked text
-vim.api.nvim_create_augroup("HighlightYank", { clear = true })
-vim.api.nvim_create_autocmd("TextYankPost", {
-  group = "HighlightYank",
-  pattern = { "*" },
+vim.opt.ignorecase = true -- make searching case insesitive
+vim.opt.smartcase = true -- if ignorecase is on, make search case sensitive if it contains uppercase characters
+-- }}}
+
+-- WHITESPACE {{{
+--------------------------------------------------
+vim.opt.expandtab = true -- use spaces instead of tabs
+vim.opt.shiftwidth = 4 -- amount of whitespace to use for `>`, `<`, and 'cindent'
+vim.opt.smarttab = true -- use shiftwidth for amount of whitespace <Tab>/<BS> insert/delete in the *beginning* of lines
+vim.opt.softtabstop = 0 -- the number of cells between soft tab stops
+vim.opt.tabstop = vim.o.shiftwidth -- the number of cells between tab stops
+
+vim.opt.autoindent = true -- copy indent from current line when creating a new line via `I_<CR>`, `o`, or `O`
+vim.opt.smartindent = false -- like autoindent, but recognizes some C syntax to increase or decrease automatic indentation in some cases
+vim.opt.cindent = false -- enable automatic C program indenting; more configurable than the smartindent
+vim.opt.indentexpr = "" -- expression that computes the indent of each line
+
+vim.opt.list = true -- show whitespace characters
+vim.opt.listchars = { tab = "▸-", eol = "↴", precedes = "‹", extends = "›" } -- map whitespace characters to on-screen representation
+
+vim.opt.concealcursor = "" -- set modes where conceal chars can be hidden on cursor line
+vim.o.conceallevel = 2 -- set conceal level
+
+vim.o.wrap = false -- wrap lines longer than window width
+vim.opt.linebreak = true -- wrap only after certain "break" characters set in 'breakat'
+vim.opt.breakat = " 	!@*-+;:,./?" -- characters that can precede a virtual line break when `'wrap'` and `'linebreak'` are on
+vim.opt.breakindent = true -- make wrapped lines have same indentation as original line
+vim.opt.breakindentopt = "list:-1" -- options to control alter the amount of `'breakindent'`
+vim.opt.showbreak = "" -- set string to show in beginning of wrapped lines, e.g. "↪"
+vim.opt.textwidth = 0 -- insert a physical linebreak when typing in insert mode passes 'textwidth' columns.
+
+-- override formatoptions from any builtin filetype plugins
+vim.api.nvim_create_autocmd("FileType", {
   callback = function()
-    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 700 })
+    vim.opt.formatoptions = "qnjp"
   end,
 })
-
 -- }}}
--- Whitespace {{{
--- Default indent settings
-vim.opt.expandtab = true
-vim.opt.shiftwidth = 2
 
--- Indent to previous lines indentation
-vim.opt.autoindent = true
-
--- Show whitespace characters
-vim.opt.list = true
-vim.opt.listchars = { tab = "▸ ", eol = "↴", precedes = "‹", extends = "›" }
-
--- Set modes where conceal chars can be hidden on cursor line
-vim.opt.concealcursor = ""
-
--- Set conceal level
-vim.o.conceallevel = 2
-
--- Set default wrap value
-vim.o.wrap = false
-
--- Make wrapped lines have same indentation as original line
-vim.opt.breakindent = true
-
--- Wrap only on "break" characters (not in the middle of words)
-vim.opt.linebreak = true
-
--- Set string to show in beginning of wrapped lines
-vim.opt.showbreak = "↪"
--- }}}
--- Searching {{{
--- Search highlighting
-vim.opt.hlsearch = true
-
--- Search as you type
-vim.opt.incsearch = true
-
--- Case insensitive searching unless uppercase character is typed
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
--- }}}
--- Folding {{{
--- Define folding using foldexpr
-vim.opt.foldmethod = "expr"
-
--- Set string that closed folds show
--- vim.cmd([[
---   function! MyFoldText()
---       let num_foldlevel_chars = (v:foldlevel - 1) * 2
---       " let foldlevel_indicator = num_foldlevel_chars ? '╰' . repeat('─', num_foldlevel_chars-3) . ' ' : ''
---       let foldlevel_indicator = repeat(' ', num_foldlevel_chars)
---       let line = getline(v:foldstart)
---       let fold_title = substitute(line, '^\s\+\|"\ *\|//\|/\*\|\*/\|\ *{\+\d\=', '', 'g') . ' '
---       let num_of_lines = v:foldend - v:foldstart
---       let fold_linecount = '(' . num_of_lines . ' Lines)'
---       let last_linenr_digits = strchars(line('$'))
---       let padding_length = winwidth(0) - strchars(foldlevel_indicator) - strchars(fold_title) - strchars(fold_linecount) - &numberwidth - ((last_linenr_digits >= &numberwidth) ? (last_linenr_digits - &numberwidth + 1) : 0) - 2
---       " extra 2 for the signcolumn
---       return foldlevel_indicator . fold_title . repeat('·', padding_length) . fold_linecount
---   endfunction
--- ]])
+-- FOLDING {{{
+--------------------------------------------------
+vim.opt.foldmethod = "expr" -- method used to compute folds
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldmarker = "{{{,}}}" -- strat and end marker to use when 'foldmethod' is "marker"
+vim.opt.foldtext = "" -- expression used to evaluate the text displayed for a closed fold
+vim.opt.fillchars:append({ fold = "·", foldopen = "", foldclose = "", foldsep = "│" }) -- "╰"
+vim.opt.foldlevelstart = 99 -- initial value of 'foldlevel' when opening a new buffer
 
 -- function _foldtext()
 --   local line = vim.fn.getline(vim.v.foldstart)
---
 -- end
 -- vim.opt.foldtext = "v:lua._foldtext()"
-
-vim.o.foldtext = ""
-vim.opt.fillchars:append({ fold = " " })
-vim.o.foldlevelstart = 99
 -- }}}
--- Diff {{{
--- vim.opt.fillchars += diff:╱
+
+-- KEYBINDS {{{
+--------------------------------------------------
+vim.opt.timeout = false -- whether to wait for when a mapping
+vim.opt.ttimeout = true -- whether to wait for a keycode sequence
+vim.opt.ttimeoutlen = 0 -- how long to wait for a keycode sequence when 'ttimeout' is true
+-- }}}
+
+-- DIFF {{{
+--------------------------------------------------
 vim.opt.fillchars:append({ diff = "╱" })
--- vim.opt.diffopt += algorithm:histogram
 vim.opt.diffopt:append("algorithm:histogram")
 -- }}}
--- Terminal {{{
--- }}}
--- Timeout {{{
--- Wait indefinitely for a mapping, but a set time for key-codes
-vim.opt.timeout = false
-vim.opt.ttimeout = true
 
--- Don't wait for keycodes (instantly assume esc, etc.)
-vim.opt.ttimeoutlen = 0
--- }}}
--- Backup {{{
+-- BACKUP {{{
+--------------------------------------------------
 vim.cmd([[
   let &directory = expand('~/.local/share/nvim/.nvimdata/Swap//')
   if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
@@ -257,4 +162,17 @@ vim.cmd([[
   if !isdirectory(&undodir) | call mkdir(&undodir, "p") | endif
 ]])
 -- }}}
+
+-- MISC {{{
+--------------------------------------------------
+vim.opt.termguicolors = true -- use 24-bit colors in compatible terminal; NOTE: must come before setting colorscheme
+vim.opt.splitbelow = true -- new split windows are created below the current by default
+vim.opt.splitright = true -- new vsplit windows are created below the current by default
+vim.opt.splitkeep = "screen" -- how to current buffer when a split is opened
+vim.opt.showmatch = true -- show matching symmetric delimiter when typing
+vim.opt.tildeop = true -- make tilde act like an operator
+vim.opt.belloff = { "esc", "cursor", "error" } -- set events that don't ring the bell
+vim.g.tex_flavor = "latex" -- default .tex format; "plain"|"context"|"latex"
+--- }}}
+
 -- vim: foldmethod=marker
