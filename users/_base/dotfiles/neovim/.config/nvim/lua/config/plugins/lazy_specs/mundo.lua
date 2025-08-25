@@ -2,6 +2,6 @@ return {
   "vim-mundo",
   cmd = "MundoToggle",
   keys = {
-    { "_", "<cmd>MundoToggle<CR>" },
+    { "<leader>_", "<cmd>MundoToggle<CR>" },
   },
 }

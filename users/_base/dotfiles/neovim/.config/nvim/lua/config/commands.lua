@@ -57,7 +57,7 @@ end, { nargs = "+", register = false })
 --- Change directory relative to head of current buffer
 --
 vim.api.nvim_create_user_command("Cd", function(attrs)
-  local head = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
+  local head = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h"):gsub("^oil://", "")
   local path = head .. "/" .. attrs.args -- if no arg provided, attrs.args is "" and this just appends a trailing slash
   local finfo = vim.uv.fs_stat(path)
 
@@ -76,7 +76,7 @@ vim.api.nvim_create_user_command("Cd", function(attrs)
 end, { nargs = "?" })
 
 vim.api.nvim_create_user_command("Tcd", function(attrs)
-  local head = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
+  local head = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h"):gsub("^oil://", "")
   local path = head .. "/" .. attrs.args -- if no arg provided, attrs.args is "" and this just appends a trailing slash
   local finfo = vim.uv.fs_stat(path)
 

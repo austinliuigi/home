@@ -375,19 +375,36 @@ end, { noremap = true, silent = true, desc = "Toggle location list" })
 -- }}}
 
 -- ========== Viewports ==========
+
 -- Window mappings {{{
 
-keymap({ "n" }, "<leader><C-h>", "<cmd>new<CR>", { noremap = true })
+keymap({ "n" }, "<leader><C-s>", "<cmd>vnew<CR>", { noremap = true })
 
-keymap({ "n" }, "<leader><C-v>", "<cmd>vnew<CR>", { noremap = true })
+keymap({ "n" }, "<leader><C-S-s>", "<cmd>new<CR>", { noremap = true })
 
-keymap({ "n", "i", "t" }, "<C-h>", "<cmd>wincmd h<CR><Esc>", { noremap = true })
+keymap({ "n", "t" }, "<C-h>", "<cmd>wincmd h<CR>", { noremap = true })
 
-keymap({ "n", "i", "t" }, "<C-j>", "<cmd>wincmd j<CR><Esc>", { noremap = true })
+keymap({ "n", "t" }, "<C-j>", "<cmd>wincmd j<CR>", { noremap = true })
 
-keymap({ "n", "i", "t" }, "<C-k>", "<cmd>wincmd k<CR><Esc>", { noremap = true })
+keymap({ "n", "t" }, "<C-k>", "<cmd>wincmd k<CR>", { noremap = true })
 
-keymap({ "n", "i", "t" }, "<C-l>", "<cmd>wincmd l<CR><Esc>", { noremap = true })
+keymap({ "n", "t" }, "<C-l>", "<cmd>wincmd l<CR>", { noremap = true })
+
+keymap({ "i" }, "<C-h>", "<Esc><cmd>wincmd h<CR>", { noremap = true })
+
+keymap({ "i" }, "<C-j>", "<Esc><cmd>wincmd j<CR>", { noremap = true })
+
+keymap({ "i" }, "<C-k>", "<Esc><cmd>wincmd k<CR>", { noremap = true })
+
+keymap({ "i" }, "<C-l>", "<Esc><cmd>wincmd l<CR>", { noremap = true })
+
+keymap({ "n" }, "<C-Down>", "<cmd>wincmd -<CR>", { noremap = true })
+
+keymap({ "n" }, "<C-Up>", "<cmd>wincmd +<CR>", { noremap = true })
+
+keymap({ "n" }, "<C-Left>", "<cmd>wincmd <<CR>", { noremap = true })
+
+keymap({ "n" }, "<C-Right>", "<cmd>wincmd ><CR>", { noremap = true })
 
 ---@param direction "h"|"j"|"k"|"l"
 local function swap_window(direction)
@@ -432,11 +449,15 @@ end, { noremap = true })
 -- }}}
 -- Tab mappings {{{
 
-keymap({ "n" }, "<leader><C-t>", "<cmd>tabnew<CR>", { noremap = true })
+keymap({ "n" }, "<C-t>", "<cmd>tabnew<CR>", { noremap = true })
 
-keymap({ "n", "i", "t" }, "<C-,>", "<cmd>tabprev<CR>", { noremap = true, silent = true })
+keymap({ "n", "t" }, "<C-,>", "<cmd>tabprev<CR>", { noremap = true, silent = true })
 
-keymap({ "n", "i", "t" }, "<C-.>", "<cmd>tabnext<CR>", { noremap = true, silent = true })
+keymap({ "n", "t" }, "<C-.>", "<cmd>tabnext<CR>", { noremap = true, silent = true })
+
+keymap({ "i" }, "<C-,>", "<Esc><cmd>tabprev<CR>", { noremap = true, silent = true })
+
+keymap({ "i" }, "<C-.>", "<Esc><cmd>tabnext<CR>", { noremap = true, silent = true })
 
 keymap("n", "<C-S-,>", function()
   if vim.fn.tabpagenr() == 1 then

@@ -7,5 +7,3 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
   end,
   buffer = 0,
 })
-
-vim.wo.conceallevel = 0
