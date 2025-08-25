@@ -15,7 +15,7 @@ require("neorg").setup({
         icon_preset = "diamond",
         icons = {
           list = {
-            icons = { "-", " -", "  -", "   -", "    -", "     -" },
+            icons = { "-", "   -", "      -", "         -", "            -", "               -" },
           },
           ordered = {
             icons = { "1.", " A.", "  a.", "   (1)", "    I.", "     i." },
@@ -61,6 +61,12 @@ require("neorg").setup({
     ["core.export.markdown"] = {
       config = {
         extensions = "all",
+      },
+    },
+
+    ["core.todo-introspector"] = {
+      config = {
+        highlight_group = "Comment",
       },
     },
 
