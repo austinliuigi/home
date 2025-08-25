@@ -24,14 +24,18 @@ in {
     home.packages = [
       pkgs.poetry
       pkgs.pyright
-      (pkgs.python311.withPackages (ps:
-        with ps;
-          [
-            virtualenv
-            debugpy
-            pylint
-          ]
-          ++ builtins.map (lib: ps.lib) config.pythonLibraries))
+      (
+        pkgs.python312.withPackages (
+          ps:
+            with ps;
+              [
+                virtualenv
+                debugpy
+                pylint
+              ]
+              ++ builtins.map (lib: ps.${lib}) config.pythonLibraries
+        )
+      )
     ];
   };
 }
