@@ -36,6 +36,12 @@ function pasterator.paste(motion)
   local end_row = end_line - 1
   -- perform replacements
   if motion == "char" then
+    -- if the last character is multi-width, we need to account for it since nvim_buf_set_text counts columns as bytes
+    --   - note: this only applies if invoked from normal mode; if invoked from visual mode, g@ sets 'selection' to be inclusive, which makes '] the ending byte of the last character instead of the first byte
+    --     - we get around this by only mapping in normal mode, since visual mode gp and gP already do what we want
+    end_col = end_col
+      + vim.fn.strlen(vim.fn.strcharpart(vim.api.nvim_get_current_line(), vim.fn.charcol("']") - 1, 1))
+      - 1
     vim.api.nvim_buf_set_text(0, start_row, start_col, end_row, end_col + 1, replacement_lines)
   elseif motion == "line" then
     vim.api.nvim_buf_set_text(0, start_row, 0, end_row, -1, replacement_lines)
@@ -49,12 +55,12 @@ function pasterator.paste(motion)
   end
 end
 
-vim.keymap.set({ "n", "x" }, "gp", function()
+vim.keymap.set({ "n" }, "gp", function()
   paste_key = "p"
   return pasterator.paste()
 end, { expr = true })
 
-vim.keymap.set({ "n", "x" }, "gP", function()
+vim.keymap.set({ "n" }, "gP", function()
   paste_key = "P"
   return pasterator.paste()
 end, { expr = true })
