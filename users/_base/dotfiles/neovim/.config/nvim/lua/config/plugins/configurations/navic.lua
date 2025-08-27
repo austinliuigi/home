@@ -29,8 +29,8 @@ require("nvim-navic").setup({
     Variable = "󰀫 ",
   },
   highlight = true,
+  click = true,
   separator = " > ",
-  -- separator = " » ",
   depth_limit = 0,
   depth_limit_indicator = "..",
 })

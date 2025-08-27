@@ -42,7 +42,8 @@ require("fzf-lua").setup({
       -- ["ctrl-shift-s"] = actions.file_split, -- https://github.com/junegunn/fzf/issues/2867
       ["ctrl-s"] = actions.file_vsplit,
       ["ctrl-t"] = actions.file_tabedit,
-      ["ctrl-q"] = actions.file_sel_to_qf,
+      -- ["ctrl-q"] = actions.file_sel_to_qf,
+      ["ctrl-q"] = { fn = actions.file_sel_to_qf, prefix = "select-all+" },
       -- ["ctrl-shift-s"] = actions.file_sel_to_ll,
       -- ["ctrl-i"] = actions.toggle_ignore, -- note: ctrl-i is the same as tab in terminals
       ["ctrl-h"] = actions.toggle_hidden,

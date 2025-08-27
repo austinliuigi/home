@@ -1,8 +1,12 @@
+-- HACK: Neogit has a bug where it doesn't set these highlights, but uses it in the winhighlight options
+-- vim.api.nvim_set_hl(0, "NeogitNormal", { link = "Normal" })
+-- vim.api.nvim_set_hl(0, "NeogitCursorLineNr", { link = "CursorLineNr" })
+
 require("neogit").setup({
 
   -- ========== General Options ==========
   disable_hint = false, -- hides hints at the top of the status buffer
-  disable_signs = false, -- disables signs for sections/items/hunks
+  disable_signs = true, -- disables signs for sections/items/hunks
   disable_context_highlighting = false, -- disables changing the buffer highlights based on where cursor is
 
   -- true   will start commit editor in normal mode

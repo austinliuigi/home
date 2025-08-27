@@ -1,88 +1,90 @@
-local bartender = require("bartender")
+local providers = require("bartender.providers")
 local utils = require("bartender.utils")
-local sections = require("bartender.builtin.sections")
--- local mode_component = require("bartender.builtin.components.mode")
 
--- this is a function so that it can change value after startup
-local winbar_active_accent = function()
-  return utils.get_hl_attr("TabLineSel", "fg"), utils.get_hl_attr("Base03", "fg")
+-- stylua: ignore start
+--==================================================================================================
+-- Custom Providers
+--==================================================================================================
+
+local head = function(fg, bg)
+  fg = fg or utils.hl_attr_wrap("Normal", "fg")
+  bg = bg or utils.hl_attr_wrap("Comment", "fg")
+
+  return {
+    { " ", hl = { bg = bg } },
+    { providers.lsp_root, hl = { fg = fg, bg = bg } },
+    { " ", hl = { bg = bg } },
+    { "", hl = { fg = bg } },
+  }, {}
 end
 
--- this is a function so that it can change value after startup
-local winbar_inactive_accent = function()
-  return utils.get_hl_attr("TabLine", "fg"), utils.get_hl_attr("TabLine", "bg")
+local tail = function(fg, bg)
+  fg = fg or "transparent"
+  bg = bg or utils.hl_attr_wrap("Comment", "fg")
+
+  return {
+    { "", hl = { fg = "transparent", bg = bg } },
+    { " ", hl = { bg = bg } },
+    { providers.bufnr, hl = { fg = fg, bg = bg, bold = true } },
+    { " ", hl = { bg = bg } },
+  }, {}
 end
 
-bartender.setup({
+--==================================================================================================
+-- Config
+--==================================================================================================
+
+require("bartender").setup({
   winbar = {
     active = {
-      {
-        sections.head,
-        args = function()
-          return { winbar_active_accent() }
-        end,
-      },
-      { sections.file },
-      { sections.partition },
-      { sections.navic },
-      {
-        sections.sharp_tail,
-        args = function()
-          return { winbar_active_accent() }
-        end,
-      },
+      { head },
+      { " " },
+      { providers.groups.buffer },
+      { "%=" },
+      { providers.navic },
+      { " " },
+      { tail },
     },
     inactive = {
-      {
-        sections.head,
-        args = function()
-          return { winbar_inactive_accent() }
-        end,
-      },
-      { sections.file },
-      { sections.partition },
-      {
-        sections.sharp_tail,
-        args = function()
-          return { winbar_inactive_accent() }
-        end,
-      },
+      { head, args = function() return { utils.hl_attr_wrap("Comment", "fg"), utils.hl_attr_wrap("TabLine", "bg") } end, },
+      { " " },
+      { providers.groups.buffer },
+      { "%=" },
+      { tail, args = function() return { utils.hl_attr_wrap("Comment", "fg"), utils.hl_attr_wrap("TabLine", "bg") } end, },
     },
   },
   statusline = {
     global = {
-      { sections.mode },
-      { sections.partition },
-      { sections.cwd },
-      { sections.partition },
+      { providers.groups.mode },
+      { "", hl = function() return { fg = providers.mode.current_mode_hl().bg, bg = utils.hl_attr("Comment", "fg") } end },
+      { "  " .. vim.fn.getpid(), hl = utils.hl_attrs_wrap({ fg = { "Normal", "bg" }, bg = { "Comment", "fg" }}) },
+      { "█", hl = { fg = utils.hl_attr_wrap("Comment", "fg") } },
+      { "%=" },
+      { providers.groups.cwd },
+      { "%=" },
+      { providers.groups.pos },
       {
-        sections.pos,
-        args = function()
-          return { utils.get_hl_attr("Comment", "fg") }
-        end,
+        { "", hl = { fg = "transparent", bg = utils.hl_attr_wrap("Normal", "fg") } },
+        { " ", hl = { bg = utils.hl_attr_wrap("Normal", "fg") } },
+        { providers.fileformat, hl = utils.hl_attrs_wrap({ fg = { "Comment", "fg" }, bg = { "Normal", "fg" } }), },
+        { " ", hl = { bg = utils.hl_attr_wrap("Normal", "fg") } },
       },
-      {
-        sections.round_tail,
-        args = function()
-          return { utils.get_hl_attr("Normal", "fg"), utils.get_hl_attr("Comment", "fg") }
-        end,
-      },
-      -- { sections.round_tail, args = function()
-      --     local mode_hl = mode_component.get_current_mode_highlight()
-      --     local mode_accent
-      --     if mode_hl.reverse then
-      --       mode_accent = mode_hl.fg
-      --     else
-      --       mode_accent = mode_hl.bg
-      --     end
-      --   return {mode_accent, utils.get_hl_attr("Cursor", "bg")}
-      --   end
-      -- },
     },
   },
   tabline = {
     global = {
-      { sections.tabs },
+      { providers.groups.tabs },
+    },
+  },
+  statuscolumn = {
+    active = {
+      { "%s" },
+      { providers.statuscolumn.fold, args = { 99 } },
+      { " %l " },
+    },
+    inactive = {
+      { "%s" },
+      { "%l " },
     },
   },
 })

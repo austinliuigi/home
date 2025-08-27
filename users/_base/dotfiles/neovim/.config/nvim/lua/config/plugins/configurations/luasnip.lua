@@ -11,19 +11,33 @@ ls.setup({
   enable_autosnippets = false,
   ext_opts = {
     [types.insertNode] = {
-      passive = {
-        virt_text = { { "", "Normal" } },
-      },
-      visited = {
-        virt_text = { { "" } },
+      unvisited = {
+        virt_text = { { "", "Base03" } },
+        virt_text_pos = "inline",
+        hl_mode = "combine",
+        hl_group = "Underline",
       },
     },
     [types.choiceNode] = {
       passive = {
-        virt_text = { { "", "Normal" } },
+        virt_text = { { "➤", "Base03" } },
+        virt_text_pos = "inline",
+        hl_mode = "combine",
+      },
+      active = {
+        virt_text = { { "➤", "Base03" } },
+        virt_text_pos = "inline",
+        hl_mode = "combine",
       },
       visited = {
-        virt_text = { { "" } },
+        virt_text = {},
+      },
+    },
+    [types.exitNode] = {
+      unvisited = {
+        virt_text = { { "", "Base03" } },
+        virt_text_pos = "inline",
+        hl_mode = "combine",
       },
     },
   },

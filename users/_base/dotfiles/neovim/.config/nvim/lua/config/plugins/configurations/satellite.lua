@@ -21,9 +21,9 @@ require("satellite").setup({
       -- - SatelliteSearchCurrent (default links to SearchCurrent)
     },
     diagnostic = {
-      enable = false,
-      overlap = false,
-      signs = { "-", "=", "≡" },
+      enable = true,
+      overlap = true,
+      signs = { "·", "·", "·" },
       min_severity = vim.diagnostic.severity.HINT,
       -- Highlights:
       -- - SatelliteDiagnosticError (default links to DiagnosticError)
@@ -59,3 +59,14 @@ require("satellite").setup({
     },
   },
 })
+
+-- vim.api.nvim_create_autocmd({ "BufEnter" }, {
+--   callback = function()
+--     if vim.fn.line("$") > 5000 then
+--       vim.cmd("SatelliteDisable")
+--     else
+--       vim.cmd("SatelliteEnable")
+--     end
+--   end,
+--   desc = "Disable Satellite on large files",
+-- })
