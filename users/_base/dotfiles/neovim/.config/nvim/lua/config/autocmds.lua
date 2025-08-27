@@ -1,11 +1,15 @@
-vim.api.nvim_create_autocmd("ColorScheme", {
+-- Highlight yanked text
+vim.api.nvim_create_augroup("HighlightYank", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = "HighlightYank",
   pattern = { "*" },
   callback = function()
-    vim.api.nvim_set_hl(0, "WinSeparator", { link = "Type" })
+    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 700 })
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
+-- Immediately enter terminal mode when focusing terminal buffers
+vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
   pattern = { "*" },
   callback = function()
     if vim.o.buftype == "terminal" then
@@ -14,6 +18,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
   end,
 })
 
+-- LSP attach notifications
 vim.api.nvim_create_autocmd({ "LspAttach" }, {
   pattern = { "*" },
   callback = function()
@@ -26,7 +31,28 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "TermOpen" }, {
+-- Remove cursorline from unfocused windows
+vim.api.nvim_create_augroup("Cursorline", { clear = true })
+vim.api.nvim_create_autocmd({ "VimEnter", "BufWinEnter", "WinEnter" }, {
+  group = "Cursorline",
   pattern = { "*" },
-  command = "startinsert",
+  callback = function()
+    vim.wo.cursorline = true
+  end,
+})
+vim.api.nvim_create_autocmd({ "WinLeave" }, {
+  group = "Cursorline",
+  pattern = { "*" },
+  callback = function()
+    vim.wo.cursorline = false
+  end,
+})
+
+-- Set relative line numbers for help windows
+vim.api.nvim_create_augroup("HelpWindowNumLine", { clear = true })
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  command = 'if &buftype == "help" | setlocal relativenumber | endif',
+  group = "HelpWindowNumLine",
+  pattern = { "*" },
+  desc = "Set relative number line for help windows",
 })
