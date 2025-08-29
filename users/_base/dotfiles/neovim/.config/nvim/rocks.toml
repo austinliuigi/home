@@ -20,12 +20,22 @@ import = "config/plugins/lazy_specs_post"
 
 # ====== LOCAL PLUGINS ======
 # "bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = false }
-"palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
-# "dye.nvim" = { dir = "~/projects/dye.nvim", opt = false }
-
 "bartender.nvim" = { git = "austinliuigi/bartender.nvim", rev = "main", opt = false }
-# "palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
+
+# "palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
+"palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
+
+# "dye.nvim" = { dir = "~/projects/dye.nvim", opt = false }
 "dye.nvim" = { git = "austinliuigi/dye.nvim", rev = "main", opt = false }
+
+# ----- FORKS -----
+
+# neogit = { dir = "~/projects/_forks/neogit", opt = true }
+
+# neorg = { dir = "~/projects/_forks/neorg", opt = true }
+# "lua-utils.nvim" = { version = "1.0.2", opt = false }
+# "pathlib.nvim" = { version = "2.2.3", opt = false }
+
 
 # "smoothie.nvim" = { dir = "~/projects/smoothie.nvim", config = "plugin.mysmoothie" }
 
@@ -40,15 +50,15 @@ import = "config/plugins/lazy_specs_post"
 "persistence.nvim" = { version = "scm", opt = true }
 "rainbow-delimiters.nvim" = { version = "0.8.0", opt = true }
 "rocks-config.nvim" = { version = "3.1.0", opt = false }
-"rocks-dev.nvim" = { version = "1.7.0", opt = false }
-"rocks-git.nvim" = { version = "2.5.2", opt = false }
+"rocks-dev.nvim" = { version = "1.8.1", opt = false }
+"rocks-git.nvim" = { version = "2.5.5", opt = false }
 "rocks-lazy.nvim" = { version = "1.2.0", opt = false }
 "rocks.nvim" = { version = "2.40.0", opt = false }
 "snacks.nvim" = { version = "scm", opt = false }
 "telescope.nvim" = { version = "scm", opt = true }
 "todo-comments.nvim" = { version = "scm", opt = true }
 "venn.nvim" = { version = "scm", opt = true }
-fzf-lua = { version = "0.0.1739", opt = true }
+fzf-lua = { version = "0.0.2083", opt = true } # 2063 works, 2068 doesn't work
 luasnip = { version = "2.3.0", opt = true }
 neogen = { version = "2.20.0", opt = false }
 neogit = { version = "scm" }
@@ -77,6 +87,8 @@ firenvim  = { git = "glacambre/firenvim", rev = "c6e37476ab3b58cf01ababfe80ec933
 nvim-colorizer  = { git = "mehalter/nvim-colorizer.lua", rev = "72aba5511b6af8405f26c3922c12a17bf8a680d1", opt = true }
 nvim-silicon  = { git = "michaelrommel/nvim-silicon", rev = "v1.0.0", opt = true }
 "resession.nvim" = { git = "stevearc/resession.nvim", rev = "master", opt = true }
+"quicker.nvim" = { git = "stevearc/quicker.nvim", rev = "master", opt = true }
+wrapwidth = { git = "rickhowe/wrapwidth", rev = "main", opt = true }
 vim-easy-align  = { git = "junegunn/vim-easy-align", rev = "2.9.7^{}", opt = true }
 vim-matchup  = { git = "andymass/vim-matchup", rev = "master", opt = true }
 vim-mundo  = { git = "simnalamburt/vim-mundo", rev = "master", opt = true }
