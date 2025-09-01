@@ -146,6 +146,32 @@ require("fzf-lua").setup({
   },
 })
 
-vim.keymap.set({ "n", "x" }, "<C-/>", "<cmd>lua require('fzf-lua').builtin()<CR>", { remap = false })
+-- require("fzf-lua").register_ui_select()
 
-require("fzf-lua").register_ui_select()
+--==================================================================================================
+-- Collect all commands
+--==================================================================================================
+
+local M
+
+local builtins = {}
+for command, func in pairs(require("fzf-lua")) do
+  if require("fzf-lua")._excluded_metamap[command] == nil then
+    builtins[command] = func
+  end
+end
+M = builtins
+
+vim.keymap.set({ "n", "x", "i" }, "<C-/>", function()
+  require("fzf-lua").fzf_exec(vim.tbl_keys(M), {
+    actions = {
+      ["default"] = function(selected)
+        if #selected > 0 then
+          M[selected[1]]()
+        end
+      end,
+    },
+  })
+end, { remap = false })
+
+return M

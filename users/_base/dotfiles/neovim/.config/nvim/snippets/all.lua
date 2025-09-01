@@ -1,10 +1,6 @@
---[[ 
-- if multiple insert nodes with same placeholder number, all but one are rendered useless
-- if there are multiple jumpable nodes, but a jump_number is skipped (e.g. there is i(0) and i(2) but no i(1)),
-  any node after the skipped jump_number will do nothing
-- fmt: https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md#fmt
-]]
+---@diagnostic disable: undefined-global
 
+-- stylua: ignore start
 local snippets = {
   s("todo", fmt([[
     {} TODO: {}
@@ -23,6 +19,7 @@ local snippets = {
     --   }
     -- },
   }),
+  ----------------------------------------------------------------------------------------------------
   s("modeline", fmt([[
     {} vim: set {} :{}
   ]], {
@@ -44,6 +41,7 @@ local snippets = {
     --   }
     -- },
   }),
+  ----------------------------------------------------------------------------------------------------
   s("dish", fmt([[
     # {}
 
@@ -57,7 +55,7 @@ local snippets = {
   ]], {
     i(1, "Dish"),
     i(2),
-    i(3),
+    i(0),
   }), {
     condition = function()
       return vim.fn.expand("%:t") == "cookbook.md"

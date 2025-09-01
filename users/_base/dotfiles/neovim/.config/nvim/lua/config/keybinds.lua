@@ -46,6 +46,11 @@ keymap({ "n" }, "<leader>V", "V<leader>", { remap = true })
 -- ----- Folds -----
 keymap("n", "zC", "zCvzC", { noremap = true })
 
+keymap("n", "zv", function()
+  local line = vim.fn.line(".")
+  vim.cmd(string.format("normal! zM%sGzv", line))
+end, { noremap = true })
+
 -- ----- Indents -----
 keymap("x", "<", "<gv", { noremap = true })
 

@@ -128,6 +128,12 @@ vim.opt.foldtext = "" -- expression used to evaluate the text displayed for a cl
 vim.opt.fillchars:append({ fold = "·", foldopen = "", foldclose = "", foldsep = "│" }) -- "╰"
 vim.opt.foldlevelstart = 99 -- initial value of 'foldlevel' when opening a new buffer
 
+vim.api.nvim_create_user_command("TSFoldRefresh", function()
+  -- HACK: Manually refresh treesitter folds
+  --   - https://github.com/neovim/neovim/blob/release-0.11/runtime/lua/vim/treesitter/_fold.lua#L424-L442
+  vim.api.nvim_exec_autocmds("OptionSet", { pattern = "foldnestmax" })
+end, { nargs = 0 })
+
 -- function _foldtext()
 --   local line = vim.fn.getline(vim.v.foldstart)
 -- end
