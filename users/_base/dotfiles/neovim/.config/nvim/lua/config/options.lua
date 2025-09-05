@@ -3,7 +3,7 @@
 vim.opt.clipboard:append("unnamedplus") -- set default clipboard
 
 -- Use osc52 clipboard in ssh sessions
-if vim.env.SSH_TTY then
+if vim.env.SSH_CLIENT then
   vim.api.nvim_create_autocmd("UIEnter", {
     callback = function()
       -- HACK: wait after vim.g.termfeatures.osc52 is potentially set by the autocmd in https://github.com/neovim/neovim/blob/release-0.11/runtime/plugin/osc52.lua

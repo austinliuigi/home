@@ -78,7 +78,7 @@ end
 
 local statusline_right = function()
   return {
-    { " 󱡶 "..vim.uv.os_gethostname().." ", hl = vim.env.SSH_TTY and hl_wrap({ fg = {"Error", "fg"} }) or hl_wrap({ fg = {"Comment", "fg"} }) },
+    { " 󱡶 "..vim.uv.os_gethostname().." ", hl = vim.env.SSH_CLIENT and hl_wrap({ fg = {"Error", "fg"} }) or hl_wrap({ fg = {"Comment", "fg"} }) },
     -- { "",                               hl = hl_wrap({ fg = {"Base02", "fg"} }) },
     -- { "  "..vim.v.servername.." ",        hl = hl_wrap({ fg = {"Base00", "fg"}, bg = {"Base02", "fg"} }) },
     -- { "",                               hl = hl_wrap({ fg = {"Base02", "fg"}, bg = {"Base03", "fg"} }) },

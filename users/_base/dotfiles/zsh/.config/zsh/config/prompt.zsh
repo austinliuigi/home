@@ -1,4 +1,6 @@
-# ========== UTILS ==========
+# ==========================================================================================
+# UTILS
+# ==========================================================================================
 
 # Calculate how many characters a string takes up in prompt (accounts
 # for escaping & wide characters)
@@ -61,33 +63,33 @@ function padMiddle () {
 
 
 
-# ========== PROMPT SECTIONS ==========
+# ==========================================================================================
+# PROMPT SECTIONS
+# ==========================================================================================
 
+# ------------------------------------------------------------------------------------------
 # Prompt styles
+# ------------------------------------------------------------------------------------------
 PS_DEFAULT='%b%F{white}'
-PS_ROOT='%B%F{196}'
-PS_USR_HST='%B%F{blue}'
+PS_USR_HOST='%B%F{blue}'
 PS_CWD='%B%F{cyan}'
 PS_GIT='%B%F{magenta}'
+if [[ "${EUID}" = "0" ]]; then
+    PS_USR='%B%F{red}'
+fi
+if [[ "${SSH_CLIENT}" ]]; then
+    PS_HOST='%B%F{red}'
+fi
 
+# ------------------------------------------------------------------------------------------
 # Static prompts (doesn't require manually updating)
-USER_HOSTNAME_PROMPT="${PS_USR_HST}(%(!.${PS_ROOT}.)%n%(!.${PS_USR_HST}.) @ %m)${PS_DEFAULT}"
+# ------------------------------------------------------------------------------------------
+USER_HOSTNAME_PROMPT="${PS_USR_HOST}(${PS_USR}%n${PS_USR_HOST} @ ${PS_HOST}%m${PS_USR_HOST})${PS_DEFAULT}"
 CWD_PROMPT="${PS_CWD}[%~]${PS_DEFAULT}"
 
+# ------------------------------------------------------------------------------------------
 # Dynamic prompts (requires calling function to update)
-function sshPromptUpdate () {
-    # Use default zsh options
-    emulate -L zsh
-
-    # Initialize ssh prompt
-    typeset -g SSH_PROMPT=''
-
-    # Set prompt for ssh sessions
-    if [[ "${SSH_TTY}" ]]; then
-        SSH_PROMPT="(ssh)-"
-    fi
-}
-
+# ------------------------------------------------------------------------------------------
 function venvPromptUpdate () {
     # Use default zsh options
     emulate -L zsh
@@ -180,7 +182,9 @@ function gitstatusPromptUpdate () {
 
 
 
-# ========== PROMPT ==========
+# ==========================================================================================
+# PROMPT
+# ==========================================================================================
 
 is_pty="$(tty | grep 'pts' --silent && echo "true" || echo "false")" # 0 if true, else 1
 
@@ -189,17 +193,16 @@ function setPrompt () {
     emulate -L zsh
 
     # Update dynamic prompts
-    sshPromptUpdate
     venvPromptUpdate
     gitstatusPromptUpdate
 
     if [ "$is_pty" = "true" ]; then
-      local top_left=$'\n'"%f╭─${SSH_PROMPT}${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}"
+      local top_left=$'\n'"%f╭─${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}"
       local top_right="─╮"
       local bottom_left="╰─ ᛋ "
       local bottom_right="%F{green}󰟠%f ─╯"
-    else
-      local top_left=$'\n'"%f┌─${SSH_PROMPT}${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}"
+    else # use "safe" characters when in tty
+      local top_left=$'\n'"%f┌─${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}"
       local top_right="─┐"
       local bottom_left="└─ $ "
       local bottom_right="├─┘"
@@ -215,9 +218,9 @@ function setPrompt () {
 
 function setPastPrompt () {
     if [ "$is_pty" = "true" ]; then
-      PROMPT=$'\n'"%f╭─${SSH_PROMPT}${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}%f"$'\n'"%f╰─ ᛋ "
+      PROMPT=$'\n'"%f╭─${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}%f"$'\n'"%f╰─ ᛋ "
     else
-      PROMPT=$'\n'"%f┌─${SSH_PROMPT}${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}%f"$'\n'"%f└─ $ "
+      PROMPT=$'\n'"%f┌─${VENV_PROMPT}${USER_HOSTNAME_PROMPT}-${CWD_PROMPT}${GITSTATUS_PROMPT}%f"$'\n'"%f└─ $ "
     fi
     RPROMPT=''
 }

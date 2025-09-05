@@ -4,14 +4,6 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
 	export TERM='xterm-256color';
 fi;
 
-function prompt_ssh() {
-	local ssh_prompt=''
-	if [[ "${SSH_TTY}" ]]; then
-		ssh_prompt='(ssh) '
-	fi
-	echo -e "${ssh_prompt}";
-}
-
 function prompt_venv() {
 	local venv_prompt=''
 	if [[ "${VIRTUAL_ENV}" ]]; then
@@ -102,7 +94,7 @@ else
 fi;
 
 # Highlight the hostname when connected via SSH.
-if [[ "${SSH_TTY}" ]]; then
+if [[ "${SSH_CLIENT}" ]]; then
 	hostStyle="${bold}${red}";
 else
 	hostStyle="${magenta}";
@@ -111,7 +103,6 @@ fi;
 function set_bash_prompt () {
 	# Set the terminal title and prompt.
 	PS1="\[${bold}\]\n"; # newline
-	PS1+="\$(prompt_ssh)"; # ssh
 	PS1+="\$(prompt_venv)"; # venv
 	PS1+="\[${userStyle}\]\u"; # username
 	PS1+="\[${white}\] at ";
