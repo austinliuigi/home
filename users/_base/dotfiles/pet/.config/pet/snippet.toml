@@ -1,5 +1,18 @@
+
 [[Snippets]]
   Description = "Output csv data in a formatted table"
   Output = ""
   Tag = ["formatting"]
   command = "column -t -s, -o\" | \" <csv_file>"
+
+[[Snippets]]
+  Description = "Create an autosquash commit that will be automatically squashed into the given commit on the next `git rebase --autosquash ...`"
+  Output = ""
+  Tag = ["git"]
+  command = "git commit --fixup <COMMIT_TO_SQUASH_INTO>"
+
+[[Snippets]]
+  Description = "Grep for process"
+  Output = ""
+  Tag = ["ps"]
+  command = "ps -e -o pid,sid,stat,cmd | grep '<process>'"

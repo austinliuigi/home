@@ -1,13 +1,44 @@
-local snippets = {
-  s("snippet", fmt([[
-    local snippets = {{
-      {}
-    }}
+---@diagnostic disable: undefined-global
+-- stylua: ignore start
 
-    return snippets
-  ]], {
-    i(0)
-  }), {
+local snippets = {}
+
+table.insert(snippets, s("snippet",
+  fmt(
+    [=[
+      table.insert(snippets, s({{trig="{}", desc="{}"}},
+        fmt(
+          [[
+            {}
+          ]],
+          {{
+            {}
+          }}
+        ){}
+      ))
+    ]=],
+    {
+      i(1, "trig"),
+      i(2, "desc"),
+      i(3, "body"),
+      i(4, "nodes"),
+      c(5, {
+        t(""),
+        fmt(
+          [[
+            , {{
+                condition = function()
+                  {}
+                end
+              }}
+          ]],
+          {
+            i(1)
+          }
+        )
+      }),
+    }
+  ), {
     condition = function()
       local dir = vim.fn.split(vim.fn.expand("%:p:h"), "/")
       return dir[#dir] == "snippets"
@@ -16,30 +47,11 @@ local snippets = {
       local dir = vim.fn.split(vim.fn.expand("%:p:h"), "/")
       return dir[#dir] == "snippets"
     end,
-  }),
+  }
+))
 
-  s("snip", fmt([=[
-    s("{}", fmt([[
-      {}
-    ]], {{
-      {}
-    }})),
-  ]=], {
-    i(1),
-    i(2),
-    i(0),
-  }), {
-    condition = function()
-      local dir = vim.fn.split(vim.fn.expand("%:p:h"), "/")
-      return dir[#dir] == "snippets"
-    end,
-    show_condition = function()
-      local dir = vim.fn.split(vim.fn.expand("%:p:h"), "/")
-      return dir[#dir] == "snippets"
-    end,
-  }),
-
-  s("autocmd", fmt([[
+table.insert(snippets, s("autocmd",
+  fmt([[
     vim.api.nvim_create_augroup("{}", {{clear = true}})
     vim.api.nvim_create_autocmd({{ "{}" }}, {{
       group   = "{}",
@@ -54,7 +66,7 @@ local snippets = {
     rep(1),
     i(3, "*"),
     i(0),
-  })),
-}
+  })
+))
 
 return snippets

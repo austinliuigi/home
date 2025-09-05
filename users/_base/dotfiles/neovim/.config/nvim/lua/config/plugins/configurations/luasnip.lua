@@ -15,10 +15,13 @@ for derived_ft, base_fts in pairs(ft_extensions) do
 end
 
 ls.setup({
-  history = true,
+  keep_roots = true,
+  link_roots = true,
+  exit_roots = false,
+  link_children = true,
   update_events = { "TextChanged", "TextChangedI" },
   region_check_events = { "CursorMoved", "InsertEnter" },
-  delete_check_events = { "TextChanged" },
+  delete_check_events = { "TextChanged", "InsertLeave" },
   enable_autosnippets = false,
   ext_opts = {
     [types.insertNode] = {
@@ -27,14 +30,8 @@ ls.setup({
         virt_text_pos = "inline",
         hl_mode = "combine",
       },
-      visited = {
-        virt_text = { { "", "Base01" } },
-        virt_text_pos = "inline",
-        hl_mode = "combine",
-      },
       active = {
         virt_text = {},
-        hl_group = "Underline",
       },
     },
     [types.choiceNode] = {
@@ -43,22 +40,18 @@ ls.setup({
         virt_text_pos = "inline",
         hl_mode = "combine",
       },
-      visited = {
-        virt_text = { { "➤", "Base01" } },
+      active = {
+        virt_text = { { "➤", "Special" } },
+      },
+    },
+    [types.exitNode] = {
+      snippet_passive = {
+        virt_text = { { "", "Base03" } },
         virt_text_pos = "inline",
         hl_mode = "combine",
       },
       active = {
-        virt_text = { { "➤", "Base03" } },
-        virt_text_pos = "inline",
-        hl_mode = "combine",
-      },
-    },
-    [types.exitNode] = {
-      unvisited = {
-        virt_text = { { "", "Base03" } },
-        virt_text_pos = "inline",
-        hl_mode = "combine",
+        virt_text = {},
       },
     },
   },
@@ -69,6 +62,10 @@ require("luasnip.loaders.from_lua").lazy_load({ paths = vim.fn.stdpath("config")
 --==================================================================================================
 -- Misc
 --==================================================================================================
+
+----------------------------------------------------------------------------------------------------
+-- Keybinds
+----------------------------------------------------------------------------------------------------
 
 vim.keymap.set({ "i", "s" }, "<Tab>", function()
   if ls.expand_or_jumpable() then
@@ -104,6 +101,10 @@ end, {})
 
 vim.api.nvim_create_user_command("LuaSnipEdit", require("luasnip.loaders").edit_snippet_files, { nargs = 0 })
 
+----------------------------------------------------------------------------------------------------
+-- Activate node based on cursor position
+----------------------------------------------------------------------------------------------------
+
 vim.api.nvim_create_autocmd("CursorMoved", {
   callback = function()
     local luasnip = require("luasnip")
@@ -113,20 +114,70 @@ vim.api.nvim_create_autocmd("CursorMoved", {
   end,
 })
 
+----------------------------------------------------------------------------------------------------
+-- Unlink snippet upon jumping to exit node
+----------------------------------------------------------------------------------------------------
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "LuasnipExitNodeEnter",
+  callback = function()
+    if ls.session.event_node.pos == 0 and ls.session.jump_active then
+      ls.unlink_current()
+    end
+  end,
+})
+
+----------------------------------------------------------------------------------------------------
+-- Fuzzy find snippets
+----------------------------------------------------------------------------------------------------
+
 local function fzf_snippets()
   -- Get available snippets
-  local snippets = ls.available()
+  local ft_to_snippet_infos = ls.available(function(snip)
+    return {
+      trigger = snip.trigger,
+      docstring = snip:get_docstring()[1],
+      description = snip.description[1] or "",
+    }
+  end)
+  vim.print(ft_to_snippet_infos)
 
   -- Flatten the snippets table and prepare entries for fzf-lua
   local entries = {}
-  for ft, snippet_list in pairs(snippets) do
-    if type(snippet_list) == "table" then
-      for _, snippet in ipairs(snippet_list) do
-        local description = snippet.description[1] or "" -- Extract the first description if available
-        local entry = string.format("%s  (%s) [%s]", snippet.trigger, description, ft)
-        table.insert(entries, entry)
+  local data = {}
+  local max_trig_len = 0
+  local max_docstring_len = 0
+  local max_desc_len = 0
+
+  for ft, snippet_infos in pairs(ft_to_snippet_infos) do
+    if type(snippet_infos) == "table" then
+      for _, snippet_info in ipairs(snippet_infos) do
+        max_trig_len = math.max(max_trig_len, #snippet_info.trigger)
+        max_docstring_len = math.max(max_docstring_len, #snippet_info.docstring)
+        max_desc_len = math.max(max_desc_len, #snippet_info.description)
+        table.insert(data, {
+          trig = snippet_info.trigger,
+          docstring = snippet_info.docstring,
+          desc = snippet_info.description,
+          ft = ft,
+        })
       end
     end
+  end
+  for _, row in ipairs(data) do
+    table.insert(
+      entries,
+      string.format(
+        '%s%s  |  "%s"%s  |"%s"%s  |  [%s]',
+        row.trig,
+        string.rep(" ", max_trig_len - #row.trig),
+        row.docstring,
+        string.rep(" ", max_docstring_len - #row.docstring),
+        row.desc,
+        string.rep(" ", max_desc_len - #row.desc),
+        row.ft
+      )
+    )
   end
 
   -- Use fzf-lua to search through snippets
@@ -135,11 +186,12 @@ local function fzf_snippets()
       ["default"] = function(selected)
         if #selected > 0 then
           -- Extract the trigger from the selected entry
-          local trigger = selected[1]:match("^(.-)%s+%(")
+          local trigger = selected[1]:match("^(.-)%s+|")
 
-          -- Insert the trigger into the current buffer and go into insert mode
+          -- Insert the trigger into the current buffer and expand the snippet
           vim.api.nvim_put({ trigger }, "c", true, true)
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>a", true, true, true), "n", true)
+          vim.cmd("startinsert!")
+          ls.expand_or_jump()
         end
       end,
     },

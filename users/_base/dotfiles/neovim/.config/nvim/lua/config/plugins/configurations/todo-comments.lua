@@ -5,10 +5,10 @@ require("todo-comments").setup({
   -- Keywords to handle
   --==========================================================================================
   keywords = {
-    FIX = {
+    FIXME = {
       icon = " ", -- icon used for the sign, and in search results
       color = "error", -- can be a hex color, or a named color (see below)
-      alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
+      alt = { "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
       -- signs = false, -- configure signs for some keywords individually
     },
     TODO = { icon = " ", color = "info" },
@@ -18,7 +18,7 @@ require("todo-comments").setup({
     NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
     TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
   },
-  merge_keywords = true, -- when true, custom keywords will be merged with the defaults instead of overriding
+  merge_keywords = false, -- when true, custom keywords will be merged with the defaults instead of overriding
 
   --==========================================================================================
   -- Highlighting of the line containing the todo comment

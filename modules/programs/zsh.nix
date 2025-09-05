@@ -55,7 +55,10 @@ in {
       #   extended = false;
       # };
       autosuggestion.enable = true;
-      syntaxHighlighting.enable = true;
+      syntaxHighlighting = {
+        enable = true;
+        styles.comment = "fg=#${config.colorscheme.palette.base03}"; # https://github.com/nix-community/home-manager/pull/4122
+      };
       zprof.enable = false;
       enableCompletion = true;
       completionInit = ''

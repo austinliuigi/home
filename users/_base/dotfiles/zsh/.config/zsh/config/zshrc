@@ -25,8 +25,9 @@ export LS_COLORS="di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40
 
 
 # ============= General Options =============
-setopt autocd       # Type directory to cd
-setopt nocaseglob   # Case insensitive globbing
+setopt autocd               # Type directory to cd
+setopt nocaseglob           # Case insensitive globbing
+setopt interactive_comments # Allow comments in interactive shells
 
 
 # ============= History =============
@@ -54,6 +55,18 @@ unsetopt HIST_SAVE_NO_DUPS       # Delete old duplicate entries in the history f
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 unsetopt HIST_VERIFY             # Expand commands including history expansion rather than executing it.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
+
+# Add cwd line to history whenever it changes
+#   - https://stackoverflow.com/a/7757904
+function add_cwd_to_history() {
+  if [ "$LAST_DIR" != "$PWD" ]
+  then
+    print -s "$PWD ### CWD"
+    LAST_DIR=$PWD
+  fi
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook chpwd add_cwd_to_history
 
 
 # ============= Completion =============
