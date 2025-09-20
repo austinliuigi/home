@@ -68,6 +68,10 @@
       id = "jnvdc-tncl6";
       path = "${config.home.homeDirectory}/checklists";
     };
+    "documents" = {
+      id = "pgzug-ccrs6";
+      path = "${config.home.homeDirectory}/documents";
+    };
     "todo" = {
       id = "mwxtf-jm7w5";
       path = "${config.home.homeDirectory}/todo";
