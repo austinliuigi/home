@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 modes="\
-apps
-symbols
-clipboard
-wifi
-power\
+󰀻 Applications
+󰀫 Symbols
+ Clipboard
+ WiFi
+ Power\
 "
 
 if [ ! -z "$1" ]; then
@@ -20,22 +20,22 @@ fi
 current_script_dir="$(dirname "$(realpath $BASH_SOURCE[0])")"
 
 case "$mode" in
-    "apps")
+    *Applications*)
         fuzzel
         ;;
-    "symbols")
+    *Symbols*)
         eval "${HOME}/.config/home-manager/users/_base/scripts/menu/symbols.sh"
         # eval "${current_script_dir}/symbols.sh"
         ;;
-    "clipboard")
+    *Clipboard*)
         eval "${HOME}/.config/home-manager/users/_base/scripts/menu/clipboard.sh"
         # eval "${current_script_dir}/clipboard.sh"
         ;;
-    "wifi")
+    *WiFi*)
         eval "${HOME}/.config/home-manager/users/_base/scripts/menu/wifi/default.sh"
         # eval "${current_script_dir}/wifi/default.sh"
         ;;
-    "power")
+    *Power*)
         eval "${HOME}/.config/home-manager/users/_base/scripts/menu/power.sh"
         # eval "${current_script_dir}/power.sh"
         ;;

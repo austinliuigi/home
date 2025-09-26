@@ -11,7 +11,7 @@ function type() {
   fi
 }
 
-function clip() {
+function copy() {
   if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-copy >/dev/null 2>&1; then
     wl-copy
   elif [ -n "$DISPLAY" ] && command -v xclip >/dev/null 2>&1; then
@@ -24,35 +24,41 @@ function clip() {
   fi
 }
 
-actions="clip\ntype\ndelete\nwipe"
-action="$(echo -e "$actions" | fuzzel --dmenu --prompt="(action) > ")"
+actions="\
+󰆏 Copy
+ Type
+ Delete
+ Wipe\
+"
+
+action="$(echo -e "$actions" | fuzzel --dmenu)"
 if [ -z $action ]; then
     exit 0
 fi
 
 case "$action" in
-    "clip")
+    *Copy*)
         # selection="$(cliphist list | fuzzel --dmenu)"
-        selection="$(cliphist-rofi-img | fuzzel --dmenu --prompt="clip > ")"
+        selection="$(cliphist-rofi-img | fuzzel --dmenu)"
         if [ -n "$selection" ]; then
-            echo -n "$selection" | cliphist decode | clip
+            echo -n "$selection" | cliphist decode | copy
         fi
         ;;
-    "type")
+    *Type*)
         # selection="$(cliphist list | fuzzel --dmenu)"
-        selection="$(cliphist-rofi-img | fuzzel --dmenu --prompt="type > ")"
+        selection="$(cliphist-rofi-img | fuzzel --dmenu)"
         if [ -n "$selection" ]; then
             echo -n "$selection" | cliphist decode | type
         fi
         ;;
-    "delete")
+    *Delete*)
         # selection="$(cliphist list | fuzzel --dmenu)"
-        selection="$(cliphist-rofi-img | fuzzel --dmenu --prompt="delete > ")"
+        selection="$(cliphist-rofi-img | fuzzel --dmenu)"
         if [ -n "$selection" ]; then
             echo -n "$selection" | cliphist delete
         fi
         ;;
-    "wipe")
+    *Wipe*)
         cliphist wipe
         ;;
 esac

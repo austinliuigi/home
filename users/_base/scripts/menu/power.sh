@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 modes="\
-lock
-suspend
-reboot
-hibernate
-poweroff\
+ Lock
+󰅟 Suspend
+󰤄 Hibernate
+󰜉 Reboot
+󰐥 Poweroff\
 "
 
 mode="$(echo -e "$modes" | fuzzel --dmenu)"
@@ -14,9 +14,9 @@ if [ -z $mode ]; then
 fi
 
 case "$mode" in
-    "lock") loginctl lock-session ;;
-    "suspend") systemctl suspend ;;
-    "reboot") reboot ;;
-    "hibernate") systemctl hibernate ;;
-    "poweroff") poweroff ;;
+    *Lock*) loginctl lock-session ;;
+    *Suspend*) systemctl suspend ;;
+    *Reboot*) reboot ;;
+    *Hibernate*) systemctl hibernate ;;
+    *Poweroff*) poweroff ;;
 esac

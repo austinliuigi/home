@@ -2,7 +2,12 @@
 
 # credit: https://github.com/marty-oehme/bemoji
 
-db_location="${XDG_DATA_HOME:-$HOME/.local/share}/scripts/menu/symbols"
+db_dir="${XDG_DATA_HOME:-$HOME/.local/share}/scripts/menu/symbols"
+
+unicode_file="${db_dir}/unicode.txt"
+emojis_file="${db_dir}/emojis.txt"
+math_file="${db_dir}/math.txt"
+nerdfont_file="${db_dir}/nerdfont.txt"
 
 
 
@@ -24,20 +29,20 @@ function dl_unicode() {
     
     # Replace the code point with the actual Unicode character in the output
     echo "${unicode_char} $(echo "$line" | cut -d';' -f2)" # Print the character followed by its name
-  done >"$db_location/unicode.txt"
+  done >"$unicode_file"
 }
 
 function dl_emojis() {
   echo "Downloading emojis"
   local emojis
   emojis=$(curl -sSL "https://unicode.org/Public/emoji/latest/emoji-test.txt")
-  printf "%s" "$emojis" | sed -ne 's/^.*; fully-qualified.*# \(\S*\) \S* \(.*$\)/\1 \2/gp' >"$db_location/emojis.txt"
+  printf "%s" "$emojis" | sed -ne 's/^.*; fully-qualified.*# \(\S*\) \S* \(.*$\)/\1 \2/gp' >"$emojis_file"
 }
 
 function dl_math_symbols() {
   echo "Downloading math symbols"
   curl -sSL "https://unicode.org/Public/math/latest/MathClassEx-15.txt" |
-    grep -ve '^#' | cut -d';' -f3,7 | sed -e 's/;/ /' >"$db_location/math.txt"
+    grep -ve '^#' | cut -d';' -f3,7 | sed -e 's/;/ /' >"$math_file"
 }
 
 function dl_nerd_symbols() {
@@ -45,12 +50,12 @@ function dl_nerd_symbols() {
   local nerdfont_symbols_raw nerdfont_symbols
   nerdfont_symbols_raw=$(curl -sSL "https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/css/nerd-fonts-generated.css")
   nerdfont_symbols=$(printf "%s" "$nerdfont_symbols_raw" | sed -ne '/\.nf-/p' -e '/\s*[^_]content:/p' | sed -e 'N;s/^\.nf-\(.*\):before.* content: \"\\\(.*\)\";/\\U\2 \1/')
-  echo -e "$nerdfont_symbols" > "$db_location/nerdfont.txt"
+  echo -e "$nerdfont_symbols" > "$nerdfont_file"
 }
 
 function dl_all() {
-  if [ ! -d $db_location ]; then
-    mkdir -p "$db_location"
+  if [ ! -d $db_dir ]; then
+    mkdir -p "$db_dir"
   fi
   dl_unicode
   dl_emojis
@@ -60,14 +65,14 @@ function dl_all() {
   echo "Downloaded symbols"
 }
 
-# manual download
+# force download
 if [ "$1" = "download" ]; then
   dl_all
   exit 0
 fi
 
 # automatic download
-if [ -z "$(ls "${db_location}/"*.txt 2>/dev/null)" ]; then
+if [ -z "$(ls "${db_dir}/"*.txt 2>/dev/null)" ]; then
   dl_all
 fi
 
@@ -75,7 +80,7 @@ fi
 
 # ==================== ACTIONS ====================
 
-function clip() {
+function copy() {
   if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-copy >/dev/null 2>&1; then
     wl-copy
   elif [ -n "$DISPLAY" ] && command -v xclip >/dev/null 2>&1; then
@@ -99,16 +104,57 @@ function type() {
   fi
 }
 
-actions="clip\ntype"
-action="$(echo -e "$actions" | fuzzel --dmenu --prompt="(action) > ")"
+actions="\
+󰆏 Copy
+ Type
+"
+
+action="$(echo -e "$actions" | fuzzel --dmenu)"
 if [ -z $action ]; then
     exit 0
 fi
 
-
+case "$action" in
+    *Copy*)
+        action_fn=copy
+        ;;
+    *Type*)
+        action_fn=type
+        ;;
+esac
 
 # ==================== MAIN ====================
 
-selection="$(cat "${db_location}/"*.txt | fuzzel --dmenu)"
+categories="\
+ All
+ Nerdfont
+󰻐 Unicode
+󰙃 Emojis
+󰊕 Math
+"
+
+category="$(echo -e "$categories" | fuzzel --dmenu)"
+if [ -z $category ]; then
+    exit 0
+fi
+
+case "$category" in
+    *All*)
+        selection="$(cat "${db_dir}/"*.txt | fuzzel --dmenu)"
+        ;;
+    *Nerdfont*)
+        selection="$(fuzzel --dmenu <$nerdfont_file)"
+        ;;
+    *Unicode*)
+        selection="$(fuzzel --dmenu <$unicode_file)"
+        ;;
+    *Emojis*)
+        selection="$(fuzzel --dmenu <$emojis_file)"
+        ;;
+    *Math*)
+        selection="$(fuzzel --dmenu <$math_file)"
+        ;;
+esac
+
 symbol="$(echo "$selection" | grep -o '^\S\+' | tr -d '\n')"
-echo -n "$symbol" | $action
+echo -n "$symbol" | $action_fn
