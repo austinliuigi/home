@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+TMP_DIR="${TMPDIR:-/tmp}/vid2gif_$(date +"%F_%H-%M-%S")"
+mkdir "$TMP_DIR" && chmod 700 "$TMP_DIR"
+
+UNOPTIMIZED_GIF_FILE="${TMP_DIR}/unoptimized.gif"
+PALETTE_FILE="${TMP_DIR}/palette.png"
+
+cleanup() {
+    rm -rf "$TMP_DIR"
+}
+
+#===================================================================================================
+# CHECK ARGS
+#===================================================================================================
+
+if [ $# -ne 1 ] && [ $# -ne 2 ] && [ $# -ne 3 ]; then
+    echo "usage: $0 <input> [output] [max_duration]"
+    cleanup; exit 1
+fi
+
+INPUT="$1"
+OUTPUT="${2:-clipboard}"
+MAX_DURATION="${3:-30}"
+
+#===================================================================================================
+# CHECK INPUT
+#===================================================================================================
+if [ ! -f "$INPUT" ]; then
+    echo "input must be a file"
+    cleanup; exit 1
+fi
+
+#-------------------------------------------------
+is_video_file() {
+    ffprobe -v error -select_streams v:0 -show_entries stream=codec_type -of csv=p=0 "$1" | grep --silent 'video'
+}
+if ! is_video_file "$INPUT"; then
+    echo "input must be a video"
+    cleanup; exit 1
+fi
+
+#-------------------------------------------------
+get_video_file_duration() {
+    ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$1"
+}
+
+INPUT_DURATION="$(get_video_file_duration $INPUT | cut -d. -f1)" # durations in seconds of the input, stripping out the decimal portion
+if [ "$(( $INPUT_DURATION > $MAX_DURATION ))" -eq 1 ]; then
+    echo "input duration (${INPUT_DURATION}s), is greater than the allowed max (${MAX_DURATION}s)"
+    echo
+    echo -e "to convert this input anyways, you can execute:\n$0 $INPUT $OUTPUT $INPUT_DURATION"
+    cleanup; exit 1
+fi
+
+
+#===================================================================================================
+# CREATE GIF
+#===================================================================================================
+
+convert_to_gif() {
+    ffmpeg -i "$INPUT" -filter_complex "[0:v] palettegen" "$PALETTE_FILE"
+    ffmpeg -i "$INPUT" -i "$PALETTE_FILE" -filter_complex "[0:v] fps=10,scale=720:-1 [new];[new][1:v] paletteuse" -f gif "$UNOPTIMIZED_GIF_FILE"
+}
+
+optimize_gif() {
+    if [ "$OUTPUT" = "clipboard" ]; then
+        gifsicle -O3 --lossy=100 -i "$UNOPTIMIZED_GIF_FILE" -o - | wl-copy -t image/gif
+        echo -e "\n\nsaved output to clipboard"
+    else
+        gifsicle -O3 --lossy=100 -i "$UNOPTIMIZED_GIF_FILE" -o "$OUTPUT"
+        echo -e "\n\nsaved output to $(realpath $OUTPUT)"
+    fi
+}
+
+convert_to_gif
+optimize_gif
+
+cleanup

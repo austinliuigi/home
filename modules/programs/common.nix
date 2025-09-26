@@ -18,9 +18,11 @@ in {
       pkgs.ripgrep-all
       pkgs.dysk # df improvement
 
+      pkgs.ffmpeg
       pkgs.jq
       pkgs.tealdeer
       pkgs.mosh
+      pkgs.yt-dlp
       pkgs.inetutils
       pkgs.dig
     ];

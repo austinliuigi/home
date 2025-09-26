@@ -36,6 +36,8 @@
 
     pkgs.manim
     pkgs.timg
+
+    pkgs.rnote
   ];
 
   modules = {
@@ -83,6 +85,7 @@
       todo.enable = true;
       menu.enable = true;
       fzmenu.enable = true;
+      vid2gif.enable = true;
     };
     txn = {
       shroomish.enable = true;

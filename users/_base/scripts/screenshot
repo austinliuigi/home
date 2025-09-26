@@ -89,7 +89,7 @@ if [ "$dir" == "clipboard" ]; then
     tmpfile="$(mktemp -t screenrec.XXXXXX.mp4)"
     interpolate_cmd "${slurp}" "$tmpfile"
     exit_if_error "Unable to record screen"
-    cat "$tmpfile" | wl-copy -t video/mp4
+    wl-copy -t video/mp4 < "$tmpfile"
   fi
 
   notify "$dir"
