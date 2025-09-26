@@ -86,11 +86,11 @@ vim.opt.smartcase = true -- if ignorecase is on, make search case sensitive if i
 
 -- WHITESPACE {{{
 --------------------------------------------------
-vim.opt.expandtab = true -- use spaces instead of tabs
-vim.opt.shiftwidth = 4 -- amount of whitespace to use for `>`, `<`, and 'cindent'
+vim.opt.softtabstop = 0 -- the number of cells between soft tab stops, 0 turns softtabstops off
+vim.opt.shiftwidth = 0 -- amount of whitespace to use for `>`, `<`, and 'cindent', 0 uses value of tabstop
 vim.opt.smarttab = true -- use shiftwidth for amount of whitespace <Tab>/<BS> insert/delete in the *beginning* of lines
-vim.opt.softtabstop = 0 -- the number of cells between soft tab stops
-vim.opt.tabstop = vim.o.shiftwidth -- the number of cells between tab stops
+vim.opt.tabstop = 4 -- the number of cells between tab stops
+vim.opt.expandtab = true -- use spaces instead of tabs
 
 vim.opt.autoindent = true -- copy indent from current line when creating a new line via `I_<CR>`, `o`, or `O`
 vim.opt.smartindent = false -- like autoindent, but recognizes some C syntax to increase or decrease automatic indentation in some cases

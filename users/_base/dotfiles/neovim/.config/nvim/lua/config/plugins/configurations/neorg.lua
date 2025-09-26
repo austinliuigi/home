@@ -14,14 +14,15 @@ require("neorg").setup({
       config = { -- Note that this table is optional and doesn't need to be provided
         icon_preset = "diamond",
         icons = {
-          list = {
-            icons = { "-", "   -", "      -", "         -", "            -", "               -" },
-          },
+          -- list = {
+          --   icons = { "-", "   -", "      -", "         -", "            -", "               -" },
+          -- },
           ordered = {
             icons = { "1.", " A.", "  a.", "   (1)", "    I.", "     i." },
           },
           heading = {
-            icons = { "◈", "◇", "◆", "◇", "❖", "⟡" },
+            icons = { "◆", "◈", "❖", "◇", "", "" },
+            -- icons = { "󰼏", "󰼐", "󰼑", "󰼒", "󰼓", "󰼔" },
           },
           todo = {
             undone = {
@@ -40,14 +41,16 @@ require("neorg").setup({
 
     -- ["core.completion"] = {
     --   config = {
-    --     engine = "nvim-cmp",
+    --     engine = {
+    --       module_name = "external.lsp-completion",
+    --     },
     --   },
     -- },
 
     ["core.dirman"] = {
       config = {
         workspaces = {
-          gtd = "~/.local/gtd",
+          notes = "~/notes",
         },
       },
     },
@@ -70,15 +73,19 @@ require("neorg").setup({
       },
     },
 
-    -- ["core.gtd.base"] = {
+    -- ["external.interim-ls"] = {
     --   config = {
-    --     workspace = "gtd",
+    --     completion_provider = {
+    --       enable = true,
+    --       documentation = true, -- show file contents as documentation when you complete a file name
+    --       categories = false, -- try to complete categories provided by Neorg Query. Requires `benlubas/neorg-query`
+    --     },
     --   },
     -- },
   },
 })
 
-vim.api.nvim_create_autocmd("Filetype", {
+vim.api.nvim_create_autocmd("FileType", {
   desc = "Create neorg keybinds",
   pattern = "norg",
   callback = function()

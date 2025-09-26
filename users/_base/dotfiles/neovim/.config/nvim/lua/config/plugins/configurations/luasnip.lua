@@ -67,11 +67,16 @@ require("luasnip.loaders.from_lua").lazy_load({ paths = vim.fn.stdpath("config")
 -- Keybinds
 ----------------------------------------------------------------------------------------------------
 
+local function feedkeys(key)
+  -- the 'i' flag is necessary so that macros with <Tab> work correctly, o.w. the <Tab> would be appended to the end of the macro sequence in the typeahead buffer
+  vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, true, true), "ni")
+end
+
 vim.keymap.set({ "i", "s" }, "<Tab>", function()
   if ls.expand_or_jumpable() then
     ls.expand_or_jump()
   else
-    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, true, true), "n")
+    feedkeys("<Tab>")
   end
 end, {})
 
@@ -79,7 +84,7 @@ vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
   if ls.jumpable(-1) then
     ls.jump(-1)
   else
-    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<S-Tab>", true, true, true), "n")
+    feedkeys("<S-Tab>")
   end
 end, {})
 
@@ -87,7 +92,7 @@ vim.keymap.set({ "i", "s" }, "<S-Up>", function()
   if ls.choice_active() then
     ls.change_choice(-1)
   else
-    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<S-Up>", true, true, true), "n")
+    feedkeys("<S-Up>")
   end
 end, {})
 
@@ -95,7 +100,7 @@ vim.keymap.set({ "i", "s" }, "<S-Down>", function()
   if ls.choice_active() then
     ls.change_choice(1)
   else
-    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<S-Down>", true, true, true), "n")
+    feedkeys("<S-Down>")
   end
 end, {})
 

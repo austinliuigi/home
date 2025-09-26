@@ -135,9 +135,7 @@ function fs.Tree:repr_lines()
   local function handle_node(node, depth, prefix_stack, is_last, is_root)
     local line = ""
     if not is_root then
-      for _, prefix in ipairs(prefix_stack) do
-        line = line .. prefix
-      end
+      line = table.concat(prefix_stack)
       if not is_last then
         line = line .. "├── "
       else

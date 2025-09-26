@@ -2,10 +2,10 @@ local lint = require("lint")
 
 lint.linters_by_ft = {
   python = { "pylint" },
-  c = { "cppcheck" },
+  c = { "cppcheck", "clangtidy" },
 }
 
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "TextChanged" }, {
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "TextChanged", "InsertLeave" }, {
   callback = function()
     lint.try_lint()
   end,
