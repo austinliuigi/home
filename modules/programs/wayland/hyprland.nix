@@ -1,9 +1,13 @@
-{ pkgs, lib, config, inputs, utils, ... }:
-
-let
-  cfg = config.modules.programs.wayland.hyprland;
-in
 {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  utils,
+  ...
+}: let
+  cfg = config.modules.programs.wayland.hyprland;
+in {
   options.modules.programs.wayland.hyprland.enable = lib.mkEnableOption "hyprland module";
 
   config = lib.mkIf cfg.enable {
@@ -17,16 +21,20 @@ in
       #   inputs.hyprland-plugins.packages.${pkgs.system}.borders-plus-plus
       # ];
       extraConfig = ''
-      source = ${config.home.homeDirectory}/.config/hypr/hyprland/settings.conf
-      source = ${config.home.homeDirectory}/.config/hypr/hyprland/keybinds.conf
-      source = ${config.home.homeDirectory}/.config/hypr/hyprland/rules.conf
-      source = ${config.home.homeDirectory}/.config/hypr/hyprland/initialize.conf
+        source = ${config.home.homeDirectory}/.config/hypr/hyprland/settings.conf
+        source = ${config.home.homeDirectory}/.config/hypr/hyprland/keybinds.conf
+        source = ${config.home.homeDirectory}/.config/hypr/hyprland/gestures.conf
+        source = ${config.home.homeDirectory}/.config/hypr/hyprland/rules.conf
+        source = ${config.home.homeDirectory}/.config/hypr/hyprland/initialize.conf
       '';
     };
 
     home.file = {
       ".local/share/hyprland/palette.conf" = {
-        text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.hyprland}/.local/share/hyprland/palette.conf"; comment_start = "#"; };
+        text = config.configuration.interpolateConfigFileWithMsg {
+          file = "${config.dotfiles.hyprland}/.local/share/hyprland/palette.conf";
+          comment_start = "#";
+        };
         onChange = ''
           echo "hyprland: reloading config"
           ${pkgs.hyprland}/bin/hyprctl reload >/dev/null

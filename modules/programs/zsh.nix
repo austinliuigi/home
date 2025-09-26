@@ -12,7 +12,7 @@ in {
   config = lib.mkIf cfg.enable {
     programs.zsh = {
       enable = true;
-      dotDir = ".config/zsh";
+      dotDir = config.home.homeDirectory + "/.config/zsh";
       plugins = [
         {
           name = "gitstatus";

@@ -1,6 +1,9 @@
-{ config, pkgs, lib, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   cfg = config.modules.scripts.wayland.screenshot;
 
   dependencies = [
@@ -9,16 +12,14 @@ let
     pkgs.wl-screenrec
     pkgs.libva-utils
     pkgs.slurp
-    pkgs.rofi-wayland
+    pkgs.rofi
     pkgs.wl-clipboard
     pkgs.libnotify
   ];
-
   # screenshot = pkgs.writeShellScriptBin "screenshot" (''
   #   PATH="${lib.makeBinPath dependencies}:$PATH"
   # '' + builtins.readFile "${config.scripts.screenshot}");
-in
-{
+in {
   options.modules.scripts.wayland.screenshot.enable = lib.mkEnableOption "screenshot script";
 
   config = lib.mkIf cfg.enable {

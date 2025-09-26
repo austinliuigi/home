@@ -1,22 +1,26 @@
-{ pkgs, lib, config, inputs, ... }:
-
-let
-  cfg = config.modules.programs.neovim;
-in
 {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}: let
+  cfg = config.modules.programs.neovim;
+in {
   options.modules.programs.neovim.enable = lib.mkEnableOption "neovim module";
 
   config = lib.mkIf cfg.enable {
-    nixpkgs.overlays = [
-      inputs.neovim-nightly-overlay.overlays.default
-    ];
+    # nixpkgs.overlays = [
+    #   inputs.neovim-nightly-overlay.overlays.default
+    # ];
 
     pythonLibraries = [
       "pynvim"
     ];
 
     home.packages = [
-      pkgs.neovim
+      # pkgs.neovim
+      inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
 
       # FIXME: move to dependencies.nix in dotfiles
       pkgs.luajit # required for luarocks.nvim
@@ -27,7 +31,10 @@ in
 
     home.file = {
       ".local/share/nvim/palette.lua" = {
-        text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.neovim}/.local/share/nvim/palette.lua"; comment_start = "--"; };
+        text = config.configuration.interpolateConfigFileWithMsg {
+          file = "${config.dotfiles.neovim}/.local/share/nvim/palette.lua";
+          comment_start = "--";
+        };
         onChange = ''
           procs=$(${pkgs.busybox}/bin/pgrep nvim || true)
           if [ -n "$procs" ]; then

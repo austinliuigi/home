@@ -13,7 +13,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      pkgs.clang-tools_16
+      pkgs.clang-tools
       pkgs.gdb
       pkgs.valgrind
     ];

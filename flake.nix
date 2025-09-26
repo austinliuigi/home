@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+      url = "github:NixOS/nixpkgs/nixos-unstable";
     };
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -14,7 +14,7 @@
       # url = "path:/home/austin/projects/nix-colors";
     };
     neovim-nightly-overlay = {
-      # url = "github:nix-community/neovim-nightly-overlay/098d2af8c606ea8adc1b8b3084f454ca681a7ab3";
+      # url = "github:nix-community/neovim-nightly-overlay/06556188ee8c7ddfbe7b39d652cf409d0f912705";
       url = "github:nix-community/neovim-nightly-overlay";
     };
     sf-mono-nerd-font = {
