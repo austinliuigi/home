@@ -7,5 +7,5 @@ window-theme = ghostty
 shell-integration-features=no-cursor
 
 gtk-custom-css = custom.css
-# custom-shader = shaders/cursor/cursor_smear.glsl
+custom-shader = shaders/cursor/cursor_smear.glsl
 # custom-shader = shaders/in-game-crt.glsl
