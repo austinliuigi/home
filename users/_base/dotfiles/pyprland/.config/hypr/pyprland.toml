@@ -8,3 +8,4 @@ command = "ghostty --gtk-single-instance=true --class=scratchpads.todo"
 animation = "fromTop"
 class = "scratchpads.todo"
 size = "75% 70%"
+pinned = false
