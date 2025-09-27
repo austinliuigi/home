@@ -17,7 +17,8 @@ if [ -e "${server_addr}" ]; then
     # nvim --server "${server_addr}" --remote-ui
 
     # TEMP: until multi-head is available in neovim
-    nvim --server "${server_addr}" --remote-send ':qa'
+    nvim --server "${server_addr}" --remote-send ':qa<CR>'
+    sleep 0.5
     nvim --listen "${server_addr}" -c "Todo"
 else
     # create new instance
