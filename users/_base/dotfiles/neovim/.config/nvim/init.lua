@@ -22,6 +22,8 @@ require("config.commands")
 require("config.functions")
 require("config.keybinds")
 require("config.options")
+require("config.diagnostics")
+require("config.lsp")
 require("config.rocks")
 
 require("scripts.dashboard")

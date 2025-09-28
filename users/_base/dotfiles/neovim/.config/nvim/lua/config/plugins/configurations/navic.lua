@@ -28,6 +28,9 @@ require("nvim-navic").setup({
     TypeParameter = "󰓼 ",
     Variable = "󰀫 ",
   },
+  lsp = {
+    auto_attach = true,
+  },
   highlight = true,
   click = true,
   separator = " > ",

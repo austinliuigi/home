@@ -19,11 +19,11 @@ import = "config/plugins/lazy_specs_post"
 [plugins]
 
 # ====== LOCAL PLUGINS ======
-# "bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = false }
-"bartender.nvim" = { git = "austinliuigi/bartender.nvim", rev = "main", opt = false }
+"bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = false }
+# "bartender.nvim" = { git = "austinliuigi/bartender.nvim", rev = "main", opt = false }
 
-# "palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
-"palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
+"palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
+# "palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
 
 # "dye.nvim" = { dir = "~/projects/dye.nvim", opt = false }
 "dye.nvim" = { git = "austinliuigi/dye.nvim", rev = "main", opt = false }
@@ -32,9 +32,9 @@ import = "config/plugins/lazy_specs_post"
 
 # neogit = { dir = "~/projects/_forks/neogit", opt = true }
 
-# neorg = { dir = "~/projects/_forks/neorg", opt = true }
-# "lua-utils.nvim" = { version = "1.0.2", opt = false }
-# "pathlib.nvim" = { version = "2.2.3", opt = false }
+neorg = { dir = "~/projects/_forks/neorg", opt = true }
+"lua-utils.nvim" = { version = "1.0.2", opt = false }
+"pathlib.nvim" = { version = "2.2.3", opt = false }
 
 
 # "smoothie.nvim" = { dir = "~/projects/smoothie.nvim", config = "plugin.mysmoothie" }
@@ -62,12 +62,13 @@ fzf-lua = { version = "0.0.2083", opt = true } # 2063 works, 2068 doesn't work
 luasnip = { version = "2.3.0", opt = true }
 neogen = { version = "2.20.0", opt = false }
 neogit = { version = "scm" }
-neorg = { version = "9.3.0", opt = false }
+# neorg = { version = "9.3.0", opt = false }
+# neorg-interim-ls = { version = "2.1.1", opt = false }
 nvim-dap = { version = "0.9.0", opt = true }
 nvim-dap-ui = { version = "4.0.0", opt = true }
 nvim-dap-virtual-text = { version = "scm", opt = true }
 nvim-lint = { version = "scm", opt = true }
-nvim-lspconfig = { version = "1.4.0", opt = true }
+nvim-lspconfig = { version = "2.5.0", opt = false }
 nvim-navic = { version = "scm", opt = true }
 nvim-notify = { version = "3.15.0", opt = true }
 nvim-surround = { version = "2.1.5", opt = true }
@@ -96,18 +97,18 @@ vim-smoothie  = { git = "psliwka/vim-smoothie", rev = "df1e324e9f3395c630c1c523d
 vim-startuptime  = { git = "dstein64/vim-startuptime", rev = "v4.5.0", opt = true }
 wordmotion  = { git = "chaoren/vim-wordmotion", rev = "81d9bd298376ab0dc465c85d55afa4cb8d5f47a1", opt = true }
 committia  = { git = "rhysd/committia.vim", rev = "c8c0f255e8090ed90dd9d5dd2e8672994f8e3671", opt = false }
-nvim-cmp  = { git = "hrsh7th/nvim-cmp", rev = "v0.0.2", opt = true }
-cmp-buffer  = { git = "hrsh7th/cmp-buffer", rev = "3022dbc9166796b644a841a02de8dd1cc1d311fa", opt = true }
-cmp-calc  = { git = "hrsh7th/cmp-calc", rev = "5947b412da67306c5b68698a02a846760059be2e", opt = true }
-cmp-cmdline  = { git = "hrsh7th/cmp-cmdline", rev = "d250c63aa13ead745e3a40f61fdd3470efde3923", opt = true }
-cmp-cmdline-history  = { git = "dmitmel/cmp-cmdline-history", rev = "003573b72d4635ce636234a826fa8c4ba2895ffe", opt = true }
-cmp-dap  = { git = "rcarriga/cmp-dap", rev = "ea92773e84c0ad3288c3bc5e452ac91559669087", opt = true }
-cmp-digraphs  = { git = "dmitmel/cmp-digraphs", rev = "5efc1f0078d7c5f3ea1c8e3aad04da3fd6e081a9", opt = true }
-cmp-luasnip  = { git = "saadparwaiz1/cmp_luasnip", rev = "98d9cb5c2c38532bd9bdb481067b20fea8f32e90", opt = true }
-cmp-nvim-lsp  = { git = "hrsh7th/cmp-nvim-lsp", rev = "99290b3ec1322070bcfb9e846450a46f6efa50f0", opt = true }
-cmp-nvim-lsp-signature-help  = { git = "hrsh7th/cmp-nvim-lsp-signature-help", rev = "031e6ba70b0ad5eee49fd2120ff7a2e325b17fa7", opt = true }
-cmp-nvim-lua  = { git = "hrsh7th/cmp-nvim-lua", rev = "f12408bdb54c39c23e67cab726264c10db33ada8", opt = true }
-cmp-path  = { git = "hrsh7th/cmp-path", rev = "91ff86cd9c29299a64f968ebb45846c485725f23", opt = true }
+# nvim-cmp  = { git = "hrsh7th/nvim-cmp", rev = "v0.0.2", opt = true }
+# cmp-buffer  = { git = "hrsh7th/cmp-buffer", rev = "3022dbc9166796b644a841a02de8dd1cc1d311fa", opt = true }
+# cmp-calc  = { git = "hrsh7th/cmp-calc", rev = "5947b412da67306c5b68698a02a846760059be2e", opt = true }
+# cmp-cmdline  = { git = "hrsh7th/cmp-cmdline", rev = "d250c63aa13ead745e3a40f61fdd3470efde3923", opt = true }
+# cmp-cmdline-history  = { git = "dmitmel/cmp-cmdline-history", rev = "003573b72d4635ce636234a826fa8c4ba2895ffe", opt = true }
+# cmp-dap  = { git = "rcarriga/cmp-dap", rev = "ea92773e84c0ad3288c3bc5e452ac91559669087", opt = true }
+# cmp-digraphs  = { git = "dmitmel/cmp-digraphs", rev = "5efc1f0078d7c5f3ea1c8e3aad04da3fd6e081a9", opt = true }
+# cmp-luasnip  = { git = "saadparwaiz1/cmp_luasnip", rev = "98d9cb5c2c38532bd9bdb481067b20fea8f32e90", opt = true }
+# cmp-nvim-lsp  = { git = "hrsh7th/cmp-nvim-lsp", rev = "99290b3ec1322070bcfb9e846450a46f6efa50f0", opt = true }
+# cmp-nvim-lsp-signature-help  = { git = "hrsh7th/cmp-nvim-lsp-signature-help", rev = "031e6ba70b0ad5eee49fd2120ff7a2e325b17fa7", opt = true }
+# cmp-nvim-lua  = { git = "hrsh7th/cmp-nvim-lua", rev = "f12408bdb54c39c23e67cab726264c10db33ada8", opt = true }
+# cmp-path  = { git = "hrsh7th/cmp-path", rev = "91ff86cd9c29299a64f968ebb45846c485725f23", opt = true }
 # HACK: this plenary takes priority over the luarocks simply because it gets searched first; remove this when plenary creates a new luarocks release (https://github.com/nvim-lua/plenary.nvim/issues/629)
 "plenary.nvim" = { git = "nvim-lua/plenary.nvim", rev = "master", opt = false }
 # use main branch when neorg doesn't require nvim-treesitter as a dependency, branch = "main", opt = true }
