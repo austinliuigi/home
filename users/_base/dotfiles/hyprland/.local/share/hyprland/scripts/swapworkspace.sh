@@ -9,11 +9,10 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
-
+TEMP_WS_ID="99"
 
 # get current workspace id
 CURRENT_WS_ID="$(hyprctl activeworkspace -j | jq '.id')"
-
 # get target workspace id based on cli arg
 hyprctl dispatch workspace "$1"  # switch to target workspace
 TARGET_WS_ID="$(hyprctl activeworkspace -j | jq '.id')"
@@ -24,18 +23,20 @@ if [ "$TARGET_WS_ID" == "$CURRENT_WS_ID" ]; then
   exit 1
 fi
 
+hyprctl dispatch workspace "$TEMP_WS_ID"  # switch to temp workspace to avoid screen anims
 
 
-# save all windows in current workspace
+# get all windows in current workspace
 CURRENT_WS_WINDOWS=$(hyprctl clients -j | jq -r --arg id "$CURRENT_WS_ID" '.[] | select(.workspace.id == ($id | tonumber)) | .address')
-
-# save all windows in target workspace
+# get all windows in target workspace
 TARGET_WS_WINDOWS=$(hyprctl clients -j | jq -r --arg id "$TARGET_WS_ID" '.[] | select(.workspace.id == ($id | tonumber)) | .address')
 
 
 
 # move all windows initially from target workspace to current workspace
 echo "$TARGET_WS_WINDOWS" | xargs -I {} hyprctl dispatch movetoworkspacesilent "$CURRENT_WS_ID",address:{}
-
 # move all windows from current workspace to target workspace
 echo "$CURRENT_WS_WINDOWS" | xargs -I {} hyprctl dispatch movetoworkspacesilent "$TARGET_WS_ID",address:{}
+
+
+hyprctl dispatch workspace "$TARGET_WS_ID"  # switch to temp workspace to avoid screen anims
