@@ -3,10 +3,17 @@
 
 local snippets = {}
 
-table.insert(snippets, s("snippet",
+table.insert(snippets, s(
+  {
+    trig = "snippet",
+  },
   fmt(
     [=[
-      table.insert(snippets, s({{trig="{}", desc="{}"}},
+      table.insert(snippets, s(
+        {{
+          trig = "{}",
+          desc = "{}"
+        }},
         fmt(
           [[
             {}
@@ -50,23 +57,29 @@ table.insert(snippets, s("snippet",
   }
 ))
 
-table.insert(snippets, s("autocmd",
-  fmt([[
-    vim.api.nvim_create_augroup("{}", {{clear = true}})
-    vim.api.nvim_create_autocmd({{ "{}" }}, {{
-      group   = "{}",
-      pattern = {{'{}'}},
-      callback = function()
-        {}
-      end,
-    }})
-  ]], {
-    i(1),
-    i(2, "BufEnter"),
-    rep(1),
-    i(3, "*"),
-    i(0),
-  })
+table.insert(snippets, s(
+  {
+    trig = "autocmd",
+  },
+  fmt(
+    [[
+      vim.api.nvim_create_augroup("{}", {{clear = true}})
+      vim.api.nvim_create_autocmd({{ "{}" }}, {{
+        group   = "{}",
+        pattern = {{'{}'}},
+        callback = function()
+          {}
+        end,
+      }})
+    ]],
+    {
+      i(1),
+      i(2, "BufEnter"),
+      rep(1),
+      i(3, "*"),
+      i(0),
+    }
+  )
 ))
 
 return snippets

@@ -2,7 +2,9 @@ require("blink.cmp").setup({
   enabled = function()
     return true
   end,
-  -- ========== Keybinds ==========
+  -- ================================================================================
+  -- Keybinds
+  -- ================================================================================
   keymap = {
     preset = "none",
     ["<Left>"] = { "cancel", "fallback" },
@@ -10,7 +12,9 @@ require("blink.cmp").setup({
     ["<Up>"] = { "select_prev", "fallback" },
     ["<Right>"] = { "accept", "fallback" },
   },
-  -- ========== General completion options ==========
+  -- ================================================================================
+  -- GENERAL
+  -- ================================================================================
   completion = {
     menu = {
       auto_show = true,
@@ -25,16 +29,16 @@ require("blink.cmp").setup({
           return { { "kind_icon", "label", gap = 1 } }
         end,
         -- custom components
-        components = {
-          kind_icon = {
-            text = function(ctx)
-              if require("blink.cmp.completion.windows.render.tailwind").get_hex_color(ctx.item) then
-                return "󱓻"
-              end
-              return ctx.kind_icon .. ctx.icon_gap
-            end,
-          },
-        },
+        -- components = {
+        --   kind_icon = {
+        --     text = function(ctx)
+        --       if require("blink.cmp.completion.windows.render.tailwind").get_hex_color(ctx.item) then
+        --         return "󱓻"
+        --       end
+        --       return ctx.kind_icon .. ctx.icon_gap
+        --     end,
+        --   },
+        -- },
         treesitter = { "lsp" }, -- use treesitter to highlight the label text
       },
     },
@@ -63,31 +67,27 @@ require("blink.cmp").setup({
     },
     ghost_text = { enabled = true },
   },
-  -- ========== Sources ==========
+  -- ================================================================================
+  -- SOURCES
+  -- ================================================================================
   sources = {
-    -- ----- Enabled sources -----
+    -----------------------------------------------------
+    -- Enabled sources
+    -----------------------------------------------------
     default = function()
-      return { "git", "lsp", "path", "snippets", "buffer" }
+      return { "git", "lsp", "path", "snippets", "buffer", "example" }
     end,
     per_filetype = {
       -- <ft> = { "lsp", "path" },
     },
-    cmdline = function()
-      local type = vim.fn.getcmdtype()
-      -- Search
-      if type == "/" or type == "?" then
-        return { "buffer" }
-      end
-      -- Commands
-      if type == ":" or type == "@" then
-        return { "cmdline", "path" }
-      end
-      return {}
-    end,
-    -- ----- Per-source configurations -----
-    -- https://cmp.saghen.dev/configuration/reference.html#sources
+    -----------------------------------------------------
+    -- Per-source configurations
+    --   - https://cmp.saghen.dev/configuration/reference.html#sources
+    -----------------------------------------------------
     providers = {
-      -- --- Builtin ---
+      -----------------------------------------------------
+      -- Builtin
+      -----------------------------------------------------
       buffer = {
         opts = {
           get_bufnrs = function()
@@ -102,7 +102,13 @@ require("blink.cmp").setup({
           show_autosnippets = true, -- whether to show autosnippets in the completion list
         },
       },
-      -- --- External ---
+      -----------------------------------------------------
+      -- External
+      -----------------------------------------------------
+      example = {
+        module = "scripts.blink.example",
+        name = "Example",
+      },
       git = {
         module = "blink-cmp-git",
         name = "Git",
@@ -113,9 +119,44 @@ require("blink.cmp").setup({
       },
     },
   },
-  -- ========== Signature-help ==========
-  -- - signature help is automatically triggered when typing trigger characters, defined by the LSP, such as ( for lua
-  -- - the menu will be updated when pressing a retrigger character, such as ,
+  cmdline = {
+    enabled = true,
+    keymap = { preset = "inherit" },
+    sources = function()
+      local type = vim.fn.getcmdtype()
+      if type == "" then
+        type = vim.fn.getcmdwintype()
+      end
+      -- Search
+      if type == "/" or type == "?" then
+        return { "buffer" }
+      end
+      -- Commands
+      if type == ":" or type == "@" then
+        return { "cmdline", "path" }
+      end
+      return {}
+    end,
+    completion = {
+      list = {
+        selection = {
+          preselect = true, -- When `true`, will automatically select the first item in the completion list
+          auto_insert = false, -- When `true`, inserts the completion item automatically when selecting it
+        },
+      },
+      menu = {
+        auto_show = true,
+      },
+      ghost_text = {
+        enabled = true,
+      },
+    },
+  },
+  -- ================================================================================
+  -- Signature-help
+  --   - signature help is automatically triggered when typing trigger characters, defined by the LSP, such as ( for lua
+  --   - the menu will be updated when pressing a retrigger character, such as ,
+  -- ================================================================================
   signature = {
     enabled = true,
     window = {
@@ -123,7 +164,9 @@ require("blink.cmp").setup({
       show_documentation = false, -- show documentation along with the function signature
     },
   },
-  -- ========== Snippets ==========
+  -- ================================================================================
+  -- Snippets
+  -- ================================================================================
   snippets = {
     -- presets automatically define the `expand`, `active`, and `jump` functions
     -- - "default" will use builtin vim.snippet api
@@ -131,7 +174,9 @@ require("blink.cmp").setup({
     -- - "mini_snippets" will use mini_snippets
     preset = "luasnip",
   },
-  -- ========== Fuzzy-matching Algortihm ==========
+  -- ================================================================================
+  -- Fuzzy-matching
+  -- ================================================================================
   fuzzy = {
     -- Allows for a number of typos relative to the length of the query
     -- - set this to 0 to match the behavior of fzf
@@ -139,7 +184,9 @@ require("blink.cmp").setup({
       return math.floor(#keyword / 4)
     end,
 
-    use_frecency = true, -- frecency tracks the most recently/frequently used items and boosts the score of the item
+    frecency = { -- frecency tracks the most recently/frequently used items and boosts the score of the item
+      enabled = true,
+    },
     use_proximity = true, -- proximity bonus boosts the score of items matching nearby words
 
     -- Controls which sorts to use and in which order, falling back to the next sort if the first one returns nil
@@ -152,7 +199,9 @@ require("blink.cmp").setup({
       download = true,
     },
   },
-  -- ========== Appearance ==========
+  -- ================================================================================
+  -- Appearance
+  -- ================================================================================
   appearance = {
     highlight_ns = vim.api.nvim_create_namespace("blink_cmp"),
     nerd_font_variant = "mono", -- "mono"|"normal"

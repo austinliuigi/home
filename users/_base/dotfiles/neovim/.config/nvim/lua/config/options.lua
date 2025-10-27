@@ -109,7 +109,7 @@ vim.opt.breakat = " 	!@*-+;:,./?" -- characters that can precede a virtual line 
 vim.opt.breakindent = true -- make wrapped lines have same indentation as original line
 vim.opt.breakindentopt = "list:-1" -- options to control alter the amount of `'breakindent'`
 vim.opt.showbreak = "" -- set string to show in beginning of wrapped lines, e.g. "↪"
-vim.opt.textwidth = 0 -- insert a physical linebreak when typing in insert mode passes 'textwidth' columns.
+vim.opt.textwidth = 80
 
 -- override formatoptions from any builtin filetype plugins
 vim.api.nvim_create_autocmd("FileType", {

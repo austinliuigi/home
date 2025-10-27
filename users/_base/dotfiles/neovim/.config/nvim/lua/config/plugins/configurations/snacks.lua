@@ -16,7 +16,7 @@ require("snacks").setup({
       -- only used if `opts.inline` is disabled
       float = true,
 
-      max_width = 80,
+      max_width = 50,
       max_height = 40,
 
       -- Set to `true`, to conceal the image text when rendering inline.

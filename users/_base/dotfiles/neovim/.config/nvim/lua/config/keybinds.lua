@@ -10,6 +10,8 @@ keymap("n", "<leader>", "<nop>", { noremap = true })
 --==================================================================================================
 -- Default overrides {{{
 
+keymap({ "x" }, "&", ":&&<CR>", { noremap = true })
+
 -- ----- Registers -----
 keymap({ "n", "x" }, "<leader>c", "c", { noremap = true })
 

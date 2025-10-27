@@ -10,7 +10,15 @@ return {
     { "<Left>", "<cmd>lua require('dap').step_back()<CR>", desc = "Dap: Step Back" },
     { "<S-Left>", "<cmd>lua require('dap').reverse_continue()<CR>", desc = "Dap: Reverse Continue" },
 
-    { "<Up>", "<cmd>lua require('dap').repl.toggle()<CR>", desc = "Dap: Toggle REPL" },
+    {
+      "<Up>",
+      function()
+        if require("dap").session() then
+          require("dap").repl.toggle()
+        end
+      end,
+      desc = "Dap: Toggle REPL",
+    },
     { "<S-Up>", "<cmd>lua require('dap').terminate()<CR>", desc = "Dap: Terminate" },
 
     { "<C-'>", "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Dap: Toggle Breakpoint" },

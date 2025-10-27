@@ -1,6 +1,6 @@
 ---@diagnostic disable: undefined-global
-
 -- stylua: ignore start
+
 local snippets = {
   s("todo", fmt([[
     {} TODO: {}

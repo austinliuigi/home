@@ -9,7 +9,7 @@ local function toggle_profile()
     is_recording = false
     vim.notify(
       string.format(
-        "Logged profile to %s. You can view a flamegraph with 'inferno-flamegraph %s > flame.svg && firefox flame.svg'",
+        "Logged profile to %s. You can view a flamegraph with 'nix shell nixpkgs#inferno --command inferno-flamegraph %s > flame.svg && firefox flame.svg'",
         profiling_file,
         profiling_file
       )

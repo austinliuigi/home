@@ -15,7 +15,7 @@ vim.g.firenvim_config = {
 }
 
 -- set font for firenvim
-vim.o.guifont = "Mononoki Nerd Font:h12"
+-- vim.o.guifont = "Mononoki Nerd Font:h12"
 
 -- remove bars
 if vim.g.started_by_firenvim == true then

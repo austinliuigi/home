@@ -31,9 +31,9 @@ import = "config/plugins/lazy_specs_post"
 "dye.nvim" = { git = "austinliuigi/dye.nvim", rev = "main", opt = false }
 
 # ----- FORKS -----
-# neorg = { dir = "~/projects/_forks/neorg", opt = true }
-# "lua-utils.nvim" = { version = "1.0.2", opt = false }
-# "pathlib.nvim" = { version = "2.2.3", opt = false }
+neorg = { dir = "~/projects/_forks/neorg", opt = true }
+"lua-utils.nvim" = { version = "1.0.2", opt = false }
+"pathlib.nvim" = { version = "2.2.3", opt = false }
 
 # neogit = { dir = "~/projects/_forks/neogit", opt = true }
 # "smoothie.nvim" = { dir = "~/projects/smoothie.nvim", config = "plugin.mysmoothie" }
@@ -44,7 +44,7 @@ import = "config/plugins/lazy_specs_post"
 #===========================================================================================
 "actions-preview.nvim" = { version = "scm", opt = true }
 "aerial.nvim" = { version = "scm", opt = true }
-"conform.nvim" = { version = "8.4.0", opt = true }
+"conform.nvim" = { version = "9.1.0", opt = true }
 "diffview.nvim" = { version = "scm", opt = true }
 "flatten.nvim" = { version = "0.5.1", opt = false }
 "indent-blankline.nvim" = { version = "scm", opt = true }
@@ -64,7 +64,7 @@ luasnip = { version = "2.3.0", opt = true }
 neogen = { version = "2.20.0", opt = true }
 neogit = { version = "scm", opt = true }
 # neorg = { version = "9.3.0", opt = false }
-neorg-interim-ls = { version = "2.1.1", opt = false }
+# neorg-interim-ls = { version = "2.1.1", opt = false }
 nvim-dap = { version = "0.9.0", opt = true }
 nvim-dap-ui = { version = "4.0.0", opt = true }
 nvim-dap-virtual-text = { version = "scm", opt = true }
@@ -84,7 +84,7 @@ nvim-ts-autotag = { version = "scm", opt = true }
 "satellite.nvim" = { git = "lewis6991/satellite.nvim", rev = "main", opt = true }
 "lasso.nvim"  = { git = "austinliuigi/lasso.nvim", rev = "321bb52116f470c43d83f78fa8549cefdb7f3cec", opt = true }
 "codecompanion.nvim" = { git = "olimorris/codecompanion.nvim", rev = "v12.2.0", opt = true }
-"blink.cmp" = { git = "Saghen/blink.cmp", rev = "v0.11.0", opt = true, config = "config.plugins.configurations.blink" }
+"blink.cmp" = { git = "Saghen/blink.cmp", rev = "v1.7.0", opt = true, config = "config.plugins.configurations.blink" }
 blink-cmp-git = { git = "Kaiser-Yang/blink-cmp-git", rev = "master", opt = false }
 # cmp-dap  = { git = "rcarriga/cmp-dap", rev = "ea92773e84c0ad3288c3bc5e452ac91559669087", opt = true }
 firenvim  = { git = "glacambre/firenvim", rev = "c6e37476ab3b58cf01ababfe80ec9335798e70e5", build = ":call firenvim#install(0)" }
@@ -101,7 +101,7 @@ vim-startuptime  = { git = "dstein64/vim-startuptime", rev = "v4.5.0", opt = tru
 wordmotion  = { git = "chaoren/vim-wordmotion", rev = "81d9bd298376ab0dc465c85d55afa4cb8d5f47a1", opt = true }
 committia  = { git = "rhysd/committia.vim", rev = "c8c0f255e8090ed90dd9d5dd2e8672994f8e3671", opt = false }
 nvim-treesitter  = { git = "nvim-treesitter/nvim-treesitter", rev = "main", opt = false }
-neorg = { git = "nvim-neorg/neorg", rev = "main", opt = true }
+# neorg = { git = "nvim-neorg/neorg", rev = "main", opt = false }
 
 # HACK: this plenary takes priority over the luarocks simply because it gets searched first; remove this when plenary creates a new luarocks release (https://github.com/nvim-lua/plenary.nvim/issues/629)
 "plenary.nvim" = { git = "nvim-lua/plenary.nvim", rev = "master", opt = false }

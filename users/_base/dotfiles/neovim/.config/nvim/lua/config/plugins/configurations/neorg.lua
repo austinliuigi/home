@@ -14,14 +14,15 @@ require("neorg").setup({
       config = { -- Note that this table is optional and doesn't need to be provided
         icon_preset = "diamond",
         icons = {
-          -- list = {
-          --   icons = { "-", "   -", "      -", "         -", "            -", "               -" },
-          -- },
+          list = {
+            -- icons = { "-", "   -", "      -", "         -", "            -", "               -" },
+            icons = { "•", "   •", "      •", "         •", "            •", "               •" },
+          },
           ordered = {
             icons = { "1.", " A.", "  a.", "   (1)", "    I.", "     i." },
           },
           heading = {
-            icons = { "◆", "◈", "❖", "◇", "", "" },
+            icons = { "◆", "◈", "❖", "⬗", "◇", "" },
             -- icons = { "󰼏", "󰼐", "󰼑", "󰼒", "󰼓", "󰼔" },
           },
           todo = {
@@ -36,6 +37,20 @@ require("neorg").setup({
         width = "fullwidth",
         -- padding = nil,
         conceal = true,
+      },
+    },
+
+    ["core.esupports.indent"] = {
+      config = {
+        dedent_excess = true,
+        format_on_enter = false,
+        format_on_escape = false,
+        -- indents = {
+        --   ["ranged_verbatim_tag_content"] = {
+        --     modifiers = { "ranged-tag-end" },
+        --     indent = 0,
+        --   },
+        -- },
       },
     },
 
@@ -116,17 +131,27 @@ vim.api.nvim_create_autocmd("FileType", {
       { buffer = 0, desc = "Promote Object (Non-Recursively)" }
     )
     vim.keymap.set("i", "<C-d>", "<Plug>(neorg.promo.demote)", { buffer = 0, desc = "Demote Object (Non-Recursively)" })
-    vim.keymap.set("n", ">>", "<Plug>(neorg.promo.promote)", { buffer = 0, desc = "Promote Object (Non-Recursively)" })
-    vim.keymap.set("n", "<<", "<Plug>(neorg.promo.demote)", { buffer = 0, desc = "Demote Object (Non-Recursively)" })
     vim.keymap.set(
       "n",
       leader .. ">>",
+      "<Plug>(neorg.promo.promote)",
+      { buffer = 0, desc = "Promote Object (Non-Recursively)" }
+    )
+    vim.keymap.set(
+      "n",
+      leader .. "<<",
+      "<Plug>(neorg.promo.demote)",
+      { buffer = 0, desc = "Demote Object (Non-Recursively)" }
+    )
+    vim.keymap.set(
+      "n",
+      leader .. ">*",
       "<Plug>(neorg.promo.promote.nested)",
       { buffer = 0, desc = "Promote Object (Recursively)" }
     )
     vim.keymap.set(
       "n",
-      leader .. "<<",
+      leader .. "<*",
       "<Plug>(neorg.promo.demote.nested)",
       { buffer = 0, desc = "Demote Object (Recursively)" }
     )

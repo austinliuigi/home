@@ -18,6 +18,15 @@ vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
   end,
 })
 
+-- Make terminals fixed sizes
+vim.api.nvim_create_autocmd({ "TermOpen" }, {
+  pattern = { "*" },
+  callback = function()
+    vim.o.winfixheight = true
+    vim.o.winfixwidth = true
+  end,
+})
+
 -- LSP attach notifications
 vim.api.nvim_create_autocmd({ "LspAttach" }, {
   pattern = { "*" },

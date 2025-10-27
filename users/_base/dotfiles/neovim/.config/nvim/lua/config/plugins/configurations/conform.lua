@@ -3,8 +3,26 @@ require("conform").setup({
     c = { "clang_format" },
     cpp = { "clang_format" },
     lua = { "stylua" },
+    java = { "clang-format" },
     javascript = { "prettierd" },
     nix = { "alejandra" },
+    norg = { "vim_indent", "injected" },
+  },
+  formatters = { -- custom formatters
+    vim_indent = {
+      format = function(_, ctx, _, callback)
+        local view = vim.fn.winsaveview()
+
+        local cmd = (ctx.range ~= nil) and "=" or "gg=G"
+        vim.cmd("normal! " .. cmd)
+        local out_lines = vim.api.nvim_buf_get_lines(0, 0, -1, true)
+        vim.cmd("normal! u")
+
+        callback(nil, out_lines)
+
+        vim.fn.winrestview(view)
+      end,
+    },
   },
 })
 
