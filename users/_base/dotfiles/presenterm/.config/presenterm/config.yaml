@@ -87,7 +87,7 @@ bindings:
   reload: ["<c-r>"]
 
   # the key binding to toggle the slide index modal.
-  toggle_slide_index: ["-"]
+  toggle_slide_index: ["/"]
 
   # the key binding to toggle the key bindings modal.
   toggle_bindings: ["?"]

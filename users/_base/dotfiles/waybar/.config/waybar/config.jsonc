@@ -22,7 +22,7 @@
         "format-linked": "{ifname} (No IP)  ",
         "format-disconnected": "Disconnected ⚠ ",
         "tooltip-format": "ssid: {essid}\n\n{ifname}: {ipaddr}/{cidr}",
-        "on-click": "menu wifi"
+        "on-click": "menu WiFi"
     },
 
     "wireplumber": {
@@ -71,12 +71,19 @@
 
     "custom/fullscreen": {
       "exec": "echo '󰊓'",
+      // "exec": "echo '󰍉'",
       "on-click": "$HOME/.local/share/hyprland/scripts/fullscreen.sh",
     },
 
+    // TODO: replace with recording
     "custom/float": {
       "exec": "echo ''",
       "on-click": "hyprctl dispatch togglefloating",
+    },
+
+    "custom/recording": {
+      "exec": "echo {'text': ''}",
+      "return-type": "json", // https://github.com/Alexays/Waybar/wiki/Module:-Custom#module-custom-config-return-type
     },
 
 
@@ -133,11 +140,5 @@
 
     "custom/separator": {
       "exec": "echo '┆'"
-    },
-
-    "custom/hyprland_fullscreen": {
-      "exec": "echo '󰍉 '",
-      "exec-if": "[ $(hyprctl activewindow -j | jq .fullscreen) = 'true' ]",
-      "interval": 1
     },
 }

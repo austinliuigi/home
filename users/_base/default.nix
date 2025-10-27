@@ -12,8 +12,8 @@
         readOnly = false; # other users can override specific program dotfiles
         default = "${config.home.homeDirectory}/.config/home-manager/users/_base/dotfiles/${program}";
         # _default = {
-        #   impure_path = "${config.home.homeDirectory}/.config/home-manager/users/_base/dotfiles/${program}"; # use this symlinks
-        #   pure_path = "./dotfiles/${program}"; # use this for building files
+        #   impure_path = "${config.home.homeDirectory}/.config/home-manager/users/_base/dotfiles/${program}"; # use this for symlinks
+        #   pure_path = "./dotfiles/${program}"; # use this for subsituting files
         # };
         description = ''
           Path to dotfiles directory for ${program}
