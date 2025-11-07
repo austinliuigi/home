@@ -462,3 +462,111 @@ vim.api.nvim_create_autocmd("BufRead", {
     end
   end,
 })
+
+--====================================================================================================
+-- Reminders
+--====================================================================================================
+
+local reminders_dir = calendar_dir .. "/reminders"
+local todo_ns = vim.api.nvim_create_namespace("todo")
+
+local function get_reminder_virt_lines(lines, map_fn)
+  if map_fn then
+    lines = vim.iter(lines):map(map_fn):totable()
+  end
+
+  table.insert(lines, 1, "")
+  local virt_lines = vim
+    .iter(lines)
+    :map(function(line)
+      return { { line, "Normal" } }
+    end)
+    :totable()
+
+  return virt_lines
+end
+
+local function get_first_capture_node(query, tree)
+  local parsed_query = vim.treesitter.query.parse("norg", query)
+  local id, node = parsed_query:iter_captures(tree:root(), 0)()
+  return node
+end
+
+vim.api.nvim_create_autocmd("BufRead", {
+  callback = function()
+    local bufname = vim.api.nvim_buf_get_name(0)
+    local bufnr = vim.api.nvim_get_current_buf()
+    local _, _, buf_date = string.find(bufname, calendar_dir .. "/(%d%d%d%d/%d%d/%d%d).norg")
+    if buf_date and (date_to_time(buf_date)) > os.time() then
+      local parse_remind_ouput = function(obj)
+        local stdout = vim.split(obj.stdout, "\n")
+
+        -- clean output to leave just a list of reminders (remove banner and empty lines)
+        local reminders = vim
+          .iter(stdout)
+          :skip(1)
+          :filter(function(line)
+            return line ~= ""
+          end)
+          :totable()
+
+        -- get heading nodes
+        local tree = vim.treesitter.get_parser():parse()[1]
+        local title_heading = get_first_capture_node("(heading1 title: (paragraph_segment) @title)", tree)
+        local event_heading =
+          get_first_capture_node('(heading2 title: (paragraph_segment) @events (#eq? @events "Events"))', tree)
+        local task_heading =
+          get_first_capture_node('(heading2 title: (paragraph_segment) @tasks (#eq? @tasks "Tasks"))', tree)
+
+        local title_line = title_heading:start()
+        local event_heading_line = event_heading:start()
+        local task_heading_line = task_heading:start()
+
+        -- categorize each reminder
+        local bulletin_reminders = {}
+        local event_reminders = {}
+        local task_reminders = {}
+        for _, reminder in ipairs(reminders) do
+          local _, _, type, msg = string.find(reminder, "^%((%a+)%)%s+(.*)")
+          if not type then
+            _, _, msg = string.find(reminder, "(.*)")
+            table.insert(bulletin_reminders, msg)
+          else
+            if type == "event" then
+              table.insert(event_reminders, msg)
+            elseif type == "task" then
+              table.insert(task_reminders, msg)
+            end
+          end
+        end
+
+        -- set extmarks
+        if not vim.tbl_isempty(bulletin_reminders) then
+          vim.api.nvim_buf_set_extmark(bufnr, todo_ns, title_line, 0, {
+            virt_lines = get_reminder_virt_lines(bulletin_reminders, function(rem)
+              return "  • " .. rem
+            end),
+          })
+        end
+
+        if not vim.tbl_isempty(event_reminders) then
+          vim.api.nvim_buf_set_extmark(bufnr, todo_ns, event_heading_line, 0, {
+            virt_lines = get_reminder_virt_lines(event_reminders, function(rem)
+              return "   • ( ) " .. rem
+            end),
+          })
+        end
+
+        if not vim.tbl_isempty(task_reminders) then
+          vim.api.nvim_buf_set_extmark(bufnr, todo_ns, task_heading_line, 0, {
+            virt_lines = get_reminder_virt_lines(task_reminders, function(rem)
+              return "   • ( ) " .. rem
+            end),
+          })
+        end
+      end
+
+      vim.system({ "remind", reminders_dir, buf_date }, { text = true }, vim.schedule_wrap(parse_remind_ouput))
+    end
+  end,
+})
