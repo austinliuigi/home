@@ -14,6 +14,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = [
       pkgs.jdk
+      pkgs.google-java-format
     ];
   };
 }

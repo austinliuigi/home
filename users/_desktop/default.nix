@@ -34,7 +34,6 @@
     pkgs.gthumb
     pkgs.exiftool
 
-    pkgs.manim
     pkgs.timg
 
     pkgs.rnote
@@ -59,6 +58,7 @@
       kitty.enable = true;
       live-server.enable = true;
       localsend.enable = true;
+      manim.enable = true;
       mpv.enable = true;
       neovim.enable = true;
       pcmanfm.enable = true;
@@ -78,6 +78,7 @@
       java.enable = true;
       javascript.enable = true;
       lua.enable = true;
+      typst.enable = true;
       nix.enable = true;
       python.enable = true;
     };

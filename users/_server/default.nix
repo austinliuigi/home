@@ -34,6 +34,7 @@
       java.enable = false;
       javascript.enable = false;
       lua.enable = false;
+      typst.enable = false;
       nix.enable = false;
       python.enable = false;
     };
