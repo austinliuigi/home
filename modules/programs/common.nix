@@ -25,6 +25,7 @@ in {
       pkgs.yt-dlp
       pkgs.inetutils
       pkgs.dig
+      pkgs.remind
     ];
   };
 }
