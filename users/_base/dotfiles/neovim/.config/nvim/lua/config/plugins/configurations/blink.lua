@@ -75,7 +75,7 @@ require("blink.cmp").setup({
     -- Enabled sources
     -----------------------------------------------------
     default = function()
-      return { "git", "lsp", "path", "snippets", "buffer", "example" }
+      return { "git", "lsp", "path", "snippets", "buffer" }
     end,
     per_filetype = {
       -- <ft> = { "lsp", "path" },

@@ -2,7 +2,7 @@
 -- ENABLED SERVERS
 --
 -- To add a server:
---   - add its name to thie enabled_servers list
+--   - add its name to this enabled_servers list
 --     - use the name that lspconfig uses: https://github.com/neovim/nvim-lspconfig/tree/master/lsp
 --   - add any custom configuration to ~/.config/nvim/lsp/<name>.lua
 --==================================================================================================
@@ -14,6 +14,7 @@ local enabled_servers = {
   "tailwindcss",
   "texlab",
   "ts_ls",
+  "tinymist",
 }
 
 for _, server in ipairs(enabled_servers) do
@@ -25,8 +26,14 @@ end
 --==================================================================================================
 vim.lsp.config("*", {
   root_markers = { ".git" },
-  on_attach = function(client, bufnr)
-    local bufopts = { remap = false, silent = true, buffer = bufnr }
+})
+
+vim.api.nvim_create_augroup("LspKeybinds", { clear = true })
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = "LspKeybinds",
+  pattern = { "*" },
+  callback = function()
+    local bufopts = { remap = false, silent = true, buffer = 0 }
     vim.lsp.inlay_hint.enable(false, {})
 
     -- Misc

@@ -7,16 +7,18 @@ require("conform").setup({
     javascript = { "prettierd" },
     nix = { "alejandra" },
     norg = { "vim_indent", "injected" },
+    typst = { "typstyle" },
   },
   formatters = { -- custom formatters
     vim_indent = {
-      format = function(_, ctx, _, callback)
+      format = function(_, ctx, lines, callback)
         local view = vim.fn.winsaveview()
 
         local cmd = (ctx.range ~= nil) and "=" or "gg=G"
-        vim.cmd("normal! " .. cmd)
+        vim.cmd("keepjumps normal! " .. cmd)
         local out_lines = vim.api.nvim_buf_get_lines(0, 0, -1, true)
-        vim.cmd("normal! u")
+        vim.api.nvim_buf_set_lines(0, 0, -1, true, lines)
+        -- vim.cmd("normal! u")
 
         callback(nil, out_lines)
 
