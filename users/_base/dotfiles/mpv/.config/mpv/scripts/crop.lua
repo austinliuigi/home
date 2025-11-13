@@ -177,7 +177,7 @@ local crop = function(p1, p2)
 
   local w = p2.x - p1.x
   local h = p2.y - p1.y
-  local ok, err = mp.command(string.format("no-osd vf add @%s:crop=%s:%s:%s:%s", script_name, w, h, p1.x, p1.y))
+  local ok, err = mp.command(string.format("no-osd vf add @%s:crop=w=%s:h=%s:x=%s:y=%s", script_name, w, h, p1.x, p1.y))
 
   if not ok then
     mp.osd_message("Cropping failed")

@@ -125,6 +125,8 @@ local function get_video_filters()
     local filter
     if name == "crop" then
       local p = vf["params"]
+      print(mp.utils.to_string(vf))
+      print(mp.utils.to_string(p))
       filter = string.format("crop=%d:%d:%d:%d", p.w, p.h, p.x, p.y)
     elseif name == "mirror" then
       filter = "hflip"

@@ -28,7 +28,16 @@ require("conform").setup({
   },
 })
 
--- format command
+--==============================================================================
+-- Formatter Overrides
+--==============================================================================
+require("conform").formatters.typstyle = {
+  append_args = { "--wrap-text" },
+}
+
+--==============================================================================
+-- :Format command
+--==============================================================================
 vim.api.nvim_create_user_command("Format", function(args)
   vim.g.conform_cmd_ran = true
   local range = nil
@@ -42,7 +51,9 @@ vim.api.nvim_create_user_command("Format", function(args)
   require("conform").format({ async = true, lsp_format = "fallback", range = range })
 end, { range = true })
 
--- format on save
+--==============================================================================
+-- Format on save
+--==============================================================================
 vim.api.nvim_create_augroup("ConformFormatOnSave", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = "ConformFormatOnSave",

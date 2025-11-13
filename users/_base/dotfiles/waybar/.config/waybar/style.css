@@ -34,12 +34,13 @@ window#waybar {
 }
 
 tooltip {
-  background: alpha(@base02, 1);
+  background: alpha(@base01, 1);
   border: 2px solid @base04;
 }
 
 tooltip label {
-  color: @base06;
+  color: @base04;
+  text-shadow: none;
 }
 
 #network, #wireplumber, #backlight, #battery, #cpu, #memory, #disk, #clock, #tray {

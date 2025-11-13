@@ -1,29 +1,33 @@
+# MIME_TYPE=APPLICATION_DESKTOP_FILE_ID;ANOTHER_APPLICATION_DESKTOP_FILE_ID;...
+# https://wiki.archlinux.org/title/XDG_MIME_Applications
+# https://mimetype.io/all-types
+# https://www.iana.org/assignments/media-types/media-types.xhtml
+
 # Indicates the applications that should be the default choice for opening a specific MIME type
 [Default Applications]
 x-scheme-handler/http=firefox.desktop
 x-scheme-handler/https=firefox.desktop
 x-scheme-handler/chrome=firefox.desktop
-text/html=firefox.desktop
-application/x-extension-htm=firefox.desktop
-application/x-extension-html=firefox.desktop
-application/x-extension-shtml=firefox.desktop
-application/xhtml+xml=firefox.desktop
-application/x-extension-xhtml=firefox.desktop
-application/x-extension-xht=firefox.desktop
-application/pdf=sioyek.desktop
+x-scheme-handler/sgnl=signal.desktop
+x-scheme-handler/signalcaptcha=signal.desktop
 
-# Indicates that the applications support opening that MIME type
+text/html=firefox.desktop
+application/xhtml+xml=firefox.desktop
+
+application/pdf=sioyek.desktop
+image/gif=mpv.desktop
+video/mp4=mpv.desktop
+video/matroska=mpv.desktop
+inode/directory=pcmanfm.desktop
+
+# Indicates the application can open a specific MIME type even if it isn't the default
 [Added Associations]
 x-scheme-handler/http=firefox.desktop;
 x-scheme-handler/https=firefox.desktop;
 x-scheme-handler/chrome=firefox.desktop;
+
 text/html=firefox.desktop;
-application/x-extension-htm=firefox.desktop;
-application/x-extension-html=firefox.desktop;
-application/x-extension-shtml=firefox.desktop;
 application/xhtml+xml=firefox.desktop;
-application/x-extension-xhtml=firefox.desktop;
-application/x-extension-xht=firefox.desktop;
 
 # Indicates that the applications do not support opening that MIME type
 [Removed Associations]

@@ -1,7 +1,7 @@
 require("aerial").setup({
   -- Priority list of preferred backends for aerial.
   -- This can be a filetype map (see :help aerial-filetype-map)
-  backends = { "lsp", "treesitter", "markdown", "man" },
+  backends = { "treesitter", "lsp", "markdown", "man" },
 
   layout = {
     max_width = { 40, 0.2 },
@@ -258,7 +258,7 @@ require("aerial").setup({
   lsp = {
     -- Fetch document symbols when LSP diagnostics update.
     -- If false, will update on buffer changes.
-    diagnostics_trigger_update = true,
+    diagnostics_trigger_update = false,
 
     -- Set to false to not update the symbols when there are LSP errors
     update_when_errors = true,
@@ -291,4 +291,4 @@ require("aerial").setup({
   },
 })
 
-vim.keymap.set({ "n", "x" }, "_", "<cmd>AerialToggle<CR>", { remap = false })
+vim.keymap.set({ "n", "x" }, "-", "<cmd>AerialToggle<CR>", { remap = false })

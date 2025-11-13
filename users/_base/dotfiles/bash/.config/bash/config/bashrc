@@ -9,7 +9,7 @@ fi
 # ============= Environment Variables =============
 export EDITOR="nvim"
 export MANPAGER='nvim +Man!'
-export PATH="${HOME}/.local/bin:${PATH}"
+# export PATH="${HOME}/.local/bin:${PATH}"
 
 # https://geoff.greer.fm/lscolors/
 # https://unix.stackexchange.com/questions/2897/clicolor-and-ls-colors-in-bash

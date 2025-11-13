@@ -18,6 +18,40 @@ vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
   end,
 })
 
+-- Immediately cd to buffer directory when opening terminal
+-- vim.api.nvim_create_autocmd("TermOpen", {
+--   callback = function()
+--     local bufdir = vim.fn.expand("#:p:h")
+--     local term_buf = vim.api.nvim_get_current_buf()
+--     local term_win = vim.api.nvim_get_current_win()
+--     if vim.fn.isdirectory(bufdir) == 1 then
+--       -- interval
+--       local timer = vim.uv.new_timer()
+--       timer:start(
+--         100,
+--         100,
+--         vim.schedule_wrap(function()
+--           -- if terminal prompt is visible (heuristic that shell loaded)
+--           if not string.match(table.concat(vim.api.nvim_buf_get_lines(term_buf, 0, -1, true)), "^%s*$") then
+--             timer:stop()
+--             timer:close()
+--             local curr_win = vim.api.nvim_get_current_win()
+--             vim.api.nvim_set_current_win(term_win)
+--             vim.api.nvim_feedkeys(
+--               vim.api.nvim_replace_termcodes("cd " .. vim.fn.shellescape(bufdir) .. "<CR>", true, true, true),
+--               "ni",
+--               false
+--             )
+--             vim.defer_fn(function()
+--               vim.api.nvim_set_current_win(curr_win)
+--             end, 500)
+--           end
+--         end)
+--       )
+--     end
+--   end,
+-- })
+
 -- Make terminals fixed sizes
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
   pattern = { "*" },

@@ -257,13 +257,39 @@ end, { noremap = true, silent = true, desc = "Toggle background theme" })
 -- Special buffer mappings {{{
 
 -- ----- Terminal buffer -----
-keymap({ "n", "i", "t" }, "<C-;>", "<cmd>vnew | term<CR>", { noremap = true })
+---@param type? "vert"|"hor"|"tab"
+local function term_buffer(type)
+  type = type and type .. " " or ""
+  local curr_buf_dir = vim.fn.expand("%:p:h")
+  local curr_winnr = vim.api.nvim_get_current_win()
+  if vim.fn.isdirectory(curr_buf_dir) == 1 then
+    local cwd = vim.fn.getcwd()
+    vim.cmd("lcd " .. curr_buf_dir)
+    vim.cmd(type .. "term")
+    vim.cmd("lcd " .. cwd)
+    vim.api.nvim_win_call(curr_winnr, function()
+      vim.cmd("lcd " .. cwd)
+    end)
+  else
+    vim.cmd(type .. "term")
+  end
+end
 
-keymap({ "n", "i", "t" }, "<C-S-;>", "<cmd>new | term<CR>", { noremap = true })
+keymap({ "n", "i", "t" }, "<C-;>", function()
+  term_buffer("vert")
+end, { noremap = true })
 
-keymap({ "n" }, "<leader><C-;>", "<cmd>term<CR>", { noremap = true })
+keymap({ "n", "i", "t" }, "<C-S-;>", function()
+  term_buffer("hor")
+end, { noremap = true })
 
-keymap({ "n" }, "<leader><C-S-;>", "<cmd>tabnew | term<CR>", { noremap = true })
+keymap({ "n" }, "<leader><C-;>", function()
+  term_buffer()
+end, { noremap = true })
+
+keymap({ "n" }, "<leader><C-S-;>", function()
+  term_buffer("tab")
+end, { noremap = true })
 
 -- ----- Directory buffer -----
 local function dir_buffer(open_cmd)
