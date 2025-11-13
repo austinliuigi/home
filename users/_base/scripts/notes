@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+selection="$(echo -e ~/notes/\\n"$(fd 'index.typ|index.norg' ~/notes/)" | fzf)"
+
+if [ $? == 0 ]; then
+    nvim "$selection"
+fi
