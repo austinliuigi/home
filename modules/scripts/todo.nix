@@ -1,9 +1,11 @@
-{ config, pkgs, lib, ... }:
-
-let
-  cfg = config.modules.scripts.todo;
-in
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  cfg = config.modules.scripts.todo;
+in {
   options.modules.scripts.todo.enable = lib.mkEnableOption "todo script";
 
   config = lib.mkIf cfg.enable {

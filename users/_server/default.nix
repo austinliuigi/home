@@ -40,7 +40,7 @@
     };
     scripts = {
       todo.enable = true;
-      vid2gif.enable = true;
+      notes.enable = true;
     };
   };
 }

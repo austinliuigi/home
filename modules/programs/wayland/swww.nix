@@ -15,7 +15,7 @@ in
       ".cache/palette.dummy".onChange = lib.mkAfter ''
         echo "swww: updating wallpaper"
 
-        ${pkgs.swww}/bin/swww img ~/.cache/txn/wallpaper.png
+        ${pkgs.swww}/bin/swww img ~/.cache/txn/wallpaper.png || true
       '';
     };
     # home.activation = {

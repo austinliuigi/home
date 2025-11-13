@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-selection="$(echo -e ~/notes/\\n"$(fd 'index.typ|index.norg' ~/notes/)" | fzf)"
+NOTES_DIR=~/notes/
+
+cd "$NOTES_DIR"
+selection="$(echo -e "$NOTES_DIR\n$(fd 'index.typ|index.norg' "$NOTES_DIR")" | fzf)"
 
 if [ $? == 0 ]; then
     nvim "$selection"

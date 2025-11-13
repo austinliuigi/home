@@ -1,6 +1,10 @@
-{ pkgs, lib, config, inputs, ... }:
-
 {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}: {
   options.font = lib.mkOption {
     type = lib.types.attrs;
     default = "Monospace";
@@ -16,6 +20,7 @@
       pkgs.nerd-fonts.fira-code
       pkgs.nerd-fonts.symbols-only
 
+      pkgs.roboto-mono
       pkgs.dejavu_fonts
       pkgs.liberation_ttf
       pkgs.open-sans

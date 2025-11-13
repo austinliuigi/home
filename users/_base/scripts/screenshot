@@ -97,7 +97,8 @@ if [ "$dir" == "clipboard" ]; then
 # ---------- SAVE TO FILE ----------
 else
   default_filename="$(date +"%FT%H-%M-%S").${ext}"
-  filename="$(fuzzel --dmenu --placeholder="$default_filename" --prompt="Filename: ${dir}/")"
+  prompt="Filename: ${dir}/"
+  filename="$(fuzzel --dmenu --width=$((${#prompt} + 40)) --placeholder="$default_filename" --prompt="$prompt")"
   exit_if_error "Cancelled"
 
   if [ ! -n "${filename}" ]; then
@@ -106,7 +107,8 @@ else
   filepath="${dir}/${filename}"
 
   if [ -e "${filepath}" ]; then
-    if [ ! "$(fuzzel --dmenu --prompt="Overwrite existing file ${filepath}? (y/[n]): ")" == "y" ]; then
+    prompt="Overwrite existing file ${filepath}? (y/n): "
+    if [ ! "$(fuzzel --dmenu --width=$((${#prompt} + 10)) --prompt="$prompt")" == "y" ]; then
       false
       exit_if_error "Cancelled"
     fi

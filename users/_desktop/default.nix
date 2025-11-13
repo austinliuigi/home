@@ -84,6 +84,7 @@
     };
     scripts = {
       todo.enable = true;
+      notes.enable = true;
       menu.enable = true;
       fzmenu.enable = true;
       vid2gif.enable = true;
