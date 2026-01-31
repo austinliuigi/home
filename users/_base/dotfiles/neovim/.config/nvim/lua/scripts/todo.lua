@@ -452,12 +452,15 @@ vim.api.nvim_create_autocmd("BufRead", {
         vim.cmd(string.format("Todo +%dd", vim.v.count1))
       end, { buffer = 0 })
       vim.keymap.set("x", "(", function()
-        vim.cmd("normal!" .. vim.api.nvim_replace_termcodes("<Esc>", true, true, true)) -- leave visual mode so '< and '> marks get set
-        vim.cmd(string.format("'<,'>TodoReschedule -%dd", vim.v.count1))
+        local count = vim.v.count1 -- save the count because the next line resets it
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "nx", false) -- leave visual mode so '< and '> marks get set
+        vim.cmd(string.format("'<,'>TodoReschedule -%dd", count))
       end, { buffer = 0 })
       vim.keymap.set("x", ")", function()
-        vim.cmd("normal!" .. vim.api.nvim_replace_termcodes("<Esc>", true, true, true)) -- leave visual mode so '< and '> marks get set
-        vim.cmd(string.format("'<,'>TodoReschedule +%dd", vim.v.count1))
+        local count = vim.v.count1 -- save the count because the next line resets it
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "nx", false) -- leave visual mode so '< and '> marks get set
+        print("count " .. vim.v.count1)
+        vim.cmd(string.format("'<,'>TodoReschedule +%dd", count))
       end, { buffer = 0 })
     end
   end,
