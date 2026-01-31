@@ -1,9 +1,12 @@
-{ pkgs, lib, config, inputs, ... }:
-
-let
-  cfg = config.modules.programs.mpv;
-in
 {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}: let
+  cfg = config.modules.programs.mpv;
+in {
   options.modules.programs.mpv.enable = lib.mkEnableOption "mpv module";
 
   config = lib.mkIf cfg.enable {
@@ -15,7 +18,7 @@ in
     #   })
     # ];
 
-    home.packages = [ pkgs.mpv ];
+    home.packages = [pkgs.mpv pkgs.socat];
 
     home.file = {
       ".config/mpv".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.mpv}/.config/mpv";

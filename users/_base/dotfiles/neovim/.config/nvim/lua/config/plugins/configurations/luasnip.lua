@@ -19,6 +19,7 @@ ls.setup({
   link_roots = true,
   exit_roots = false,
   link_children = true,
+  store_selection_keys = "<Tab>",
   update_events = { "TextChanged", "TextChangedI" },
   region_check_events = { "CursorMoved", "InsertEnter" },
   delete_check_events = { "TextChanged", "InsertLeave" },

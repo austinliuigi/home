@@ -25,7 +25,7 @@ in {
       pkgs.poetry
       pkgs.pyright
       (
-        pkgs.python312.withPackages (
+        pkgs.python314.withPackages (
           ps:
             with ps;
               [

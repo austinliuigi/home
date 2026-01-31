@@ -7,24 +7,23 @@
 }: {
   options.font = lib.mkOption {
     type = lib.types.attrs;
-    default = "Monospace";
+    default = {};
   };
 
-  config = rec {
+  config = {
     fonts.fontconfig.enable = true;
 
     home.packages = [
       # nerd fonts: https://github.com/NixOS/nixpkgs/blob/nixpkgs-unstable/pkgs/data/fonts/nerd-fonts/manifests/fonts.json
       pkgs.nerd-fonts.jetbrains-mono
-      pkgs.nerd-fonts.mononoki
       pkgs.nerd-fonts.fira-code
+      pkgs.nerd-fonts.meslo-lg
       pkgs.nerd-fonts.symbols-only
 
       pkgs.roboto-mono
       pkgs.dejavu_fonts
       pkgs.liberation_ttf
       pkgs.open-sans
-      pkgs.ubuntu_font_family
       pkgs.source-sans-pro
       pkgs.charis-sil
       pkgs.fira

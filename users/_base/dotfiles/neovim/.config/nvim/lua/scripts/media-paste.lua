@@ -101,15 +101,21 @@ M.paste = function(p)
     return
   end
 
+  local buf_dir = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h")
+
+  -- temporarily cd to buf_dir so completion is accurate
+  vim.cmd("cd " .. buf_dir)
+
   -- get file to paste media into
   -- local user_input = vim.ui.input({ prompt = "Save to: ", completion = "file" })
   local user_input = vim.fn.input({ prompt = "Save to: ", completion = "file" })
   if user_input == nil or user_input == "" then
+    vim.cmd("cd -")
     vim.notify("Paste cancelled", vim.log.levels.INFO, { title = "Media Paste" })
     return
   end
+  vim.cmd("cd -")
 
-  local buf_dir = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h")
   local filepath = vim.fn.expand(user_input)
   if string.sub(filepath, 1, 1) ~= "/" then
     filepath = buf_dir .. "/" .. filepath
@@ -128,6 +134,9 @@ M.paste = function(p)
 
   -- move to desired file
   M.mkdir(vim.fs.dirname(filepath))
+  if vim.uv.fs_stat(filepath) then
+    vim.uv.fs_unlink(filepath)
+  end
   vim.uv.fs_link(tmpfile, filepath)
   vim.notify(
     string.format("Successfully saved %s file to %s", mime_type, filepath),

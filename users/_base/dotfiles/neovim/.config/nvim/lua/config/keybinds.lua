@@ -171,7 +171,7 @@ keymap({ "n", "x" }, "#", "#N", { remap = false })
 
 -- toggle comments
 function _comment_toggle(type)
-  -- Run this only when called with mapping (not dot-repeat)
+  -- run this only when called with mapping (not dot-repeat)
   if type == nil then
     vim.o.operatorfunc = "v:lua._comment_toggle"
     return "g@"

@@ -86,6 +86,7 @@ function notify() {
     fi
 }
 
+# TODO: also skip passphrase for open networks
 if [ "$(echo "$known_networks" | grep -c "$network")" -gt 0 ]; then
     iwctl station wlan0 connect "$network" || true
     notify

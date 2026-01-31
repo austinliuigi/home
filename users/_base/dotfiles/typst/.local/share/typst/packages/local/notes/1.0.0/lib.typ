@@ -2,7 +2,9 @@
 // STYLE TEMPLATE
 //==============================================================================
 #let style(doc) = [
-  // Document
+  //----------------------------------------------------------------------------
+  // DOCUMENT
+  //----------------------------------------------------------------------------
   #set page(
     width: 450pt,
     height: auto,
@@ -15,10 +17,14 @@
     weight: "regular",
   )
 
-  // Paragraphs
+  //----------------------------------------------------------------------------
+  // PARAGRAPHS
+  //----------------------------------------------------------------------------
   #set par(leading: 1em, spacing: 2em)
 
-  // Images
+  //----------------------------------------------------------------------------
+  // IMAGES
+  //----------------------------------------------------------------------------
   #set image(width: 90%)
   #show image: it => {
     align(center, block(
@@ -29,13 +35,24 @@
     ))
   }
 
-  // Links
+  //----------------------------------------------------------------------------
+  // TABLES
+  //----------------------------------------------------------------------------
+  #show table: it => {
+    align(center, it)
+  }
+
+  //----------------------------------------------------------------------------
+  // LINKS
+  //----------------------------------------------------------------------------
   #show link: it => {
     set text(fill: blue)
     it
   }
 
-  // Code
+  //----------------------------------------------------------------------------
+  // CODE
+  //----------------------------------------------------------------------------
   #show raw.where(block: true): block.with(
     fill: luma(240),
     inset: 1.5em,
@@ -50,22 +67,10 @@
     radius: 2pt,
   )
 
-  // TOC
-  #show outline: it => {
-    block(stroke: 0.5pt + luma(200), inset: 10pt, width: 100%)[
-      *Table of Contents:*
-      #line(length: 100%, stroke: 0.75pt + luma(100))
-      #it
-    ]
-  }
-  #show outline.entry: it => {
-    link(
-      it.element.location(),
-      it.indented(it.prefix(), it.body()),
-    )
-  }
-
-  // Headings
+  //----------------------------------------------------------------------------
+  // HEADINGS
+  //----------------------------------------------------------------------------
+  // TODO: color headings, but blend with normal text color to make it subtle but distinguishable
   #show heading: it => {
     set text(fill: luma(0))
     set line(start: (0pt, -1pt), length: 100% - 10pt, stroke: 0.25pt)
@@ -96,27 +101,75 @@
 ]
 
 //==============================================================================
-// CUSTOM FUNCTIONS
+// CUSTOM BINDINGS
 //==============================================================================
-// TEMPORARY FILLER FOR VIDEO
+#let toc = {
+  show outline: it => {
+    block(stroke: 0.5pt + luma(200), inset: 10pt, width: 100%)[
+      *Table of Contents:*
+      #line(length: 100%, stroke: 0.75pt + luma(100))
+      #it
+    ]
+  }
+  show outline.entry: it => {
+    link(
+      it.element.location(),
+      it.indented(it.prefix(), it.body()),
+    )
+  }
+
+  outline(title: none)
+}
+
+// TEMP: Filler for video until it is implemented: https://github.com/typst/typst/issues/955
 #let video(source, fallback_image, ..args) = {
   set image(..args)
   link(source, fallback_image)
 }
 
-#let cbox(content) = {
+// Create a boxed frame around the content and center it
+//
+#let cframe(content) = {
   align(center, block(content, stroke: 0.5pt + rgb("#BBBBBB"), inset: 5pt))
 }
 
+// Style a term that is being defined
+//
 #let def(term) = {
-  [#underline([*#term;*])]
+  [*_#term;_*]
 }
 
-#let admonition(heading, body, color: rgb("#444444"), body_color: none) = {
+// Color content from math mode
+#let col(content, color) = text(fill: color)[$#x$]
+
+// TODO: Create a gallery of images
+#let gallery() = {}
+
+//==============================================================================
+// ADMONITIONS
+//==============================================================================
+
+#let admonition_lite(heading, body, color: rgb("#444444")) = {
+  let rad = 2pt
+  let bg = color.transparentize(80%)
+
+  block(
+    width: 100%,
+    fill: bg,
+    radius: rad,
+    inset: 7pt,
+    stroke: 0.5pt + color,
+    text(fill: color)[
+      *#heading* \
+      #body
+    ],
+  )
+}
+
+#let admonition(heading, body, color: rgb("#444444")) = {
   let rad = 5pt
-  if body_color == none {
-    body_color = color.transparentize(40%)
-  }
+  let heading_color = color.transparentize(50%)
+  let body_color = color.transparentize(80%)
 
   stack(
     dir: ttb,
@@ -124,28 +177,74 @@
     block(
       width: 100%,
       sticky: true,
-      fill: rgb(color),
+      fill: heading_color,
       radius: (
         top: rad,
       ),
-      inset: 6pt,
-      [*#heading*],
+      inset: 8pt,
+      text(fill: color)[*#heading*],
     ),
     block(
       width: 100%,
       fill: rgb(body_color),
-      inset: 12pt,
-      body,
+      inset: (
+        x: 8pt,
+        top: 12pt,
+        bottom: 6pt,
+      ),
+      text(fill: color)[#body],
     ),
-    block(
+    move(dy: 0.5pt, block(
       width: 100%,
       fill: rgb(body_color),
       radius: (
         bottom: rad,
       ),
       " ",
-    ),
+    )),
   )
 }
 
-#let example(body) = admonition("Example", body, color: rgb("#4c6e1a"))
+// TODO: blend colors with main text color to ensure legibility
+
+#let example(body) = admonition(
+  " Example",
+  body,
+  color: rgb("#4c6e1a"),
+)
+
+#let intuition(body) = admonition(
+  "󰧑 Intuition",
+  body,
+  color: rgb("#689d6a"),
+)
+
+#let etymology(body) = admonition_lite(
+  " Etymology",
+  body,
+  color: rgb("#b16286"),
+)
+
+#let note(body) = admonition_lite(
+  "🗅 Note",
+  body,
+  color: rgb("#458588"),
+)
+
+#let tip(body) = admonition_lite(
+  " Tip",
+  body,
+  color: rgb("#d79921"),
+)
+
+#let warning(body) = admonition_lite(
+  " Warning",
+  body,
+  color: rgb("d65d0e"),
+)
+
+#let important(body) = admonition_lite(
+  " Important",
+  body,
+  color: rgb("cc241d"),
+)

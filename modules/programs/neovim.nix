@@ -20,7 +20,7 @@ in {
 
     home.packages = [
       # pkgs.neovim
-      inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
+      inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       # FIXME: move to dependencies.nix in dotfiles
       pkgs.luajit # required for luarocks.nvim

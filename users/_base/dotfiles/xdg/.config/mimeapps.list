@@ -15,6 +15,7 @@ text/html=firefox.desktop
 application/xhtml+xml=firefox.desktop
 
 application/pdf=sioyek.desktop
+image/png=mpv.desktop
 image/gif=mpv.desktop
 video/mp4=mpv.desktop
 video/matroska=mpv.desktop

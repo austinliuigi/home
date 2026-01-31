@@ -32,8 +32,8 @@
 
 [urgency_critical]
     background = "#@base08@"
-    foreground = "#@base05@"
-    highlight = "#@base05@"
-    frame_color = "#@base05@"
+    foreground = "#@base00@"
+    highlight = "#@base00@"
+    frame_color = "#@base00@"
 
 # vim: ft=cfg

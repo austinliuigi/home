@@ -28,6 +28,13 @@ alias g$s="git stash show -p"
 alias cdr='cd "$(git rev-parse --show-toplevel)"'
 
 ### Misc
+
 function oops() {
     sudo $(fc -nl -1)
 }
+
+function mkcd(){
+    mkdir $1
+    cd $1
+}
+

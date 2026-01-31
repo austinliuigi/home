@@ -24,7 +24,7 @@
     pkgs.ttyper
     pkgs.vlc
 
-    pkgs.glxinfo
+    pkgs.mesa-demos
     pkgs.wlr-randr
     pkgs.lshw
     pkgs.dmidecode
@@ -58,7 +58,7 @@
       kitty.enable = true;
       live-server.enable = true;
       localsend.enable = true;
-      manim.enable = true;
+      manim.enable = false; # TODO: re-enable when fixed in nixpkgs
       mpv.enable = true;
       neovim.enable = true;
       pcmanfm.enable = true;
