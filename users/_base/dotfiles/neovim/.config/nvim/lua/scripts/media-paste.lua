@@ -77,9 +77,15 @@ end
 ---@param p "p"|"P"
 M.paste = function(p)
   p = p or "p"
-  local mime_type
+
+  -- early exit if using osc52 since clipboard contents aren't on current local machine
+  if vim.g.clipboard == "osc52" then
+    vim.cmd("normal! " .. p)
+    return
+  end
 
   -- get mime type
+  local mime_type
   local offered_default_mime_types = M.get_offered_default_mime_types()
   if #offered_default_mime_types == 0 then
     -- local selection = vim.ui.select(M.get_offered_mime_types(), { prompt = "Select mime type: " })
