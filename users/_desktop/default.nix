@@ -58,7 +58,7 @@
       kitty.enable = true;
       live-server.enable = true;
       localsend.enable = true;
-      manim.enable = false; # TODO: re-enable when fixed in nixpkgs
+      manim.enable = true;
       mpv.enable = true;
       neovim.enable = true;
       pcmanfm.enable = true;

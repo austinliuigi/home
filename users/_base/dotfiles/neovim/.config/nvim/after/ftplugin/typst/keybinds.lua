@@ -3,8 +3,22 @@
 --==============================================================================
 
 local function newline_list(before)
+  local cursor_linenr = vim.api.nvim_win_get_cursor(0)[1]
+  local new_linenr = before and cursor_linenr or cursor_linenr + 1
+  local preceding_line_str = ""
+  if new_linenr > 1 then
+    preceding_line_str = vim.api.nvim_buf_get_lines(0, new_linenr - 2, new_linenr - 1, true)[1]
+  end
+
+  local list_start_str = preceding_line_str:match("^%s*%- %[.%]") and "- [ ]" or "-"
+
   vim.api.nvim_feedkeys(
-    vim.api.nvim_replace_termcodes(string.format("<ESC>%s- [ ] ", before and "O" or "o"), true, false, true),
+    vim.api.nvim_replace_termcodes(
+      string.format("<ESC>%s%s ", before and "O" or "o", list_start_str),
+      true,
+      false,
+      true
+    ),
     "n",
     true
   )

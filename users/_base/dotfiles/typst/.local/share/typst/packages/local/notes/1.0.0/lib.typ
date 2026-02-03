@@ -53,6 +53,7 @@
   //----------------------------------------------------------------------------
   // CODE
   //----------------------------------------------------------------------------
+  // TODO: if there is a language, add it to the top right of the block
   #show raw.where(block: true): block.with(
     fill: luma(240),
     inset: 1.5em,

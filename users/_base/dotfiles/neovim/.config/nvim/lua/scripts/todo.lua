@@ -470,7 +470,7 @@ vim.api.nvim_create_autocmd("BufRead", {
 -- Reminders
 --====================================================================================================
 
-local reminders_dir = calendar_dir .. "/reminders"
+local reminders_dir = calendar_dir .. "/recurrences"
 local todo_ns = vim.api.nvim_create_namespace("todo")
 
 local function get_reminder_virt_lines(lines, map_fn)
