@@ -10,7 +10,12 @@ local function newline_list(before)
     preceding_line_str = vim.api.nvim_buf_get_lines(0, new_linenr - 2, new_linenr - 1, true)[1]
   end
 
-  local list_start_str = preceding_line_str:match("^%s*%- %[.%]") and "- [ ]" or "-"
+  -- TODO: Use treesitter since list items can span multiple lines, so the last line of an list
+  -- item isn't guaranteed to have the list marker, even though its part of a list
+  local list_start_str = preceding_line_str:match("^%s*(%- %[.%])")
+    or preceding_line_str:match("^%s*(%+ %[.%])")
+    or preceding_line_str:match("^%s*(%+)")
+    or "-"
 
   vim.api.nvim_feedkeys(
     vim.api.nvim_replace_termcodes(

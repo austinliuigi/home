@@ -1,3 +1,7 @@
+--==============================================================================
+-- When pasting from a clipboard (+ or * register), if the contents
+-- aren't text, save them to a file and paste the filename instead.
+--==============================================================================
 local M = {}
 
 local default_mime_types = {
@@ -49,6 +53,8 @@ end
 ---@param filepath string Path of file to paste to
 ---@param mime_type string
 ---@return vim.SystemCompleted? obj
+-- TODO: add support for more clipboards
+--       - see builtin detection: https://github.com/neovim/neovim/blob/release-0.11/runtime/autoload/provider/clipboard.vim#L236-L259
 M.paste_contents_to_file = function(filepath, mime_type)
   local cmd
 
@@ -75,12 +81,23 @@ M.mkdir = function(dir)
 end
 
 ---@param p "p"|"P"
+local function do_native_paste(p)
+  vim.cmd('normal! "' .. vim.v.register .. p)
+end
+
+---@param p "p"|"P"
 M.paste = function(p)
   p = p or "p"
 
+  -- perform native paste if pasting from register instead of clipboard
+  if vim.v.register ~= "*" and vim.v.register ~= "+" then
+    do_native_paste(p)
+    return
+  end
+
   -- early exit if using osc52 since clipboard contents aren't on current local machine
   if vim.g.clipboard == "osc52" then
-    vim.cmd("normal! " .. p)
+    do_native_paste(p)
     return
   end
 
@@ -103,7 +120,7 @@ M.paste = function(p)
 
   -- paste plain text directly
   if mime_type == "text/plain" then
-    vim.cmd("normal! " .. p)
+    do_native_paste(p)
     return
   end
 

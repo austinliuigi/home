@@ -60,13 +60,17 @@ require("satellite").setup({
   },
 })
 
--- vim.api.nvim_create_autocmd({ "BufEnter" }, {
---   callback = function()
---     if vim.fn.line("$") > 5000 then
---       vim.cmd("SatelliteDisable")
---     else
---       vim.cmd("SatelliteEnable")
---     end
---   end,
---   desc = "Disable Satellite on large files",
--- })
+local function autoset()
+  if vim.fn.line("$") > 500 then
+    vim.cmd("SatelliteDisable")
+  else
+    vim.cmd("SatelliteEnable")
+  end
+end
+
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+  callback = autoset,
+  desc = "Disable Satellite on large files",
+})
+
+autoset()

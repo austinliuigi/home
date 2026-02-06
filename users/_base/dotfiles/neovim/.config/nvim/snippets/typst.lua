@@ -57,7 +57,7 @@ table.insert(snippets, s(
   fmt(
     [[
       #import "@local/notes:1.0.0"
-      #import "@local/notes:1.0.0": toc
+      #import "@local/notes:1.0.0": toc, palette, def
       #show: notes.style
 
       {}
