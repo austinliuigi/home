@@ -256,7 +256,7 @@ TRAPINT () {
 }
 
 # Recalculate current prompt after window resize
+# - https://github.com/ohmyzsh/ohmyzsh/issues/3620
 TRAPWINCH () {
-    setPrompt
-    zle reset-prompt
+    zle && { setPrompt; zle reset-prompt }
 }
