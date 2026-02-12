@@ -41,6 +41,7 @@
   //----------------------------------------------------------------------------
   // TABLES
   //----------------------------------------------------------------------------
+  #set table(stroke: 0.5pt + palette.mg)
   #show table: it => {
     align(center, it)
   }
@@ -52,6 +53,11 @@
     set text(fill: palette.blue)
     it
   }
+
+  //----------------------------------------------------------------------------
+  // LINKS
+  //----------------------------------------------------------------------------
+  #set underline(offset: 1.25pt)
 
   //----------------------------------------------------------------------------
   // CODE
@@ -84,26 +90,33 @@
     show line: l => box(l)
 
     let col = palette.fg
+    let size = 1em
     if it.level == 1 {
       col = color.mix((palette.fg, 35%), (palette.blue, 65%))
+      size = 1.2em
     } else if it.level == 2 {
       col = color.mix((palette.fg, 35%), (palette.yellow, 65%))
+      size = 1.1em
     } else if it.level == 3 {
       col = color.mix((palette.fg, 35%), (palette.green, 65%))
+      size = 1.2em
     } else if it.level == 4 {
       col = color.mix((palette.fg, 35%), (palette.cyan, 65%))
+      size = 1.2em
     } else if it.level == 5 {
       col = color.mix((palette.fg, 35%), (palette.purple, 65%))
+      size = 1.2em
     } else if it.level == 6 {
       col = color.mix((palette.fg, 35%), (palette.orange, 65%))
+      size = 1.2em
     }
 
     set text(fill: col)
 
     block(below: 12pt, above: 25pt)[
-      #block(it, spacing: 0pt)
+      #block(text(size: size, it), spacing: 0pt)
       #block(spacing: 0pt)[
-        #line(stroke: col)
+        #line(stroke: 0.5pt + col)
         #text(size: 4pt, weight: "medium", fill: col)[#it.level]
       ]
     ]
@@ -133,6 +146,9 @@
   outline(title: none)
 }
 
+
+// Color content
+#let colorize(color, content) = text(fill: color, content)
 #let hl(color, content) = {
   highlight(fill: color.transparentize(75%), content)
 }
@@ -158,42 +174,63 @@
 // Style a term that is being defined
 //
 #let def(term) = {
-  [*_#term;_*]
+  colorize(palette.orange.mix((palette.fg, 70%)), text(weight: 900, term))
 }
 
-// Color content from math mode
-#let col(content, color) = text(fill: color)[$#content$]
-
-// TODO: Create a gallery of images
-#let gallery() = {}
+#let lrXL(content) = math.lr(content, size: 200%)
+#let lrL(content) = math.lr(content, size: 150%)
+#let lrS(content) = math.lr(content, size: 50%)
 
 //==============================================================================
 // ADMONITIONS
 //==============================================================================
 
-#let admonition_lite(heading, body, color: palette.fg) = {
+#let admonition_lite(heading, body, accent: palette.fg) = {
   let rad = 2pt
-  let bg_color = color.transparentize(80%)
-  let border_color = color.transparentize(50%)
+  // let bg_color = accent.transparentize(80%)
+  // let border_color = accent.transparentize(50%)
+  // let shadow_color = accent.transparentize(70%)
+  let bg_color = color.mix((palette.bg, 80%), (accent, 20%))
+  let border_color = color.mix((palette.bg, 30%), (accent, 70%))
+  let shadow_color = color.mix((palette.bg, 50%), (accent, 50%))
+  let shadow_offset = (4pt, 6pt)
 
-  block(
-    width: 100%,
-    fill: bg_color,
-    radius: rad,
-    inset: 7pt,
-    stroke: 0.5pt + border_color,
-    text(fill: color)[
-      *#heading* \
-      #body
-    ],
-  )
+  block(radius: rad, fill: shadow_color, move(
+    dx: shadow_offset.at(0),
+    dy: shadow_offset.at(1),
+    block(
+      width: 100% - shadow_offset.at(0),
+      fill: bg_color,
+      radius: rad,
+      inset: 7pt,
+      stroke: 0.5pt + border_color,
+      text(fill: accent)[
+        *#heading* \
+        #body
+      ],
+    ),
+  ))
 }
 
-#let admonition(heading, body, color: palette.fg, width: 100%) = {
+#let admonition(
+  heading,
+  subheading,
+  body,
+  accent: palette.fg,
+  width: 100%,
+) = {
   let rad = 5pt
-  let heading_bg_color = color.transparentize(50%)
-  let body_bg_color = color.transparentize(80%)
-  let separator_color = color.transparentize(20%)
+  // let heading_bg_color = accent.transparentize(50%)
+  // let body_bg_color = accent.transparentize(80%)
+  // let separator_color = accent.transparentize(20%)
+
+  let heading_bg_color = color.mix((palette.bg, 50%), (accent, 50%))
+  let body_bg_color = color.mix((palette.bg, 80%), (accent, 20%))
+  let separator_color = accent
+
+  if subheading != "" {
+    subheading = [: #subheading]
+  }
 
   move(dx: 50% - width / 2)[
     #stack(
@@ -207,7 +244,7 @@
           top: rad,
         ),
         inset: 8pt,
-        text(fill: color)[*#heading*],
+        text(fill: accent)[*#heading*#subheading],
       ),
       line(stroke: 0.5pt + separator_color, length: width),
       block(
@@ -218,7 +255,7 @@
           top: 12pt,
           bottom: 6pt,
         ),
-        text(fill: color)[#body],
+        text(fill: accent)[#body],
       ),
       block(
         width: width,
@@ -234,57 +271,60 @@
 
 // TODO: blend colors with main text color to ensure legibility
 
-#let example(body) = admonition(
+#let example(body, title: "") = admonition(
   " Example",
+  title,
   body,
-  color: palette.green,
+  accent: palette.green,
 )
 
-#let intuition(body) = admonition(
+#let intuition(body, title: "") = admonition(
   "󰧑 Intuition",
+  title,
   body,
-  color: palette.cyan,
+  accent: palette.cyan,
 )
 
-#let derivation(body) = admonition(
+#let derivation(body, title: "") = admonition(
   "⊶ Derivation",
+  title,
   body,
-  color: palette.base04,
+  accent: palette.base04,
 )
 
-#let definition(body) = admonition(
+#let definition(body, title: "") = admonition(
   " Definition",
+  title,
   body,
-  color: palette.base04,
-  width: 70%,
+  accent: palette.base04,
 )
 
 #let etymology(body) = admonition_lite(
   " Etymology",
   body,
-  color: palette.purple,
+  accent: palette.purple,
 )
 
 #let note(body) = admonition_lite(
   "🗅 Note",
   body,
-  color: palette.blue,
+  accent: palette.blue,
 )
 
 #let tip(body) = admonition_lite(
   " Tip",
   body,
-  color: palette.yellow,
+  accent: palette.yellow,
 )
 
 #let warning(body) = admonition_lite(
   " Warning",
   body,
-  color: palette.orange,
+  accent: palette.orange,
 )
 
 #let important(body) = admonition_lite(
   " Important",
   body,
-  color: palette.red,
+  accent: palette.red,
 )

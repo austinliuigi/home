@@ -7,7 +7,7 @@ lint.linters_by_ft = {
   --           by including it in the shell's python with python.withPackages
   --         - in python virtual envs, you need to temporarily use an unpatched version of pylint
   --           e.g. uv add pylint && source .venv/bin/activate
-  python = { "pylint" },
+  -- python = { "pylint" },
   c = { "cppcheck", "clangtidy" },
 }
 

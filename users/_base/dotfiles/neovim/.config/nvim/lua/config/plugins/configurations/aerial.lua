@@ -230,6 +230,16 @@ require("aerial").setup({
     whitespace = "   ",
   },
 
+  float = {
+    border = "rounded",
+    relative = "editor",
+    height = 0.8,
+    override = function(conf, source_winid)
+      conf.width = 80
+      return conf
+    end,
+  },
+
   -- Options for the floating nav windows
   nav = {
     border = "rounded",

@@ -7,6 +7,7 @@ require("conform").setup({
     javascript = { "prettierd" },
     nix = { "alejandra" },
     norg = { "vim_indent", "injected" },
+    python = { "black" },
     typst = { "typstyle" },
   },
   formatters = { -- custom formatters

@@ -7,7 +7,7 @@ require("snacks").setup({
     },
   },
   image = {
-    enabled = true,
+    enabled = false,
     doc = {
       -- enable image viewer for documents
       -- a treesitter parser must be available for the enabled languages

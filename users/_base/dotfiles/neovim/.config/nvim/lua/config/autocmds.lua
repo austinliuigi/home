@@ -4,7 +4,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = "HighlightYank",
   pattern = { "*" },
   callback = function()
-    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 700 })
+    vim.hl.on_yank({ higroup = "Search", timeout = 700 })
   end,
 })
 
@@ -62,17 +62,17 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
 })
 
 -- LSP attach notifications
-vim.api.nvim_create_autocmd({ "LspAttach" }, {
-  pattern = { "*" },
-  callback = function()
-    local root = vim.lsp.buf.list_workspace_folders()
-    if #root > 0 then
-      vim.notify("LSP attached to " .. root[1])
-    else
-      vim.notify("LSP running in single-file mode")
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd({ "LspAttach" }, {
+--   pattern = { "*" },
+--   callback = function()
+--     local root = vim.lsp.buf.list_workspace_folders()
+--     if #root > 0 then
+--       vim.notify("LSP attached to " .. root[1])
+--     else
+--       vim.notify("LSP running in single-file mode")
+--     end
+--   end,
+-- })
 
 -- Remove cursorline from unfocused windows
 vim.api.nvim_create_augroup("Cursorline", { clear = true })

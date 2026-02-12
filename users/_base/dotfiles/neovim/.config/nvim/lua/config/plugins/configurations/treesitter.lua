@@ -9,7 +9,7 @@ require("nvim-treesitter").setup({
 --   - automatically enable treesitter in filetypes with a treesitter parser
 --------------------------------------------------------------------------------
 local function ts_start(bufnr, parser_name)
-  vim.notify("Enabling treesitter parser for " .. parser_name, vim.log.levels.INFO, { title = "Treesitter" })
+  -- vim.notify("Enabling treesitter parser for " .. parser_name, vim.log.levels.INFO, { title = "Treesitter" })
   vim.treesitter.start(bufnr, parser_name)
 end
 
