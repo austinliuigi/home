@@ -102,6 +102,7 @@ in {
           source ~/.config/zsh/config/aliases.sh
           source ~/.config/zsh/config/keybinds.zsh
           source ~/.config/zsh/config/prompt.zsh
+          source ~/.config/zsh/config/hooks.zsh
           source ~/.config/zsh/config/zshrc
         '';
       in
