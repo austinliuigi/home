@@ -26,10 +26,13 @@ local calendar_dir = todo_dir .. "/calendar"
 --====================================================================================================
 
 ---@param date todo.Date
+---@param hour? integer
+---@param min? integer
+---@param sec? integer
 ---@return integer time
-local function date_to_time(date)
+local function date_to_time(date, hour, min, sec)
   local _, _, year, month, day = date:find("(%d%d%d%d)/(%d%d)/(%d%d)")
-  return os.time({ year = year, month = month, day = day })
+  return os.time({ year = year, month = month, day = day, hour = hour, min = min, sec = sec })
 end
 
 --- If current buffer is in calendar, start relative to that day, otherwise start relative to current day
@@ -467,7 +470,7 @@ vim.api.nvim_create_autocmd("BufRead", {
 })
 
 --====================================================================================================
--- Reminders
+-- Recurrences
 --====================================================================================================
 
 local reminders_dir = calendar_dir .. "/recurrences"
@@ -495,12 +498,14 @@ local function get_first_capture_node(query, tree)
   return node
 end
 
+-- TODO: use BufEnter instead of BufRead so that reminders can be hot-reloaded
+--         - requires deleting old extmarks
 vim.api.nvim_create_autocmd("BufRead", {
   callback = function()
     local bufname = vim.api.nvim_buf_get_name(0)
     local bufnr = vim.api.nvim_get_current_buf()
     local _, _, buf_date = string.find(bufname, calendar_dir .. "/(%d%d%d%d/%d%d/%d%d).norg")
-    if buf_date and (date_to_time(buf_date)) > os.time() then
+    if buf_date and (date_to_time(buf_date, 23, 59, 59) > os.time()) then
       local parse_remind_ouput = function(obj)
         local stdout = vim.split(obj.stdout, "\n")
 
@@ -512,6 +517,11 @@ vim.api.nvim_create_autocmd("BufRead", {
             return line ~= ""
           end)
           :totable()
+
+        -- early exit
+        if #reminders == 0 then
+          return
+        end
 
         -- get heading nodes
         local tree = vim.treesitter.get_parser():parse()[1]
@@ -543,29 +553,86 @@ vim.api.nvim_create_autocmd("BufRead", {
           end
         end
 
-        -- set extmarks
-        if not vim.tbl_isempty(bulletin_reminders) then
-          vim.api.nvim_buf_set_extmark(bufnr, todo_ns, title_line, 0, {
-            virt_lines = get_reminder_virt_lines(bulletin_reminders, function(rem)
-              return "  • " .. rem
-            end),
-          })
-        end
+        if os.date("%Y/%m/%d") == buf_date then
+          local did_bake_reminders = false
+          ---------------------------------------------------------------------------------------------------------------------
+          -- bake reminders if they're for the current day
+          --   - we go bottom up (tasks then events then bullets) b/c otherwise the stored heading line numbers will be wrong
+          ---------------------------------------------------------------------------------------------------------------------
+          for _, task_reminder in ipairs(task_reminders) do
+            local new_line = "- ( ) " .. task_reminder
+            local line_exists = false
+            for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)) do
+              if vim.trim(line) == vim.trim(new_line) then
+                line_exists = true
+                break
+              end
+            end
+            if not line_exists then
+              vim.api.nvim_buf_set_lines(bufnr, task_heading_line + 2, task_heading_line + 2, true, { new_line })
+              did_bake_reminders = true
+            end
+          end
+          for _, event_reminder in ipairs(event_reminders) do
+            local new_line = "- ( ) " .. event_reminder
+            local line_exists = false
+            for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)) do
+              if vim.trim(line) == vim.trim(new_line) then
+                line_exists = true
+                break
+              end
+            end
+            if not line_exists then
+              vim.api.nvim_buf_set_lines(bufnr, event_heading_line + 2, event_heading_line + 2, true, { new_line })
+              did_bake_reminders = true
+            end
+          end
+          for _, bulletin_reminder in ipairs(bulletin_reminders) do
+            local new_line = "- " .. bulletin_reminder
+            local line_exists = false
+            for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)) do
+              if vim.trim(line) == vim.trim(new_line) then
+                line_exists = true
+                break
+              end
+            end
+            if not line_exists then
+              vim.api.nvim_buf_set_lines(bufnr, title_line + 2, title_line + 2, true, { new_line })
+              did_bake_reminders = true
+            end
+          end
 
-        if not vim.tbl_isempty(event_reminders) then
-          vim.api.nvim_buf_set_extmark(bufnr, todo_ns, event_heading_line, 0, {
-            virt_lines = get_reminder_virt_lines(event_reminders, function(rem)
-              return "   • ( ) " .. rem
-            end),
-          })
-        end
+          if did_bake_reminders then
+            vim.cmd("silent w")
+            vim.notify("Baked recurrences", vim.log.levels.INFO, { title = "TODO" })
+          end
+        else
+          ---------------------------------------------------------------------------------------------------------------------
+          -- set extmarks
+          ---------------------------------------------------------------------------------------------------------------------
+          if not vim.tbl_isempty(bulletin_reminders) then
+            vim.api.nvim_buf_set_extmark(bufnr, todo_ns, title_line, 0, {
+              virt_lines = get_reminder_virt_lines(bulletin_reminders, function(rem)
+                return "  • " .. rem
+              end),
+            })
+          end
 
-        if not vim.tbl_isempty(task_reminders) then
-          vim.api.nvim_buf_set_extmark(bufnr, todo_ns, task_heading_line, 0, {
-            virt_lines = get_reminder_virt_lines(task_reminders, function(rem)
-              return "   • ( ) " .. rem
-            end),
-          })
+          if not vim.tbl_isempty(event_reminders) then
+            vim.api.nvim_buf_set_extmark(bufnr, todo_ns, event_heading_line, 0, {
+              virt_lines = get_reminder_virt_lines(event_reminders, function(rem)
+                return "   • ( ) " .. rem
+              end),
+            })
+          end
+
+          if not vim.tbl_isempty(task_reminders) then
+            vim.api.nvim_buf_set_extmark(bufnr, todo_ns, task_heading_line, 0, {
+              virt_lines = get_reminder_virt_lines(task_reminders, function(rem)
+                return "   • ( ) " .. rem
+              end),
+            })
+          end
         end
       end
 
