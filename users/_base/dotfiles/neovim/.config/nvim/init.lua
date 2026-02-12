@@ -60,6 +60,7 @@ require("config.diagnostics")
 require("config.lsp")
 require("config.rocks")
 
+require("scripts.compile")
 require("scripts.dashboard")
 require("scripts.diff")
 require("scripts.lastplace")
