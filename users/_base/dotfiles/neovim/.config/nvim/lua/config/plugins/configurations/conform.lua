@@ -18,8 +18,13 @@ require("conform").setup({
         local cmd = (ctx.range ~= nil) and "=" or "gg=G"
         vim.cmd("keepjumps normal! " .. cmd)
         local out_lines = vim.api.nvim_buf_get_lines(0, 0, -1, true)
-        vim.api.nvim_buf_set_lines(0, 0, -1, true, lines)
-        -- vim.cmd("normal! u")
+        -- NOTE: we no longer restore the original lines and instead undo
+        --         - this is b/c nvim_buf_set_lines on all lines will remove any extmarks
+        --           in the buffer, since it deletes all lines first before adding the new lines
+        -- vim.api.nvim_buf_set_lines(0, 0, -1, true, lines)
+        if vim.o.modified then
+          vim.cmd("normal! u")
+        end
 
         callback(nil, out_lines)
 
