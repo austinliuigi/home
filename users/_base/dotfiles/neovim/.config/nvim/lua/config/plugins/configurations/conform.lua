@@ -12,22 +12,22 @@ require("conform").setup({
   },
   formatters = { -- custom formatters
     vim_indent = {
+      -- NOTE: we don't use a temp buffer b/c neorg's sets 'indentexpr' to a buffer-specific value
+      --       since indents on a line depend on how the lines before it were indenting (in the same `=` operation)
       format = function(_, ctx, lines, callback)
         local view = vim.fn.winsaveview()
-
         local cmd = (ctx.range ~= nil) and "=" or "gg=G"
+
+        -- create a new undo block so that the indentation gets undone on its own
+        -- even if the formatting was triggered by a script/function
+        --   - see `:h undo-close-block`
+        vim.go.undolevels = vim.go.undolevels
+
         vim.cmd("keepjumps normal! " .. cmd)
         local out_lines = vim.api.nvim_buf_get_lines(0, 0, -1, true)
-        -- NOTE: we no longer restore the original lines and instead undo
-        --         - this is b/c nvim_buf_set_lines on all lines will remove any extmarks
-        --           in the buffer, since it deletes all lines first before adding the new lines
-        -- vim.api.nvim_buf_set_lines(0, 0, -1, true, lines)
-        if vim.o.modified then
-          vim.cmd("normal! u")
-        end
+        vim.cmd("normal! u")
 
         callback(nil, out_lines)
-
         vim.fn.winrestview(view)
       end,
     },
