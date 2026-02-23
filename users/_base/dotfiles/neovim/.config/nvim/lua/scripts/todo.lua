@@ -499,6 +499,7 @@ local function get_first_capture_node(query, tree)
 end
 
 -- TODO: use BufEnter instead of BufRead so that reminders can be hot-reloaded
+--         - can check modification time of recurrences and compare to previous modification time to be able to early exit if they are equal
 --         - requires deleting old extmarks
 vim.api.nvim_create_autocmd("BufRead", {
   callback = function()
@@ -563,7 +564,7 @@ vim.api.nvim_create_autocmd("BufRead", {
             local new_line = "- ( ) " .. task_reminder
             local line_exists = false
             for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)) do
-              if vim.trim(line) == vim.trim(new_line) then
+              if vim.trim(line):gsub("%- %(.%) ", "") == vim.trim(new_line):gsub("%- %(.%) ", "") then
                 line_exists = true
                 break
               end
@@ -577,7 +578,7 @@ vim.api.nvim_create_autocmd("BufRead", {
             local new_line = "- ( ) " .. event_reminder
             local line_exists = false
             for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)) do
-              if vim.trim(line) == vim.trim(new_line) then
+              if vim.trim(line):gsub("%- %(.%) ", "") == vim.trim(new_line):gsub("%- %(.%) ", "") then
                 line_exists = true
                 break
               end
@@ -591,7 +592,7 @@ vim.api.nvim_create_autocmd("BufRead", {
             local new_line = "- " .. bulletin_reminder
             local line_exists = false
             for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)) do
-              if vim.trim(line) == vim.trim(new_line) then
+              if vim.trim(line):gsub("%- %(.%) ", "") == vim.trim(new_line):gsub("%- %(.%) ", "") then
                 line_exists = true
                 break
               end
