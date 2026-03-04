@@ -5,7 +5,7 @@ autoload -Uz add-zsh-hook
 # AUTOMATICALLY ACTIVATE/DEACTIVATE PYTHON VIRTUAL ENVIRONMENTS
 # - NOTE: We track the current venv directory ourselves instead of using
 #         $VIRTUAL_ENV because the latter can be outdated if the directory
-#         is renamed after tha venv is created.
+#         is renamed after the venv is created.
 # ===================================================================
 VENV_DIR=".venv"
 CURRENT_VENV_BASEDIR=""
@@ -18,9 +18,10 @@ auto_venv_hook() {
     if [[ -n "$CURRENT_VENV_BASEDIR" && (! "$PWD" =~ "$CURRENT_VENV_BASEDIR") ]]; then
         deactivate
         CURRENT_VENV_BASEDIR=""
+    fi
 
     # activate if any parents have a venv
-    elif [[ -z "$CURRENT_VENV_BASEDIR" ]]; then
+    if [[ -z "$CURRENT_VENV_BASEDIR" ]]; then
       local dir="$PWD"
       while [[ "$dir" =~ "^$HOME" ]]; do
         # echo "$dir"
