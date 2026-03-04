@@ -1,4 +1,8 @@
 #import "./palette.typ": palette
+#import "./basic_palette.typ": basic_palette
+
+// comment this out to use custom palette
+#let palette = basic_palette
 
 //==============================================================================
 // STYLE TEMPLATE
@@ -39,10 +43,14 @@
   }
 
   //----------------------------------------------------------------------------
-  // TABLES
+  // TABLES/GRIDS
   //----------------------------------------------------------------------------
   #set table(stroke: 0.5pt + palette.mg)
   #show table: it => {
+    align(center, it)
+  }
+
+  #show grid: it => {
     align(center, it)
   }
 
@@ -58,23 +66,24 @@
   // LINKS
   //----------------------------------------------------------------------------
   #set underline(offset: 1.25pt)
+  #set overline(offset: -1em)
 
   //----------------------------------------------------------------------------
   // CODE
   //----------------------------------------------------------------------------
   // TODO: if there is a language, add it to the top right of the block?
   #show raw.where(block: true): block.with(
-    fill: luma(240),
+    fill: color.mix((palette.bg, 75%), (palette.base01, 25%)),
     inset: 1.5em,
     radius: 3pt,
     width: 100%,
-    stroke: 0.25pt + luma(100),
+    stroke: 0.25pt + palette.base02,
   )
   #show raw.where(block: false): box.with(
-    fill: luma(240),
+    fill: color.mix((palette.bg, 50%), (palette.base01, 50%)),
     inset: (x: 2pt),
     outset: (y: 2pt),
-    radius: 2pt,
+    radius: 1.5pt,
   )
 
   //----------------------------------------------------------------------------
@@ -116,7 +125,7 @@
     block(below: 12pt, above: 25pt)[
       #block(text(size: size, it), spacing: 0pt)
       #block(spacing: 0pt)[
-        #line(stroke: 0.5pt + col)
+        #line(stroke: 0.15pt + col)
         #text(size: 4pt, weight: "medium", fill: col)[#it.level]
       ]
     ]
@@ -177,6 +186,44 @@
   colorize(palette.orange.mix((palette.fg, 70%)), text(weight: 900, term))
 }
 
+// List of options
+//
+#let opt_list(..opts) = {
+  let indent = false
+  for item in opts.pos() {
+    if indent {
+      block(inset: (top: -4pt, left: 2em), item)
+    } else {
+      strong(item)
+    }
+    indent = not indent
+  }
+}
+
+// Pros and cons list
+//
+#let procon(pros: [], cons: []) = {
+  if (pros != []) {
+    [*Pros:*]
+    {
+      set text(palette.green)
+      set list(marker: "+")
+      pros
+    }
+  }
+
+  if (cons != []) {
+    [*Cons:*]
+    {
+      set text(palette.red)
+      set list(marker: "-")
+      cons
+    }
+  }
+}
+
+// Size brackets
+//
 #let lrXL(content) = math.lr(content, size: 200%)
 #let lrL(content) = math.lr(content, size: 150%)
 #let lrS(content) = math.lr(content, size: 50%)
@@ -195,21 +242,28 @@
   let shadow_color = color.mix((palette.bg, 50%), (accent, 50%))
   let shadow_offset = (4pt, 6pt)
 
-  block(radius: rad, fill: shadow_color, move(
-    dx: shadow_offset.at(0),
-    dy: shadow_offset.at(1),
+  pad(
+    bottom: shadow_offset.at(0),
     block(
-      width: 100% - shadow_offset.at(0),
-      fill: bg_color,
       radius: rad,
-      inset: 7pt,
-      stroke: 0.5pt + border_color,
-      text(fill: accent)[
-        *#heading* \
-        #body
-      ],
+      fill: shadow_color,
+      move(
+        dx: shadow_offset.at(0),
+        dy: shadow_offset.at(1),
+        block(
+          width: 100% - shadow_offset.at(0),
+          fill: bg_color,
+          radius: rad,
+          inset: 7pt,
+          stroke: 0.5pt + border_color,
+          text(fill: accent)[
+            *#heading* \
+            #body
+          ],
+        ),
+      ),
     ),
-  ))
+  )
 }
 
 #let admonition(
@@ -226,6 +280,7 @@
 
   let heading_bg_color = color.mix((palette.bg, 50%), (accent, 50%))
   let body_bg_color = color.mix((palette.bg, 80%), (accent, 20%))
+  let border_color = color.mix((palette.bg, 30%), (accent, 70%))
   let separator_color = accent
 
   if subheading != "" {
@@ -244,6 +299,10 @@
           top: rad,
         ),
         inset: 8pt,
+        stroke: (
+          x: 0.5pt + border_color,
+          top: 0.5pt + border_color,
+        ),
         text(fill: accent)[*#heading*#subheading],
       ),
       line(stroke: 0.5pt + separator_color, length: width),
@@ -252,19 +311,29 @@
         fill: rgb(body_bg_color),
         inset: (
           x: 8pt,
-          top: 12pt,
-          bottom: 6pt,
+          y: 12pt,
         ),
-        text(fill: accent)[#body],
-      ),
-      block(
-        width: width,
-        fill: rgb(body_bg_color),
         radius: (
           bottom: rad,
         ),
-        " ",
+        stroke: (
+          x: 0.5pt + border_color,
+          bottom: 0.5pt + border_color,
+        ),
+        text(fill: accent)[#body],
       ),
+      // block(
+      //   width: width,
+      //   fill: rgb(body_bg_color),
+      //   radius: (
+      //     bottom: rad,
+      //   ),
+      //   stroke: (
+      //     left: 0.5pt + border_color,
+      //     bottom: 0.5pt + border_color,
+      //   ),
+      //   " ",
+      // ),
     )
   ]
 }
@@ -301,6 +370,12 @@
 
 #let etymology(body) = admonition_lite(
   " Etymology",
+  body,
+  accent: palette.purple,
+)
+
+#let analogy(body) = admonition_lite(
+  "󰨎 Analogy",
   body,
   accent: palette.purple,
 )

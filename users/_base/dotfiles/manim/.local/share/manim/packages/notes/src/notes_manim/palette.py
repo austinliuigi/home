@@ -1,0 +1,1 @@
+/home/austin/.local/share/python/palette.py
