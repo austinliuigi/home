@@ -56,6 +56,7 @@ require("oil").setup({
     -- ["g."] = "actions.cd",
     ["gx"] = "actions.open_external",
     ["g."] = "actions.toggle_hidden",
+    ["^"] = "actions.change_sort",
   },
 
   -- Configurations for the appearance of an oil buffer

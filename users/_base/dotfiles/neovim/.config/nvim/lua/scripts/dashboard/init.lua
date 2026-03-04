@@ -5,6 +5,12 @@ local function random(list)
   return list[math.random(#list)]
 end
 
+---@param banner string[]
+---@return string[] centered_banner
+---@return integer top Topmost line of the content of the centered banner
+---@return integer left Leftmost column of the content of the centered banner
+---@return integer banner_rows
+---@return integer banner_cols
 function dashboard.center(banner)
   local banner_rows = #banner
   local banner_cols = vim.fn.strdisplaywidth(banner[1]) -- assumes all lines are same length
@@ -35,10 +41,21 @@ function dashboard.center(banner)
   for _, line in ipairs(banner) do
     table.insert(centered, left_padding .. line)
   end
+  -- add padding to bottom
+  for _ = #centered, vim.api.nvim_win_get_height(0) - 1 do
+    table.insert(centered, "")
+  end
 
   return centered, top, left, banner_rows, banner_cols
 end
 
+---@param bufnr integer
+function dashboard.destroy(bufnr)
+  vim.api.nvim_buf_delete(bufnr, {})
+end
+
+---@param banner string[]
+---@param hl_group string
 function dashboard.draw(banner, hl_group)
   vim.opt_local.modifiable = true
   local centered_banner, top, _, banner_rows, _ = dashboard.center(banner)
@@ -55,9 +72,9 @@ function dashboard.draw(banner, hl_group)
 end
 
 function dashboard.create_buffer()
-  local win = vim.api.nvim_get_current_win()
-  local buf = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_win_set_buf(win, buf)
+  local winid = vim.api.nvim_get_current_win()
+  local bufnr = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_win_set_buf(winid, bufnr)
 
   vim.opt_local.buftype = "nofile"
   vim.opt_local.buflisted = false
@@ -78,6 +95,8 @@ function dashboard.create_buffer()
   vim.opt_local.fillchars = { eob = " " }
   vim.opt_local.list = false
   vim.opt_local.spell = false
+  vim.opt_local.winbar = " "
+  vim.opt_local.statuscolumn = " "
 
   vim.cmd("hi Cursor blend=100")
 
@@ -103,22 +122,22 @@ function dashboard.create_buffer()
     end,
   })
 
-  local keys = { "i", "a", "o", "p", "q", ":", "I", "A", "O", "P" }
-  for _, key in ipairs(keys) do
-    vim.keymap.set("n", key, function()
-      vim.cmd("enew")
-      vim.fn.feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), "ni")
-    end, { buffer = 0 })
-  end
+  local ns = vim.api.nvim_create_namespace("Dashboard")
+  vim.on_key(function(_, _)
+    dashboard.destroy(bufnr)
 
-  vim.api.nvim_create_autocmd("WinLeave", {
+    -- remove on_key callback when it's invoked, so it only runs once
+    vim.on_key(nil, ns, {})
+  end, ns, {})
+
+  vim.api.nvim_create_autocmd({ "BufLeave", "WinLeave" }, {
     buffer = 0,
     callback = function()
-      vim.cmd("enew")
+      dashboard.destroy(bufnr)
     end,
   })
 
-  return buf
+  return bufnr
 end
 
 function dashboard.should_open()
