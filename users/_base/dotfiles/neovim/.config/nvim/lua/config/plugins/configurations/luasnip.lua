@@ -9,6 +9,7 @@ local types = require("luasnip.util.types")
 local ft_extensions = {
   bash = { "sh" },
   zsh = { "sh" },
+  cpp = { "c" },
 }
 for derived_ft, base_fts in pairs(ft_extensions) do
   ls.filetype_extend(derived_ft, base_fts)
