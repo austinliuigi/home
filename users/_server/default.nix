@@ -8,6 +8,8 @@
 
   services.ssh-agent.enable = true;
 
+  programs.man.generateCaches = true;
+
   home.packages = [
     pkgs.lshw
     pkgs.dmidecode

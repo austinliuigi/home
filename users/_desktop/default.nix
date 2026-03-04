@@ -8,6 +8,8 @@
 
   services.ssh-agent.enable = true;
 
+  programs.man.generateCaches = true;
+
   home.packages = [
     pkgs.xclip
     # pkgs.deno
@@ -35,8 +37,11 @@
     pkgs.exiftool
 
     pkgs.timg
+    pkgs.imv
+    pkgs.plantuml
 
     pkgs.rnote
+    # pkgs.sunshine
   ];
 
   modules = {
