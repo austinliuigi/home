@@ -9,7 +9,7 @@
     /********** LAYOUT **********/
     "modules-left": ["hyprland/workspaces", "custom/separator", "network", "wireplumber", "backlight", "battery"],
     "modules-center": ["group/current_window"],
-    "modules-right": ["tray", "custom/separator", "cpu", "memory", "disk", "custom/separator", "clock"],
+    "modules-right": ["idle_inhibitor", "tray", "custom/separator", "cpu", "memory", "disk", "custom/separator", "clock"],
 
 
 
@@ -50,6 +50,14 @@
         "tooltip-format": "{timeTo}",
         "format-icons": ["", "", "", "", ""],
         "interval": 5
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󱙱",
+            "deactivated": "󰌾"
+        },
     },
 
 

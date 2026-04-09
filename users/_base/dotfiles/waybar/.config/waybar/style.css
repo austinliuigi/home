@@ -35,12 +35,13 @@ window#waybar {
 
 tooltip {
   background: alpha(@base01, 1);
-  border: 2px solid @base04;
+  border: 1px solid @base04;
 }
 
 tooltip label {
   color: @base04;
   text-shadow: none;
+  font-size: 0.8em;
 }
 
 #network, #wireplumber, #backlight, #battery, #cpu, #memory, #disk, #clock, #tray {
@@ -173,11 +174,29 @@ window#waybar.fullscreen #custom-fullscreen {
 
 /********** RIGHT **********/
 
+.modules-right #custom-separator {
+  margin-right: 0.5em;
+}
+
 #tray {
   /* border: 1px solid @base03; */
   /* border-radius: 0.2em; */
   /* padding: 0 1em 0 1em; */
   /* margin: 0.5em 0 0.5em 0; */
+}
+
+#idle_inhibitor {
+    padding: 0 1em 0.1em 1em;
+}
+
+#idle_inhibitor.activated {
+    color: @base08;
+    text-shadow: 0 0 5px @base08;
+}
+
+#idle_inhibitor.deactivated {
+    color: @base04;
+    text-shadow: 0 0 5px @base04;
 }
 
 #cpu, #memory, #disk {
