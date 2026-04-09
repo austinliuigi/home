@@ -31,7 +31,7 @@ local calendar_dir = todo_dir .. "/calendar"
 ---@param sec? integer
 ---@return integer time
 local function date_to_time(date, hour, min, sec)
-  local _, _, year, month, day = date:find("(%d%d%d%d)/(%d%d)/(%d%d)")
+  local year, month, day = date:match("(%d%d%d%d)/(%d%d)/(%d%d)")
   return os.time({ year = year, month = month, day = day, hour = hour, min = min, sec = sec })
 end
 
@@ -39,7 +39,7 @@ end
 ---
 ---@return integer start_time
 local function get_start_time()
-  local _, _, buf_date = string.find(vim.api.nvim_buf_get_name(0), calendar_dir .. "/(%d%d%d%d/%d%d/%d%d).norg")
+  local buf_date = string.match(vim.api.nvim_buf_get_name(0), calendar_dir .. "/(%d%d%d%d/%d%d/%d%d)")
   return (buf_date == nil) and os.time() or date_to_time(buf_date)
 end
 
@@ -66,7 +66,7 @@ end
 ---@param date todo.Date
 ---@return boolean
 local function is_valid_date(date)
-  local _, _, year, month, day = date:find("(%d%d%d%d)/(%d%d)/(%d%d)")
+  local year, month, day = date:match("(%d%d%d%d)/(%d%d)/(%d%d)")
   year = tonumber(year)
   month = tonumber(month)
   day = tonumber(day)
@@ -79,6 +79,29 @@ local function is_valid_date(date)
     return false
   end
   return true
+end
+
+--- Get first glob match. Returns empty string if no matches.
+--
+local function glob_first(globpat)
+  return vim.split(vim.fn.glob(globpat), "\n")[1]
+end
+
+--- Convert a time string to a number representation. Format of time string is "<hour>:<min>(am|pm)"
+--
+---@param time_str string
+local function time_str_to_num(time_str)
+  local hour, min, meridiem = time_str:match("(%d+):(%d%d)(%a%a)")
+  hour = tonumber(hour)
+  min = tonumber(min)
+
+  -- convert start times to 24-hr format
+  if meridiem == "pm" and hour < 12 then
+    hour = hour + 12
+  end
+
+  local now = os.date("*t")
+  return os.time({ year = now.year, month = now.month, day = now.day, hour = hour, min = min })
 end
 
 --====================================================================================================
@@ -107,7 +130,7 @@ end
 ---@param start_time number -- Time to start from, as encoded by os.time()
 ---@return number? computed_time
 local function handle_absolute_day(spec, start_time)
-  local _, _, day = spec:find("^(%d+)d$")
+  local day = spec:match("^(%d+)d$")
   if day == nil then
     return nil
   end
@@ -125,7 +148,7 @@ end
 ---@param start_time number -- Time to start from, as encoded by os.time()
 ---@return number? computed_time
 local function handle_absolute_month(spec, start_time)
-  local _, _, month = spec:find("^(%d+)m$")
+  local month = spec:match("^(%d+)m$")
   if month == nil then
     return nil
   end
@@ -143,7 +166,7 @@ end
 ---@param start_time number -- Time to start from, as encoded by os.time()
 ---@return number? computed_time
 local function handle_absolute_year(spec, start_time)
-  local _, _, year = spec:find("^(%d+)y$")
+  local year = spec:match("^(%d+)y$")
   if year == nil then
     return nil
   end
@@ -165,7 +188,7 @@ end
 ---@param start_time number -- Time to start from, as encoded by os.time()
 ---@return number? computed_time
 local function handle_relative_day(spec, start_time)
-  local _, _, direction, n_days = spec:find("^([+-])(%d+)d$")
+  local direction, n_days = spec:match("^([+-])(%d+)d$")
   if direction == nil then
     return nil
   end
@@ -179,7 +202,7 @@ end
 ---@param start_time number -- Time to start from, as encoded by os.time()
 ---@return number? computed_time
 local function handle_relative_week(spec, start_time)
-  local _, _, direction, n_weeks = spec:find("^([+-])(%d+)w$")
+  local direction, n_weeks = spec:match("^([+-])(%d+)w$")
   if direction == nil then
     return nil
   end
@@ -193,7 +216,7 @@ end
 ---@param start_time number -- Time to start from, as encoded by os.time()
 ---@return number? computed_time
 local function handle_relative_year(spec, start_time)
-  local _, _, direction, n_years = spec:find("^([+-])(%d+)y$")
+  local direction, n_years = spec:match("^([+-])(%d+)y$")
   if direction == nil then
     return nil
   end
@@ -276,7 +299,7 @@ end
 ---@param spec string -- Expected format: (+|-)<N>y (e.g. +2y)
 ---@return number? computed_time
 local function handle_exact_date(spec)
-  local _, _, year, month, day = spec:find("^(%d%d%d%d)[-/]?(%d%d)[-/]?(%d%d)$")
+  local year, month, day = spec:match("^(%d%d%d%d)[-/]?(%d%d)[-/]?(%d%d)$")
   if year == nil then
     return nil
   end
@@ -362,11 +385,10 @@ vim.api.nvim_create_user_command("Todo", function(attrs)
   --------------------------------------------------
   if nargs == 0 then
     local cell_aspect_ratio = 2.2 / 1 -- heuristic; it actually depends on the font
-    vim.cmd(string.format("edit %s/inbox.norg", todo_dir))
-    if vim.api.nvim_win_get_height(0) * cell_aspect_ratio > vim.api.nvim_win_get_width(0) then
-      vim.cmd(string.format("split %s/%s.norg", calendar_dir, os.date("%Y/%m/%d")))
-    else
-      vim.cmd(string.format("vsplit %s/%s.norg", calendar_dir, os.date("%Y/%m/%d")))
+    vim.cmd(string.format("edit %s", glob_first(calendar_dir .. "/" .. os.date("%Y/%m/%d") .. "*")))
+    if vim.api.nvim_win_get_height(0) * cell_aspect_ratio < vim.api.nvim_win_get_width(0) then
+      vim.cmd(string.format("topleft vsplit %s", glob_first(todo_dir .. "/inbox.*")))
+      vim.cmd("wincmd p")
     end
     return
   end
@@ -380,11 +402,11 @@ vim.api.nvim_create_user_command("Todo", function(attrs)
 
   -- navigate to computed date file
   local date = os.date("%Y/%m/%d", time)
-  local date_file = string.format("%s/%s.norg", calendar_dir, date)
-  if vim.uv.fs_stat(date_file) then
-    vim.cmd(string.format("edit %s", date_file))
+  local date_file = glob_first(string.format("%s/%s.*", calendar_dir, date))
+  if date_file == "" then
+    vim.notify(string.format("File for %s does not exist", date), vim.log.levels.WARN, { title = "TODO" })
   else
-    vim.notify(string.format("File '%s' does not exist", date_file), vim.log.levels.WARN, { title = "TODO" })
+    vim.cmd(string.format("edit %s", date_file))
   end
 end, { nargs = "*" })
 
@@ -403,10 +425,9 @@ vim.api.nvim_create_user_command("TodoReschedule", function(attrs)
   end
 
   local date = os.date("%Y/%m/%d", time)
-  local date_file = string.format("%s/%s.norg", calendar_dir, date)
-  if not vim.uv.fs_stat(date_file) then
-    vim.notify(string.format("File '%s' does not exist", date_file), vim.log.levels.WARN, { title = "TODO" })
-    return
+  local date_file = glob_first(string.format("%s/%s.*", calendar_dir, date))
+  if date_file == "" then
+    vim.notify(string.format("File for %s does not exist", date), vim.log.levels.WARN, { title = "TODO" })
   end
 
   local items_to_reschedule = vim.api.nvim_buf_get_lines(0, attrs.line1 - 1, attrs.line2, true)
@@ -492,152 +513,261 @@ local function get_reminder_virt_lines(lines, map_fn)
   return virt_lines
 end
 
-local function get_first_capture_node(query, tree)
-  local parsed_query = vim.treesitter.query.parse("norg", query)
-  local id, node = parsed_query:iter_captures(tree:root(), 0)()
+local function get_first_capture_node(query, tree, lang)
+  lang = lang or vim.treesitter.language.get_lang(vim.o.filetype)
+  local parsed_query = vim.treesitter.query.parse(lang, query)
+  local _, node = parsed_query:iter_captures(tree:root(), 0)()
   return node
 end
 
--- TODO: use BufEnter instead of BufRead so that reminders can be hot-reloaded
---         - can check modification time of recurrences and compare to previous modification time to be able to early exit if they are equal
---         - requires deleting old extmarks
-vim.api.nvim_create_autocmd("BufRead", {
-  callback = function()
-    local bufname = vim.api.nvim_buf_get_name(0)
-    local bufnr = vim.api.nvim_get_current_buf()
-    local _, _, buf_date = string.find(bufname, calendar_dir .. "/(%d%d%d%d/%d%d/%d%d).norg")
-    if buf_date and (date_to_time(buf_date, 23, 59, 59) > os.time()) then
-      local parse_remind_ouput = function(obj)
-        local stdout = vim.split(obj.stdout, "\n")
+local events = {
+  { name = "BufEnter" },
+  { name = "User", pattern = "MidnightPost" },
+}
 
-        -- clean output to leave just a list of reminders (remove banner and empty lines)
-        local reminders = vim
-          .iter(stdout)
-          :skip(1)
-          :filter(function(line)
-            return line ~= ""
-          end)
-          :totable()
+for _, event in ipairs(events) do
+  vim.api.nvim_create_autocmd(event.name, {
+    pattern = event.pattern,
+    callback = function()
+      local bufname = vim.api.nvim_buf_get_name(0)
+      local bufnr = vim.api.nvim_get_current_buf()
+      local buf_date = bufname:match(calendar_dir .. "/(%d%d%d%d/%d%d/%d%d)")
+      if buf_date and (date_to_time(buf_date, 23, 59, 59) > os.time()) then
+        local parse_remind_ouput = function(obj)
+          local stdout = vim.split(obj.stdout, "\n")
 
-        -- early exit
-        if #reminders == 0 then
-          return
-        end
+          -- clean `remind` output to leave just a list of reminders (remove banner and empty lines)
+          --------------------------------------------------------------------------------
+          local reminders = vim
+            .iter(stdout)
+            :skip(1)
+            :filter(function(line)
+              return line ~= ""
+            end)
+            :totable()
 
-        -- get heading nodes
-        local tree = vim.treesitter.get_parser():parse()[1]
-        local title_heading = get_first_capture_node("(heading1 title: (paragraph_segment) @title)", tree)
-        local event_heading =
-          get_first_capture_node('(heading2 title: (paragraph_segment) @events (#eq? @events "Events"))', tree)
-        local task_heading =
-          get_first_capture_node('(heading2 title: (paragraph_segment) @tasks (#eq? @tasks "Tasks"))', tree)
+          -- early exit
+          --------------------------------------------------------------------------------
+          if #reminders == 0 then
+            return
+          end
 
-        local title_line = title_heading:start()
-        local event_heading_line = event_heading:start()
-        local task_heading_line = task_heading:start()
+          -- get heading nodes
+          --------------------------------------------------------------------------------
+          local tree = vim.treesitter.get_parser():parse()[1]
 
-        -- categorize each reminder
-        local bulletin_reminders = {}
-        local event_reminders = {}
-        local task_reminders = {}
-        for _, reminder in ipairs(reminders) do
-          local _, _, type, msg = string.find(reminder, "^%((%a+)%)%s+(.*)")
-          if not type then
-            _, _, msg = string.find(reminder, "(.*)")
-            table.insert(bulletin_reminders, msg)
-          else
-            if type == "event" then
-              table.insert(event_reminders, msg)
-            elseif type == "task" then
-              table.insert(task_reminders, msg)
+          -- TODO: generalize to non-norg filetyeps
+          local title_heading = get_first_capture_node("(heading1 title: (paragraph_segment) @title)", tree)
+          local event_heading =
+            get_first_capture_node('(heading2 title: (paragraph_segment) @events (#eq? @events "Events"))', tree)
+          local task_heading =
+            get_first_capture_node('(heading2 title: (paragraph_segment) @tasks (#eq? @tasks "Tasks"))', tree)
+
+          local title_line_idx = title_heading:start()
+          local event_heading_line_idx = event_heading:start()
+          local task_heading_line_idx = task_heading:start()
+
+          -- categorize each reminder
+          --------------------------------------------------------------------------------
+          local bulletin_reminders = {}
+          local event_reminders = {}
+          local task_reminders = {}
+          for _, reminder in ipairs(reminders) do
+            local type, msg = reminder:match("^%((%a+)%)%s+(.*)")
+            if not type then
+              msg = reminder:match("(.*)")
+              table.insert(bulletin_reminders, msg)
+            else
+              if type == "event" then
+                table.insert(event_reminders, msg)
+              elseif type == "task" then
+                table.insert(task_reminders, msg)
+              end
             end
           end
-        end
 
-        if os.date("%Y/%m/%d") == buf_date then
-          local did_bake_reminders = false
+          -- clear old extmarks
+          --------------------------------------------------------------------------------
+          vim.api.nvim_buf_clear_namespace(0, todo_ns, 0, -1)
+
           ---------------------------------------------------------------------------------------------------------------------
           -- bake reminders if they're for the current day
           --   - we go bottom up (tasks then events then bullets) b/c otherwise the stored heading line numbers will be wrong
           ---------------------------------------------------------------------------------------------------------------------
-          for _, task_reminder in ipairs(task_reminders) do
-            local new_line = "- ( ) " .. task_reminder
-            local line_exists = false
-            for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)) do
-              if vim.trim(line):gsub("%- %(.%) ", "") == vim.trim(new_line):gsub("%- %(.%) ", "") then
-                line_exists = true
-                break
-              end
-            end
-            if not line_exists then
-              vim.api.nvim_buf_set_lines(bufnr, task_heading_line + 2, task_heading_line + 2, true, { new_line })
-              did_bake_reminders = true
-            end
-          end
-          for _, event_reminder in ipairs(event_reminders) do
-            local new_line = "- ( ) " .. event_reminder
-            local line_exists = false
-            for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)) do
-              if vim.trim(line):gsub("%- %(.%) ", "") == vim.trim(new_line):gsub("%- %(.%) ", "") then
-                line_exists = true
-                break
-              end
-            end
-            if not line_exists then
-              vim.api.nvim_buf_set_lines(bufnr, event_heading_line + 2, event_heading_line + 2, true, { new_line })
-              did_bake_reminders = true
-            end
-          end
-          for _, bulletin_reminder in ipairs(bulletin_reminders) do
-            local new_line = "- " .. bulletin_reminder
-            local line_exists = false
-            for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)) do
-              if vim.trim(line):gsub("%- %(.%) ", "") == vim.trim(new_line):gsub("%- %(.%) ", "") then
-                line_exists = true
-                break
-              end
-            end
-            if not line_exists then
-              vim.api.nvim_buf_set_lines(bufnr, title_line + 2, title_line + 2, true, { new_line })
-              did_bake_reminders = true
-            end
-          end
+          if os.date("%Y/%m/%d") == buf_date then
+            local did_bake_recurrences = false
 
-          if did_bake_reminders then
-            vim.cmd("silent w")
-            vim.notify("Baked recurrences", vim.log.levels.INFO, { title = "TODO" })
-          end
-        else
+            local next_task_line_idx = task_heading_line_idx + 2
+            for _, task_reminder in ipairs(task_reminders) do
+              local new_line = "- ( ) " .. task_reminder
+              local line_exists = false
+              for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)) do
+                if vim.trim(line):gsub("%- %(.%) ", "") == vim.trim(new_line):gsub("%- %(.%) ", "") then
+                  line_exists = true
+                  break
+                end
+              end
+              if not line_exists then
+                vim.api.nvim_buf_set_lines(bufnr, next_task_line_idx, next_task_line_idx, true, { new_line })
+                next_task_line_idx = next_task_line_idx + 1
+                did_bake_recurrences = true
+              end
+            end
+
+            local next_event_line_idx = event_heading_line_idx + 2
+            for _, event_reminder in ipairs(event_reminders) do
+              local new_line = "- ( ) " .. event_reminder
+              local line_exists = false
+              for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)) do
+                if vim.trim(line):gsub("%- %(.%) ", "") == vim.trim(new_line):gsub("%- %(.%) ", "") then
+                  line_exists = true
+                  break
+                end
+              end
+              if not line_exists then
+                vim.api.nvim_buf_set_lines(bufnr, next_event_line_idx, next_event_line_idx, true, { new_line })
+                next_event_line_idx = next_event_line_idx + 1
+                did_bake_recurrences = true
+              end
+            end
+
+            local next_bullet_line_idx = title_line_idx + 1
+            for _, bulletin_reminder in ipairs(bulletin_reminders) do
+              local new_line = "- " .. bulletin_reminder
+              local line_exists = false
+              for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)) do
+                if vim.trim(line):gsub("%- %(.%) ", "") == vim.trim(new_line):gsub("%- %(.%) ", "") then
+                  line_exists = true
+                  break
+                end
+              end
+              if not line_exists then
+                vim.api.nvim_buf_set_lines(bufnr, next_bullet_line_idx, next_bullet_line_idx, true, { new_line })
+                next_bullet_line_idx = next_bullet_line_idx + 1
+                did_bake_recurrences = true
+              end
+            end
+
+            -- add empty line between title and bulletins
+            if not string.match(vim.fn.getline(title_line_idx + 2), "^%s*$") then
+              vim.api.nvim_buf_set_lines(bufnr, title_line_idx + 1, title_line_idx + 1, true, { "" })
+            end
+
+            if did_bake_recurrences then
+              -- update treesitter info
+              tree = vim.treesitter.get_parser():parse()[1]
+              event_heading =
+                get_first_capture_node('(heading2 title: (paragraph_segment) @events (#eq? @events "Events"))', tree)
+              task_heading =
+                get_first_capture_node('(heading2 title: (paragraph_segment) @tasks (#eq? @tasks "Tasks"))', tree)
+
+              event_heading_line_idx = event_heading:start()
+              task_heading_line_idx = task_heading:start()
+
+              -- sort events by start time
+              --------------------------------------------------------------------------------
+              local events_start_line_idx = event_heading_line_idx + 2 -- inclusive
+              local events_end_line_idx = task_heading_line_idx - 1 -- exclusive
+
+              if events_start_line_idx < events_end_line_idx then
+                local events = vim.api.nvim_buf_get_lines(bufnr, events_start_line_idx, events_end_line_idx, true)
+
+                table.sort(events, function(e1, e2)
+                  local start_time_str_1 = e1:match("%%(%d+:%d%d%a%a).*%%$")
+                  local start_time_str_2 = e2:match("%%(%d+:%d%d%a%a).*%%$")
+
+                  local start_time_1 = time_str_to_num(start_time_str_1)
+                  local start_time_2 = time_str_to_num(start_time_str_2)
+
+                  if start_time_1 ~= start_time_2 then
+                    return start_time_1 < start_time_2
+                  end
+
+                  -- NOTE: for events without an end time, this is capture the start time
+                  local end_time_str_1 = e1:match("%%.*(%d+:%d%d%a%a)%%$")
+                  local end_time_str_2 = e2:match("%%.*(%d+:%d%d%a%a)%%$")
+
+                  local end_time_1 = time_str_to_num(end_time_str_1)
+                  local end_time_2 = time_str_to_num(end_time_str_2)
+
+                  return end_time_1 <= end_time_2
+                end)
+
+                vim.api.nvim_buf_set_lines(bufnr, events_start_line_idx, events_end_line_idx, true, events)
+              end
+
+              vim.cmd("silent w")
+              vim.notify("Baked recurrences", vim.log.levels.INFO, { title = "TODO" })
+            end
+
           ---------------------------------------------------------------------------------------------------------------------
           -- set extmarks
           ---------------------------------------------------------------------------------------------------------------------
-          if not vim.tbl_isempty(bulletin_reminders) then
-            vim.api.nvim_buf_set_extmark(bufnr, todo_ns, title_line, 0, {
-              virt_lines = get_reminder_virt_lines(bulletin_reminders, function(rem)
-                return "  • " .. rem
-              end),
-            })
-          end
+          else
+            if not vim.tbl_isempty(bulletin_reminders) then
+              vim.api.nvim_buf_set_extmark(bufnr, todo_ns, title_line_idx, 0, {
+                virt_lines = get_reminder_virt_lines(bulletin_reminders, function(rem)
+                  return "  • " .. rem
+                end),
+              })
+            end
 
-          if not vim.tbl_isempty(event_reminders) then
-            vim.api.nvim_buf_set_extmark(bufnr, todo_ns, event_heading_line, 0, {
-              virt_lines = get_reminder_virt_lines(event_reminders, function(rem)
-                return "   • ( ) " .. rem
-              end),
-            })
-          end
+            if not vim.tbl_isempty(event_reminders) then
+              vim.api.nvim_buf_set_extmark(bufnr, todo_ns, event_heading_line_idx, 0, {
+                virt_lines = get_reminder_virt_lines(event_reminders, function(rem)
+                  return "   • ( ) " .. rem
+                end),
+              })
+            end
 
-          if not vim.tbl_isempty(task_reminders) then
-            vim.api.nvim_buf_set_extmark(bufnr, todo_ns, task_heading_line, 0, {
-              virt_lines = get_reminder_virt_lines(task_reminders, function(rem)
-                return "   • ( ) " .. rem
-              end),
-            })
+            if not vim.tbl_isempty(task_reminders) then
+              vim.api.nvim_buf_set_extmark(bufnr, todo_ns, task_heading_line_idx, 0, {
+                virt_lines = get_reminder_virt_lines(task_reminders, function(rem)
+                  return "   • ( ) " .. rem
+                end),
+              })
+            end
           end
         end
-      end
 
-      vim.system({ "remind", reminders_dir, buf_date }, { text = true }, vim.schedule_wrap(parse_remind_ouput))
-    end
-  end,
-})
+        vim.system({ "remind", reminders_dir, buf_date }, { text = true }, vim.schedule_wrap(parse_remind_ouput))
+      end
+    end,
+  })
+end
+
+------------------------------------------------------------------------------------------------------
+-- Midnight autocmds
+------------------------------------------------------------------------------------------------------
+
+local function ms_until_midnight()
+  local now = os.date("*t")
+  local current_time = os.time(now)
+
+  local tomorrow = os.date("*t", current_time + 86400)
+  tomorrow.hour = 0
+  tomorrow.min = 0
+  tomorrow.sec = 0
+
+  return (os.time(tomorrow) - current_time) * 1000
+end
+
+local function schedule_midnight_autocmd_events()
+  local timer = vim.uv.new_timer()
+  local delay = ms_until_midnight() + 1000
+
+  -- MidnightPost
+  timer:start(
+    delay,
+    0,
+    vim.schedule_wrap(function()
+      vim.api.nvim_exec_autocmds("User", { pattern = "MidnightPost" })
+
+      timer:stop()
+      timer:close()
+      schedule_midnight_autocmd_events()
+    end)
+  )
+end
+
+schedule_midnight_autocmd_events()

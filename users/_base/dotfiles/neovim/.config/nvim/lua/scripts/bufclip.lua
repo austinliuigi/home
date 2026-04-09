@@ -15,9 +15,9 @@ end
 
 vim.keymap.set("n", "<leader><leader>y", function()
   bufclip.yank()
-end, {})
+end, { desc = "Copy buffer number" })
 vim.keymap.set("n", "<leader><leader>p", function()
   bufclip.paste()
-end, {})
+end, { desc = "Paste buffer number" })
 
 return bufclip

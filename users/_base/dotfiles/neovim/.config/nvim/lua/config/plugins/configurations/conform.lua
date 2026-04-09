@@ -38,7 +38,7 @@ require("conform").setup({
 -- Formatter Overrides
 --==============================================================================
 require("conform").formatters.typstyle = {
-  append_args = { "--wrap-text" },
+  append_args = { "--wrap-text", "--tab-width", "4" },
 }
 
 --==============================================================================
