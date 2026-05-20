@@ -723,8 +723,6 @@ for _, event in ipairs(events) do
   vim.api.nvim_create_autocmd(event.name, {
     pattern = event.pattern,
     callback = function()
-      print(os.date("(%c) checking recurrences"))
-
       local bufname = vim.api.nvim_buf_get_name(0)
       local buf_date = bufname:match(calendar_dir .. "/(%d%d%d%d/%d%d/%d%d)")
 
@@ -769,7 +767,6 @@ local function schedule_midnight_autocmd_events()
     0,
     vim.schedule_wrap(function()
       vim.api.nvim_exec_autocmds("User", { pattern = "MidnightPost" })
-      print(os.date("(%c) triggered midnight timer"))
 
       timer:stop()
       timer:close()

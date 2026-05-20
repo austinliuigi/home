@@ -21,16 +21,17 @@ import = "config/plugins/lazy_specs_post"
 #===========================================================================================
 # LOCAL PLUGINS
 #===========================================================================================
-"bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = true }
-# "bartender.nvim" = { git = "austinliuigi/bartender.nvim", rev = "main", opt = false }
+# "bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = true }
+"bartender.nvim" = { git = "austinliuigi/bartender.nvim", opt = true }
 
-"palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
-# "palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
+# "palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
+"palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
 
 # "dye.nvim" = { dir = "~/projects/dye.nvim", opt = false }
 "dye.nvim" = { git = "austinliuigi/dye.nvim", rev = "main", opt = false }
 
-"portal.nvim" = { dir = "~/projects/portal.nvim", opt = false }
+# "portal.nvim" = { dir = "~/projects/portal.nvim", opt = true }
+"portal.nvim" = { git = "austinliuigi/portal.nvim", opt = true }
 
 # ----- FORKS -----
 neorg = { dir = "~/projects/_forks/neorg", opt = true }
@@ -58,7 +59,7 @@ neorg = { dir = "~/projects/_forks/neorg", opt = true }
 "rocks-git.nvim" = { version = "2.5.5", opt = false }
 "rocks-lazy.nvim" = { version = "1.2.0", opt = false }
 "rocks.nvim" = { version = "2.40.0", opt = false }
-"snacks.nvim" = { version = "scm", opt = false }
+"snacks.nvim" = { version = "scm", opt = true }
 "todo-comments.nvim" = { version = "scm", opt = true }
 "venn.nvim" = { version = "scm", opt = true }
 fzf-lua = { version = "0.0.2428", opt = true } # 2063 works, 2068 doesn't work

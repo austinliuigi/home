@@ -142,8 +142,9 @@ end, { nargs = 0 })
 
 -- KEYBINDS {{{
 --------------------------------------------------
-vim.opt.timeout = false -- whether to wait for when a mapping
+vim.opt.timeout = false -- whether to wait for a mapping sequence
 vim.opt.ttimeout = true -- whether to wait for a keycode sequence
+vim.opt.timeoutlen = 0 -- how long to wait for a mapping sequence when 'timeout' is true
 vim.opt.ttimeoutlen = 0 -- how long to wait for a keycode sequence when 'ttimeout' is true
 -- }}}
 
