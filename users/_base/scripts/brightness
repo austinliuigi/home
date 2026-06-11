@@ -18,13 +18,16 @@ function notify() {
     notify-send --replace-id=1998 --urgency=low --icon="$icon" --hint=int:value:"$brightness" "Brightness" "$brightness"
 }
 
+brightness="$(printf "%0.0f\n" "$(echo "scale=5; $(brightnessctl get)/$(brightnessctl max) * 100" | bc)")"
 case "$control" in
     increase)
-        brightnessctl set 5%+ >/dev/null
+        brightnessctl set $((brightness + 5))% >/dev/null
+        # brightnessctl set 5%+ >/dev/null
         ;;
 
     decrease)
-        brightnessctl set 5%- >/dev/null
+        brightnessctl set $((brightness - 5))% >/dev/null
+        # brightnessctl set 5%- >/dev/null
         ;;
 
     *)
