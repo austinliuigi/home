@@ -75,7 +75,6 @@
       path = "${config.home.homeDirectory}/documents";
     };
     "todo" = {
-      enable = false;
       id = "mwxtf-jm7w5";
       path = "${config.home.homeDirectory}/todo";
     };
