@@ -57,6 +57,7 @@
 
   folders = lib.mapAttrs (name: value: folderBase // value) {
     "backlog" = {
+      enable = false;
       id = "dgzrv-myjtx";
       path = "${config.home.homeDirectory}/backlog";
     };
@@ -65,6 +66,7 @@
       path = "${config.home.homeDirectory}/cookbook";
     };
     "checklists" = {
+      enable = false;
       id = "jnvdc-tncl6";
       path = "${config.home.homeDirectory}/checklists";
     };
@@ -73,22 +75,31 @@
       path = "${config.home.homeDirectory}/documents";
     };
     "todo" = {
+      enable = false;
       id = "mwxtf-jm7w5";
       path = "${config.home.homeDirectory}/todo";
     };
     "guides" = {
+      enable = false;
       id = "rpect-q9ay6";
       path = "${config.home.homeDirectory}/guides";
     };
     "jobs" = {
+      enable = false;
       id = "bbnen-rjqm5";
       path = "${config.home.homeDirectory}/jobs";
     };
+    "notebook" = {
+      id = "s4nhg-2gsh9";
+      path = "${config.home.homeDirectory}/notebook";
+    };
     "notes" = {
+      enable = false;
       id = "pypev-zfwnm";
       path = "${config.home.homeDirectory}/notes";
     };
     "scratchpad" = {
+      enable = false;
       id = "s4ykd-trtwt";
       path = "${config.home.homeDirectory}/scratchpad";
     };
