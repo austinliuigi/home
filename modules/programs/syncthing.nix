@@ -62,6 +62,7 @@
       path = "${config.home.homeDirectory}/backlog";
     };
     "cookbook" = {
+      enable = false;
       id = "7tnly-dyrts";
       path = "${config.home.homeDirectory}/cookbook";
     };
