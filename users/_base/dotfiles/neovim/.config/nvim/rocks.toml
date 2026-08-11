@@ -45,7 +45,7 @@ neorg = { dir = "~/projects/_forks/neorg", opt = true }
 #===========================================================================================
 # LUAROCK PLUGINS
 #===========================================================================================
-"actions-preview.nvim" = { version = "scm-8", opt = true }
+# "actions-preview.nvim" = { version = "scm-8", opt = true }
 # "aerial.nvim" = { version = "scm", opt = true }
 "conform.nvim" = { version = "9.1.0", opt = true }
 "diffview.nvim" = { version = "scm", opt = true }
@@ -58,7 +58,7 @@ neorg = { dir = "~/projects/_forks/neorg", opt = true }
 "rocks-dev.nvim" = { version = "1.8.1", opt = false }
 "rocks-git.nvim" = { version = "2.5.5", opt = false }
 "rocks-lazy.nvim" = { version = "1.2.0", opt = false }
-"rocks.nvim" = { version = "2.40.0", opt = false }
+"rocks.nvim" = { version = "2.49.0", opt = false }
 "snacks.nvim" = { version = "scm", opt = true }
 # "todo-comments.nvim" = { version = "scm", opt = true }
 "venn.nvim" = { version = "scm", opt = true }
@@ -83,6 +83,7 @@ nvim-ts-autotag = { version = "scm", opt = true }
 #===========================================================================================
 # GIT PLUGINS
 #===========================================================================================
+"actions-preview.nvim" = { git = "aznhe21/actions-preview.nvim", rev = "0ac9c2aa3cfc8c885321c0862b50b6b1c3392405", opt = true }
 "aerial.nvim" = { git = "stevearc/aerial.nvim", rev = "master", opt = true }
 "blame.nvim" = { git = "FabijanZulj/blame.nvim", rev = "39bb4cda9e658d053a43919b10ca52c0a4d738e1", opt = true }
 "satellite.nvim" = { git = "lewis6991/satellite.nvim", rev = "main", opt = true }
@@ -96,7 +97,7 @@ nvim-colorizer  = { git = "mehalter/nvim-colorizer.lua", rev = "72aba5511b6af840
 nvim-silicon  = { git = "michaelrommel/nvim-silicon", rev = "v1.0.0", opt = true }
 "resession.nvim" = { git = "stevearc/resession.nvim", rev = "master", opt = true }
 "quicker.nvim" = { git = "stevearc/quicker.nvim", rev = "master", opt = true }
-wrapwidth = { git = "rickhowe/wrapwidth", rev = "main", opt = true }
+wrapwidth = { git = "rickhowe/wrapwidth", rev = "a766191a1cd24ebb95d669ebd4a440c50d7f4422", opt = true }
 vim-easy-align  = { git = "junegunn/vim-easy-align", rev = "2.9.7^{}", opt = true }
 vim-matchup  = { git = "andymass/vim-matchup", rev = "master", opt = true }
 vim-mundo  = { git = "simnalamburt/vim-mundo", rev = "master", opt = true }
@@ -105,8 +106,8 @@ vim-startuptime  = { git = "dstein64/vim-startuptime", rev = "v4.5.0", opt = tru
 wordmotion  = { git = "chaoren/vim-wordmotion", rev = "81d9bd298376ab0dc465c85d55afa4cb8d5f47a1", opt = true }
 committia  = { git = "rhysd/committia.vim", rev = "c8c0f255e8090ed90dd9d5dd2e8672994f8e3671", opt = false }
 nvim-treesitter  = { git = "nvim-treesitter/nvim-treesitter", rev = "main", opt = false }
-"todo-comments.nvim" = { git = "folke/todo-comments.nvim", rev = "main", opt = true }
-neogit = { git = "NeogitOrg/neogit", rev = "master", opt = true }
+# "todo-comments.nvim" = { git = "folke/todo-comments.nvim", rev = "main", opt = true }
+# neogit = { git = "NeogitOrg/neogit", rev = "master", opt = true }
 # neorg = { git = "nvim-neorg/neorg", rev = "main", opt = false }
 
 # HACK: this plenary takes priority over the luarocks simply because it gets searched first; remove this when plenary creates a new luarocks release (https://github.com/nvim-lua/plenary.nvim/issues/629)
