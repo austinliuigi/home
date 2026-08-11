@@ -145,7 +145,7 @@ end, { nargs = 0 })
 vim.opt.timeout = false -- whether to wait for a mapping sequence
 vim.opt.ttimeout = true -- whether to wait for a keycode sequence
 vim.opt.timeoutlen = 0 -- how long to wait for a mapping sequence when 'timeout' is true
-vim.opt.ttimeoutlen = 0 -- how long to wait for a keycode sequence when 'ttimeout' is true
+vim.opt.ttimeoutlen = 1 -- how long to wait for a keycode sequence when 'ttimeout' is true
 -- }}}
 
 -- DIFF {{{
@@ -176,7 +176,7 @@ vim.opt.termguicolors = true -- use 24-bit colors in compatible terminal; NOTE: 
 vim.opt.splitbelow = true -- new split windows are created below the current by default
 vim.opt.splitright = true -- new vsplit windows are created below the current by default
 vim.opt.splitkeep = "screen" -- how to current buffer when a split is opened
-vim.opt.showmatch = true -- show matching symmetric delimiter when typing
+vim.opt.showmatch = false -- show matching symmetric delimiter when typing
 vim.opt.tildeop = true -- make tilde act like an operator
 vim.opt.belloff = { "esc", "cursor", "error" } -- set events that don't ring the bell
 vim.g.tex_flavor = "latex" -- default .tex format; "plain"|"context"|"latex"

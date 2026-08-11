@@ -52,7 +52,6 @@ neorg = { dir = "~/projects/_forks/neorg", opt = true }
 "flatten.nvim" = { version = "0.5.1", opt = false }
 "indent-blankline.nvim" = { version = "scm", opt = true }
 "oil.nvim" = { version = "2.14.0", opt = true }
-"persistence.nvim" = { version = "scm", opt = true }
 "rainbow-delimiters.nvim" = { version = "0.8.0", opt = true }
 "rocks-config.nvim" = { version = "3.1.0", opt = false }
 "rocks-dev.nvim" = { version = "1.8.1", opt = false }
