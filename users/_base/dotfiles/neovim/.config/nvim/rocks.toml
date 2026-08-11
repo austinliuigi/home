@@ -45,8 +45,8 @@ neorg = { dir = "~/projects/_forks/neorg", opt = true }
 #===========================================================================================
 # LUAROCK PLUGINS
 #===========================================================================================
-"actions-preview.nvim" = { version = "scm", opt = true }
-"aerial.nvim" = { version = "scm", opt = true }
+"actions-preview.nvim" = { version = "scm-8", opt = true }
+# "aerial.nvim" = { version = "scm", opt = true }
 "conform.nvim" = { version = "9.1.0", opt = true }
 "diffview.nvim" = { version = "scm", opt = true }
 "flatten.nvim" = { version = "0.5.1", opt = false }
@@ -60,12 +60,12 @@ neorg = { dir = "~/projects/_forks/neorg", opt = true }
 "rocks-lazy.nvim" = { version = "1.2.0", opt = false }
 "rocks.nvim" = { version = "2.40.0", opt = false }
 "snacks.nvim" = { version = "scm", opt = true }
-"todo-comments.nvim" = { version = "scm", opt = true }
+# "todo-comments.nvim" = { version = "scm", opt = true }
 "venn.nvim" = { version = "scm", opt = true }
 fzf-lua = { version = "0.0.2428", opt = true } # 2063 works, 2068 doesn't work
 luasnip = { version = "2.3.0", opt = true }
 neogen = { version = "2.20.0", opt = true }
-neogit = { version = "scm", opt = true }
+# neogit = { version = "scm", opt = true }
 # neorg = { version = "9.3.0", opt = false }
 # neorg-interim-ls = { version = "2.1.1", opt = false }
 nvim-dap = { version = "0.9.0", opt = true }
@@ -75,7 +75,7 @@ nvim-lint = { version = "scm", opt = true }
 nvim-lspconfig = { version = "2.5.0", opt = false }
 nvim-navic = { version = "scm", opt = true }
 nvim-notify = { version = "3.15.0", opt = false }
-nvim-surround = { version = "2.1.5", opt = true }
+nvim-surround = { version = "4.0.5", opt = true }
 nvim-treesitter-context = { version = "scm", opt = true }
 nvim-treesitter-textobjects = { version = "scm", opt = true }
 nvim-ts-autotag = { version = "scm", opt = true }
@@ -83,6 +83,7 @@ nvim-ts-autotag = { version = "scm", opt = true }
 #===========================================================================================
 # GIT PLUGINS
 #===========================================================================================
+"aerial.nvim" = { git = "stevearc/aerial.nvim", rev = "master", opt = true }
 "blame.nvim" = { git = "FabijanZulj/blame.nvim", rev = "39bb4cda9e658d053a43919b10ca52c0a4d738e1", opt = true }
 "satellite.nvim" = { git = "lewis6991/satellite.nvim", rev = "main", opt = true }
 "lasso.nvim"  = { git = "austinliuigi/lasso.nvim", rev = "321bb52116f470c43d83f78fa8549cefdb7f3cec", opt = true }
@@ -104,6 +105,8 @@ vim-startuptime  = { git = "dstein64/vim-startuptime", rev = "v4.5.0", opt = tru
 wordmotion  = { git = "chaoren/vim-wordmotion", rev = "81d9bd298376ab0dc465c85d55afa4cb8d5f47a1", opt = true }
 committia  = { git = "rhysd/committia.vim", rev = "c8c0f255e8090ed90dd9d5dd2e8672994f8e3671", opt = false }
 nvim-treesitter  = { git = "nvim-treesitter/nvim-treesitter", rev = "main", opt = false }
+"todo-comments.nvim" = { git = "folke/todo-comments.nvim", rev = "main", opt = true }
+neogit = { git = "NeogitOrg/neogit", rev = "master", opt = true }
 # neorg = { git = "nvim-neorg/neorg", rev = "main", opt = false }
 
 # HACK: this plenary takes priority over the luarocks simply because it gets searched first; remove this when plenary creates a new luarocks release (https://github.com/nvim-lua/plenary.nvim/issues/629)

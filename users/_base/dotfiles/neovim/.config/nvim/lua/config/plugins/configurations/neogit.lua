@@ -206,6 +206,7 @@ require("neogit").setup({
       -- ["<c-c><c-c>"] = "Submit",
       -- ["<c-c><c-k>"] = "Abort",
     },
+    commit_view = {},
 
     rebase_editor = {
       -- ["p"] = "Pick",
