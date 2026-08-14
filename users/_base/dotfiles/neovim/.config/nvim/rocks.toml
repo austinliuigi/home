@@ -22,7 +22,7 @@ import = "config/plugins/lazy_specs_post"
 # LOCAL PLUGINS
 #===========================================================================================
 # "bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = true }
-"bartender.nvim" = { git = "austinliuigi/bartender.nvim", opt = true }
+"bartender.nvim" = { git = "austinliuigi/bartender.nvim", rev = "main", opt = true }
 
 # "palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
 "palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
@@ -31,7 +31,7 @@ import = "config/plugins/lazy_specs_post"
 "dye.nvim" = { git = "austinliuigi/dye.nvim", rev = "main", opt = false }
 
 # "portal.nvim" = { dir = "~/projects/portal.nvim", opt = true }
-"portal.nvim" = { git = "austinliuigi/portal.nvim", opt = true }
+"portal.nvim" = { git = "austinliuigi/portal.nvim", rev = "main", opt = true }
 
 # ----- FORKS -----
 neorg = { dir = "~/projects/_forks/neorg", opt = true }
@@ -61,7 +61,7 @@ neorg = { dir = "~/projects/_forks/neorg", opt = true }
 "snacks.nvim" = { version = "scm", opt = true }
 # "todo-comments.nvim" = { version = "scm", opt = true }
 "venn.nvim" = { version = "scm", opt = true }
-fzf-lua = { version = "0.0.2428", opt = true } # 2063 works, 2068 doesn't work
+fzf-lua = { version = "0.0.2693", opt = true } # 2063 works, 2068 doesn't work
 luasnip = { version = "2.3.0", opt = true }
 neogen = { version = "2.20.0", opt = true }
 # neogit = { version = "scm", opt = true }
@@ -72,7 +72,7 @@ nvim-dap-ui = { version = "4.0.0", opt = true }
 nvim-dap-virtual-text = { version = "scm", opt = true }
 nvim-lint = { version = "scm", opt = true }
 nvim-lspconfig = { version = "2.5.0", opt = false }
-nvim-navic = { version = "scm", opt = true }
+# nvim-navic = { version = "scm", opt = true }
 nvim-notify = { version = "3.15.0", opt = false }
 nvim-surround = { version = "4.0.5", opt = true }
 nvim-treesitter-context = { version = "scm", opt = true }
@@ -105,8 +105,9 @@ vim-startuptime  = { git = "dstein64/vim-startuptime", rev = "v4.5.0", opt = tru
 wordmotion  = { git = "chaoren/vim-wordmotion", rev = "81d9bd298376ab0dc465c85d55afa4cb8d5f47a1", opt = true }
 committia  = { git = "rhysd/committia.vim", rev = "c8c0f255e8090ed90dd9d5dd2e8672994f8e3671", opt = false }
 nvim-treesitter  = { git = "nvim-treesitter/nvim-treesitter", rev = "main", opt = false }
-# "todo-comments.nvim" = { git = "folke/todo-comments.nvim", rev = "main", opt = true }
-# neogit = { git = "NeogitOrg/neogit", rev = "master", opt = true }
+"todo-comments.nvim" = { git = "folke/todo-comments.nvim", rev = "main", opt = true }
+neogit = { git = "NeogitOrg/neogit", rev = "master", opt = true }
+nvim-navic = { git = "SmiteshP/nvim-navic", rev = "f5eba192f39b453675d115351808bd51276d9de5", opt = true }
 # neorg = { git = "nvim-neorg/neorg", rev = "main", opt = false }
 
 # HACK: this plenary takes priority over the luarocks simply because it gets searched first; remove this when plenary creates a new luarocks release (https://github.com/nvim-lua/plenary.nvim/issues/629)
