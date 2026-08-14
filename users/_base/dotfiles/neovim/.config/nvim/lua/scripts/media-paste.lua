@@ -107,12 +107,16 @@ M.paste = function(p)
   if #offered_default_mime_types == 0 then
     -- local selection = vim.ui.select(M.get_offered_mime_types(), { prompt = "Select mime type: " })
     local offered_mime_types = M.get_offered_mime_types()
-    local selection = vim.fn.inputlist(offered_mime_types)
-    if selection == 0 then
-      vim.notify("Paste cancelled", vim.log.levels.INFO, { title = "Media Paste" })
-      return
+    if #offered_mime_types == 0 then
+      do_native_paste(p)
     else
-      mime_type = offered_mime_types[selection]
+      local selection = vim.fn.inputlist(offered_mime_types)
+      if selection == 0 then
+        vim.notify("Paste cancelled", vim.log.levels.INFO, { title = "Media Paste" })
+        return
+      else
+        mime_type = offered_mime_types[selection]
+      end
     end
   else
     mime_type = offered_default_mime_types[1]

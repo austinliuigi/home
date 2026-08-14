@@ -25,6 +25,32 @@ if vim.env.SSH_CLIENT then
 end
 -- }}}
 
+-- Set WSL clipboard
+local current_os = tostring(io.popen("uname"):read())
+if current_os == "Linux" and vim.fn.readfile("/proc/version")[1]:lower():match("microsoft") then
+  current_os = "Wsl"
+end
+
+if current_os == "Wsl" then
+  vim.g.clipboard = {
+    name = "WslClipboard",
+    copy = {
+      ["+"] = "clip.exe",
+      ["*"] = "clip.exe",
+    },
+    paste = {
+      ["+"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+      ["*"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    },
+    cache_enabled = 0,
+  }
+
+  if vim.g.loaded_clipboard_provider then
+    vim.cmd("unlet g:loaded_clipboard_provider")
+    vim.cmd("runtime autoload/provider/clipboard.vim")
+  end
+end
+
 -- CURSOR {{{
 --------------------------------------------------
 vim.opt.mouse = "a" -- modes to enable mouse in
@@ -145,7 +171,7 @@ end, { nargs = 0 })
 vim.opt.timeout = false -- whether to wait for a mapping sequence
 vim.opt.ttimeout = true -- whether to wait for a keycode sequence
 vim.opt.timeoutlen = 0 -- how long to wait for a mapping sequence when 'timeout' is true
-vim.opt.ttimeoutlen = 1 -- how long to wait for a keycode sequence when 'ttimeout' is true
+vim.opt.ttimeoutlen = 10 -- how long to wait for a keycode sequence when 'ttimeout' is true
 -- }}}
 
 -- DIFF {{{
