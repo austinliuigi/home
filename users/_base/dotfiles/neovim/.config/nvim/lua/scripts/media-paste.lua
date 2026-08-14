@@ -109,6 +109,7 @@ M.paste = function(p)
     local offered_mime_types = M.get_offered_mime_types()
     if #offered_mime_types == 0 then
       do_native_paste(p)
+      return
     else
       local selection = vim.fn.inputlist(offered_mime_types)
       if selection == 0 then
