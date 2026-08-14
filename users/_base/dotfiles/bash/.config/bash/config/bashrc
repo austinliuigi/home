@@ -35,6 +35,7 @@ if [ ! -f $HISTFILE ]; then
 fi
 
 shopt -s histappend       # append to the history file instead of overwriting it
+PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND" # write and reload history at every prompt
 HISTCONTROL=ignoreboth    # don't put duplicate lines or lines starting with space in the history. (See bash(1) for more options)
 HISTTIMEFORMAT='%F %T - ' # set format of history entries (%F = date, %T = time)
 

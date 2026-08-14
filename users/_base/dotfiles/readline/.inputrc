@@ -46,3 +46,6 @@ TAB: menu-complete
 
 # Bind C-] to expand special keywords
 "\C-]": shell-expand-line
+
+# Bind C-e to edit command in $EDITOR
+"\C-e": edit-and-execute-command

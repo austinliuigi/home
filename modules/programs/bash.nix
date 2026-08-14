@@ -28,6 +28,7 @@ in {
 
     home.file = {
       ".config/bash/config".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.bash}/.config/bash/config";
+      ".inputrc".source = config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.readline}/.inputrc";
     };
   };
 }

@@ -22,3 +22,6 @@ function _pet_move_cursor_to_next_parameter() {
   fi        
 }
 bind -x '"\C-n": _pet_move_cursor_to_next_parameter'
+
+bind -x '"\C-g": nvim -c "Neogit"'
+bind -x '"\C-f": nvim -c "lua vim.schedule(function() require(\"fzf-lua\").files() end)"'
