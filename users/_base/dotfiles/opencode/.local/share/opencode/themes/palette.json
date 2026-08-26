@@ -1,0 +1,223 @@
+{
+  "$schema": "https://opencode.ai/theme.json",
+  "defs": {
+    "base00": "#@base00@",
+    "base01": "#@base01@",
+    "base02": "#@base02@",
+    "base03": "#@base03@",
+    "base04": "#@base04@",
+    "base05": "#@base05@",
+    "base06": "#@base06@",
+    "base07": "#@base07@",
+    "base08": "#@base08@",
+    "base09": "#@base09@",
+    "base0A": "#@base0A@",
+    "base0B": "#@base0B@",
+    "base0C": "#@base0C@",
+    "base0D": "#@base0D@",
+    "base0E": "#@base0E@",
+    "base0F": "#@base0F@"
+  },
+  "theme": {
+    "primary": {
+      "dark": "base08",
+      "light": "base0A"
+    },
+    "secondary": {
+      "dark": "base09",
+      "light": "base09"
+    },
+    "accent": {
+      "dark": "base07",
+      "light": "base07"
+    },
+    "error": {
+      "dark": "base0B",
+      "light": "base0B"
+    },
+    "warning": {
+      "dark": "base0C",
+      "light": "base0C"
+    },
+    "success": {
+      "dark": "base0E",
+      "light": "base0E"
+    },
+    "info": {
+      "dark": "base08",
+      "light": "base0A"
+    },
+    "text": {
+      "dark": "base04",
+      "light": "base00"
+    },
+    "textMuted": {
+      "dark": "base03",
+      "light": "base01"
+    },
+    "background": {
+      "dark": "base00",
+      "light": "base06"
+    },
+    "backgroundPanel": {
+      "dark": "base01",
+      "light": "base05"
+    },
+    "backgroundElement": {
+      "dark": "base01",
+      "light": "base04"
+    },
+    "border": {
+      "dark": "base02",
+      "light": "base03"
+    },
+    "borderActive": {
+      "dark": "base03",
+      "light": "base02"
+    },
+    "borderSubtle": {
+      "dark": "base02",
+      "light": "base03"
+    },
+    "diffAdded": {
+      "dark": "base0E",
+      "light": "base0E"
+    },
+    "diffRemoved": {
+      "dark": "base0B",
+      "light": "base0B"
+    },
+    "diffContext": {
+      "dark": "base03",
+      "light": "base03"
+    },
+    "diffHunkHeader": {
+      "dark": "base03",
+      "light": "base03"
+    },
+    "diffHighlightAdded": {
+      "dark": "base0E",
+      "light": "base0E"
+    },
+    "diffHighlightRemoved": {
+      "dark": "base0B",
+      "light": "base0B"
+    },
+    "diffAddedBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffRemovedBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffContextBg": {
+      "dark": "base01",
+      "light": "base05"
+    },
+    "diffLineNumber": {
+      "dark": "base02",
+      "light": "base04"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "markdownText": {
+      "dark": "base04",
+      "light": "base00"
+    },
+    "markdownHeading": {
+      "dark": "base08",
+      "light": "base0A"
+    },
+    "markdownLink": {
+      "dark": "base09",
+      "light": "base09"
+    },
+    "markdownLinkText": {
+      "dark": "base07",
+      "light": "base07"
+    },
+    "markdownCode": {
+      "dark": "base0E",
+      "light": "base0E"
+    },
+    "markdownBlockQuote": {
+      "dark": "base03",
+      "light": "base03"
+    },
+    "markdownEmph": {
+      "dark": "base0C",
+      "light": "base0C"
+    },
+    "markdownStrong": {
+      "dark": "base0D",
+      "light": "base0D"
+    },
+    "markdownHorizontalRule": {
+      "dark": "base03",
+      "light": "base03"
+    },
+    "markdownListItem": {
+      "dark": "base08",
+      "light": "base0A"
+    },
+    "markdownListEnumeration": {
+      "dark": "base07",
+      "light": "base07"
+    },
+    "markdownImage": {
+      "dark": "base09",
+      "light": "base09"
+    },
+    "markdownImageText": {
+      "dark": "base07",
+      "light": "base07"
+    },
+    "markdownCodeBlock": {
+      "dark": "base04",
+      "light": "base00"
+    },
+    "syntaxComment": {
+      "dark": "base03",
+      "light": "base03"
+    },
+    "syntaxKeyword": {
+      "dark": "base09",
+      "light": "base09"
+    },
+    "syntaxFunction": {
+      "dark": "base08",
+      "light": "base08"
+    },
+    "syntaxVariable": {
+      "dark": "base07",
+      "light": "base07"
+    },
+    "syntaxString": {
+      "dark": "base0E",
+      "light": "base0E"
+    },
+    "syntaxNumber": {
+      "dark": "base0F",
+      "light": "base0F"
+    },
+    "syntaxType": {
+      "dark": "base07",
+      "light": "base07"
+    },
+    "syntaxOperator": {
+      "dark": "base09",
+      "light": "base09"
+    },
+    "syntaxPunctuation": {
+      "dark": "base04",
+      "light": "base00"
+    }
+  }
+}
