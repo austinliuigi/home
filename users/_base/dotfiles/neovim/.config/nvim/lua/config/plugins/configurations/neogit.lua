@@ -21,7 +21,7 @@ require("neogit").setup({
   -- "ascii"   is the graph the git CLI generates
   -- "unicode" is the graph like https://github.com/rbong/vim-flog
   -- "kitty"   is the graph like https://github.com/isakbm/gitgraph.nvim - use https://github.com/rbong/flog-symbols if you don't use Kitty
-  graph_style = "ascii",
+  graph_style = "kitty",
 
   -- Format to show the commit date
   --   - when set, --date=format:<value> is added to the respective git cli command
@@ -51,7 +51,7 @@ require("neogit").setup({
   integrations = {
     telescope = nil,
     mini_pick = nil,
-    diffview = true,
+    diffview = false,
     fzf_lua = true,
   },
 
@@ -232,23 +232,22 @@ require("neogit").setup({
     },
 
     finder = {
-      ["<cr>"] = "Select",
-      ["<c-c>"] = "Close",
-      ["<esc>"] = "Close",
-      ["<c-n>"] = "Next",
-      ["<c-p>"] = "Previous",
-      ["<down>"] = "Next",
-      ["<up>"] = "Previous",
-      ["<tab>"] = "InsertCompletion",
-      ["<space>"] = "MultiselectToggleNext",
-      ["<s-space>"] = "MultiselectTogglePrevious",
-      ["<c-j>"] = "NOP",
-      ["<ScrollWheelDown>"] = "ScrollWheelDown",
-      ["<ScrollWheelUp>"] = "ScrollWheelUp",
-      ["<ScrollWheelLeft>"] = "NOP",
-      ["<ScrollWheelRight>"] = "NOP",
-      ["<LeftMouse>"] = "MouseClick",
-      ["<2-LeftMouse>"] = "NOP",
+      -- ["<cr>"] = "Select",
+      -- ["<c-c>"] = "Close",
+      -- ["<c-n>"] = "Next",
+      -- ["<c-p>"] = "Previous",
+      -- ["<down>"] = "Next",
+      -- ["<up>"] = "Previous",
+      -- ["<tab>"] = "InsertCompletion",
+      -- ["<space>"] = "MultiselectToggleNext",
+      -- ["<s-space>"] = "MultiselectTogglePrevious",
+      -- ["<c-j>"] = "NOP",
+      -- ["<ScrollWheelDown>"] = "ScrollWheelDown",
+      -- ["<ScrollWheelUp>"] = "ScrollWheelUp",
+      -- ["<ScrollWheelLeft>"] = "NOP",
+      -- ["<ScrollWheelRight>"] = "NOP",
+      -- ["<LeftMouse>"] = "MouseClick",
+      -- ["<2-LeftMouse>"] = "NOP",
     },
 
     popup = {
@@ -311,6 +310,8 @@ require("neogit").setup({
       ["[["] = "GoToPreviousHunkHeader",
       ["]]"] = "GoToNextHunkHeader",
     },
+
+    refs_view = false,
   },
 })
 

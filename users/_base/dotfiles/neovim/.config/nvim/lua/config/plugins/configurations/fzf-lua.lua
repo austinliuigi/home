@@ -59,6 +59,10 @@ require("fzf-lua").setup({
   -- previewers = { ...  },  -- Previewers options
 
   -- =============== PICKER OPTIONS ===============
+  oldfiles = {
+    include_current_session = true,
+  },
+
   files = {
     -- (name from 'previewers' table)
     -- set to 'false' to disable
@@ -146,10 +150,13 @@ require("fzf-lua").setup({
   },
 })
 
-require("fzf-lua").register_ui_select()
+vim.keymap.set({ "n", "x", "i" }, "<leader><C-/>", function()
+  require("fzf-lua").resume()
+end, { remap = false })
 
 --==================================================================================================
 -- Collect all commands
+--   - this allows custom commands to be registered
 --==================================================================================================
 
 local M

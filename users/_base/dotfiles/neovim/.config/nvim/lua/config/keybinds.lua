@@ -162,10 +162,6 @@ keymap({ "n", "x" }, "<leader>n", "nzz", { remap = true })
 
 keymap({ "n", "x" }, "<leader>N", "Nzz", { remap = true })
 
-keymap({ "n", "x" }, "*", "*N", { remap = false })
-
-keymap({ "n", "x" }, "#", "#N", { remap = false })
-
 -- }}}
 -- Operator mappings {{{
 
@@ -419,6 +415,8 @@ end, { noremap = true, silent = true, desc = "Toggle location list" })
 keymap({ "n" }, "<leader><C-s>", "<cmd>vnew<CR>", { noremap = true })
 
 keymap({ "n" }, "<leader><C-S-s>", "<cmd>new<CR>", { noremap = true })
+
+keymap({ "n" }, "<leader>gd", "<cmd>vsp<CR>gd", { noremap = false })
 
 keymap({ "n", "t" }, "<C-h>", "<cmd>wincmd h<CR>", { noremap = true })
 

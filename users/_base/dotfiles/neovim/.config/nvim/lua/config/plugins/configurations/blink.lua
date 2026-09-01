@@ -112,6 +112,9 @@ require("blink.cmp").setup({
       git = {
         module = "blink-cmp-git",
         name = "Git",
+        enabled = function()
+          return vim.tbl_contains({ "octo", "gitcommit", "markdown" }, vim.bo.filetype)
+        end,
         opts = {
           use_items_cache = true, -- use items in the cache instead of fetching from github every time completion is triggered
           use_items_pre_cache = true, -- fetch and cache available completion itmes from github when the source is loaded

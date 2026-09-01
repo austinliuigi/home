@@ -16,6 +16,7 @@ require("oil").setup({
   buf_options = {
     buflisted = false,
     bufhidden = "hide",
+    readonly = false,
   },
 
   -- Window-local options to use for oil buffers

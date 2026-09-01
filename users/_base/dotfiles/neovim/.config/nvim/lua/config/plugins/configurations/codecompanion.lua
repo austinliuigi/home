@@ -14,7 +14,7 @@ end
 
 -- ----- OpenAI -----
 local openai_key_cmd_object = vim
-  .system({ "sops", "decrypt", vim.env.HOME .. "/.secrets/openai" }, {
+  .system({ "sops", "decrypt", vim.env.HOME .. "/.secrets/openai-enc.env" }, {
     cwd = vim.env.HOME,
     text = true,
   })
@@ -25,31 +25,51 @@ if openai_key_cmd_object.code ~= 0 then
   return
 end
 
-local openai_key = vim.trim(openai_key_cmd_object.stdout)
+local openai_key = vim.trim(openai_key_cmd_object.stdout):gsub("OPENAI_API_KEY=", "")
 
 -- ========== Configuration ==========
 require("codecompanion").setup({
   -- ========== Adapters ==========
   -- builtin adapters: https://github.com/olimorris/codecompanion.nvim/tree/main/lua/codecompanion/adapters
   adapters = {
-    -- openai models documentation: https://platform.openai.com/docs/models
-    openai = function()
-      return require("codecompanion.adapters").extend("openai", {
-        env = {
-          api_key = openai_key,
-        },
-        schema = {
-          model = {
-            default = "gpt-4o-mini",
+    acp = {
+      opencode = function()
+        return require("codecompanion.adapters").extend("opencode", {
+          env = { OPENAI_API_KEY = openai_key },
+        })
+      end,
+    },
+    http = {
+      -- openai models documentation: https://platform.openai.com/docs/models
+      openai = function()
+        return require("codecompanion.adapters").extend("openai", {
+          env = {
+            api_key = openai_key,
           },
-        },
-      })
-    end,
+          schema = {
+            model = {
+              default = "gpt-4o-mini",
+            },
+          },
+        })
+      end,
+    },
   },
   -- ========== Assistants ==========
   strategies = {
+    cli = {
+      agent = "opencode",
+      agents = {
+        opencode = {
+          cmd = "opencode",
+          args = {},
+          description = "Opencode CLI",
+          provider = "terminal",
+        },
+      },
+    },
     chat = {
-      adapter = "openai",
+      adapter = "opencode", -- selects default adapter (possible values are keys configured in adapters.acp or adapters.http)
       -- https://github.com/olimorris/codecompanion.nvim/blob/main/lua/codecompanion/utils/keymaps.lua
       -- available keymaps: https://github.com/olimorris/codecompanion.nvim/blob/main/lua/codecompanion/strategies/chat/keymaps.lua
       keymaps = {

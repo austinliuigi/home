@@ -21,6 +21,10 @@ configurations.python = {
       end
       return nil
     end,
+    args = function()
+      local args_string = vim.fn.input("Arguments: ")
+      return vim.split(args_string, " +")
+    end,
     console = "integratedTerminal",
   },
 }

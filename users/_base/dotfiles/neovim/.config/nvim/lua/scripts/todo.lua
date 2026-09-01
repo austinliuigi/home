@@ -723,6 +723,7 @@ for _, event in ipairs(events) do
   vim.api.nvim_create_autocmd(event.name, {
     pattern = event.pattern,
     callback = function()
+      -- TODO: iterate through all todo bufs instead of just the current buf (only for MidnightPost?)
       local bufname = vim.api.nvim_buf_get_name(0)
       local buf_date = bufname:match(calendar_dir .. "/(%d%d%d%d/%d%d/%d%d)")
 
