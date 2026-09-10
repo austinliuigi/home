@@ -1,11 +1,32 @@
-local fs = {}
+local M = {}
+local ns = vim.api.nvim_create_namespace("fs")
+
+---@alias NodeType "file"|"directory"|"link"|"fifo"|"socket"|"char"|"block"|"unknown"
+
+---@class Node
+---@field path string
+---@field type NodeType
+---@field children? Node[] string
+
+-- TODO: Use web-devicons for file icons
+local type_to_icon = {
+  file = "",
+  directory = "",
+  link = "",
+  fifo = "󰟥",
+  socket = "󰟩",
+  char = "󱌮",
+  block = "󰋊",
+  unknown = "",
+}
+local path_to_node = {}
 
 --- Calls a given function on each child of a directory
 ---
 ---@param dir string
----@param fn fun(child_path: string, child_type: "file"|"directory"|"link")
+---@param fn fun(child_path: string, child_type: NodeType)
 ---@return boolean|nil # true if dir exists, else nil
-function fs.ls(dir, fn)
+function M.ls(dir, fn)
   local handle = vim.uv.fs_scandir(dir)
   if handle == nil then
     return nil
@@ -28,114 +49,179 @@ end
 --- Calls a given function on each descendant of a directory
 ---
 ---@param dir string
----@param fn fun(child_path: string, child_type: "file"|"directory"|"link", depth: integer)
-function fs.walk(dir, fn, _depth)
+---@param fn fun(child_path: string, child_type: NodeType, depth: integer)
+function M.walk(dir, fn, _depth)
   _depth = _depth or 0
-  ls(dir, function(child_path, child_type)
+  M.ls(dir, function(child_path, child_type)
     fn(child_path, child_type, _depth)
     if child_type == "directory" then
-      walk(child_path, fn, _depth + 1)
+      M.walk(child_path, fn, _depth + 1)
     end
   end)
 end
 
---- A structured tree of a directory
-fs.Node = {}
-fs.Tree = {}
+M.Node = {}
 
-function fs.Node:create(path, type)
-  local node = { path = path, type = type }
-  if type == "directory" then
-    node.children = {}
+--- Create a node and all its descendants
+--
+---@param path string Absolute path for the node
+--
+function M.Node:create(path)
+  local stat = vim.uv.fs_stat(path)
+  if not stat then
+    return nil
+  end
+  local type = stat.type
+
+  if path_to_node[path] then
+    return path_to_node[path]
   end
 
+  local node = { path = path, type = type }
+  path_to_node[path] = node
+
+  if type == "directory" then
+    node.children = {}
+
+    M.ls(path, function(child_path, _)
+      table.insert(node.children, M.Node:create(child_path))
+    end)
+
+    -- sort directories before files/links, alphabetical order
+    table.sort(node.children, function(c1, c2)
+      if c1.type == "directory" and c2.type ~= "directory" then
+        return true
+      elseif c1.type ~= "directory" and c2.type == "directory" then
+        return false
+      elseif c1.path < c2.path then
+        return true
+      else
+        return false
+      end
+    end)
+  end
+
+  -- https://www.lua.org/pil/16.1.html
   setmetatable(node, self)
   self.__index = self
   return node
 end
 
----@param dir string
----@return table|nil # Tree if dir exists, else nil
-function fs.Tree:create(dir)
-  local tree = fs.Node:create(dir, "directory")
-  local dir_exists = fs.ls(dir, function(child_path, child_type)
-    if child_type == "directory" then
-      table.insert(tree.children, fs.Tree:create(child_path))
-    else
-      table.insert(tree.children, fs.Node:create(child_path, child_type))
-    end
-  end)
-
-  if not dir_exists then
-    return nil
-  end
-
-  -- sort directories before files/links, alphabetical order
-  table.sort(tree.children, function(c1, c2)
-    if c1.type == "directory" and c2.type ~= "directory" then
-      return true
-    elseif c1.type ~= "directory" and c2.type == "directory" then
-      return false
-    elseif c1.path < c2.path then
-      return true
-    else
-      return false
-    end
-  end)
-
-  -- https://www.lua.org/pil/16.1.html
-  setmetatable(tree, self)
-  self.__index = self
-  return tree
-end
-
+--- Get a descendant node based on its relative path to the current node
+--
 ---@param relative_path string Relative path to the node from the root of the tree
----@return table|nil # Node if it exists, else nil
-function fs.Tree:get_node(relative_path)
-  local path_components = vim.split(relative_path, "/")
-
-  local current_node = self
-  for i, component in ipairs(path_components) do
-    -- only the last component can be a file, which wouldn't run this
-    if current_node.type ~= "directory" then
-      return nil
-    end
-
-    -- if there are more components and the current one doesn't have children
-    if #current_node.children == 0 then
-      return nil
-    end
-
-    for j, child in ipairs(current_node.children) do
-      -- assuming children are sorted, if component must be a directory and the child is not, it means we passed all children that are directories without finding the matching node
-      --   - can skip all files as an optimization
-      if i ~= #path_components and child.type ~= "directory" then
-        return nil
-      end
-      -- if node matches component
-      if vim.fs.basename(child.path) == component then
-        current_node = child
-        break
-      end
-      -- if made it here on last child without breaking, we couldn't find the node
-      if j == #current_node.children then
-        return nil
-      end
-    end
-  end
-
-  return current_node
+---@return table? descendant Descendant node if it exists, else nil
+--
+function M.Node:get_descendant(relative_path)
+  return path_to_node[self.path .. "/" .. relative_path]
 end
 
----@return string[], table[], string[]
-function fs.Tree:repr_lines()
+--- Retrieve the parent of a node
+--
+---@return Node? parent
+--
+function M.Node:get_parent()
+  local parent_path = vim.fs.dirname(self.path)
+  return path_to_node[parent_path]
+end
+
+--- Check if the current node is the last child of its parent
+--
+---@return boolean
+--
+function M.Node:is_last()
+  local parent = self:get_parent()
+
+  -- if parent hasn't been created before, just return true
+  if not parent then
+    return true
+  end
+
+  for _, child in ipairs(parent.children) do
+    if self == child then
+      return false
+    end
+  end
+  return true
+end
+
+--- Get the lines representing the child nodes of the current node
+--
+---@param prefix? string String to prepend to each line
+---@return string[] lines, Node[] linenr_to_node
+--
+function M.Node:repr_children(prefix)
+  if self.type ~= "directory" then
+    return {}, {}
+  end
+
+  prefix = prefix or ""
+
   local lines = {}
-  local node_map = {}
-  local foldlevel_map = {}
-  local function handle_node(node, depth, prefix_stack, is_last, is_root)
-    local line = ""
+  local linenr_to_node = {}
+
+  local num_children = #self.children
+  for i, child in ipairs(self.children) do
+    local line = prefix
+    if i ~= num_children then
+      line = line .. "├── "
+    else
+      line = line .. "└── "
+    end
+    line = string.format("%s%s %s", line, type_to_icon[child.type], vim.fs.basename(child.path))
+    table.insert(lines, line)
+    table.insert(linenr_to_node, child)
+  end
+
+  return lines, linenr_to_node
+end
+
+function M.Node:output_lazy(bufnr)
+  -- create buffer
+  bufnr = bufnr or vim.api.nvim_create_buf(false, true)
+
+  -- add root
+  local lines = { string.format("%s %s", type_to_icon[self.type], vim.fs.basename(self.path)) }
+  local linenr_to_node = { self }
+
+  -- add root children
+  local children_lines, children_linenr_to_node = self:repr_children()
+  for i = 1, #children_lines do
+    table.insert(lines, children_lines[i])
+    table.insert(linenr_to_node, children_linenr_to_node[i])
+  end
+
+  vim.api.nvim_buf_set_lines(bufnr, 1, -1, true, children_lines)
+
+  -- create keymaps
+  vim.keymap.set("n", "<tab>", function()
+    local cur_linenr = vim.api.nvim_win_get_cursor(0)[1]
+    local cur_node = linenr_to_node[cur_linenr]
+    if cur_node.type == "directory" then
+      if cur_linenr == #linenr_to_node or linenr_to_node[cur_linenr + 1]:get_parent() ~= cur_node then
+        local cur_children_lines, cur_children_linenr_to_node = cur_node:repr_children()
+        vim.api.nvim_buf_set_lines(bufnr, cur_linenr, cur_linenr, true, cur_children_lines)
+        -- TODO: edit linenr_to_node
+      else
+        -- TODO: toggle fold
+      end
+    end
+  end, {})
+end
+
+--- Get the output representation of the node as a list of lines
+--
+---@return string[] lines, Node[] linenr_to_node
+--
+function M.Node:repr()
+  local lines = {}
+  local linenr_to_node = {}
+  local function append_node_line(node, prefix_stack, is_last, is_root)
+    -- append prefix stack
+    local line = table.concat(prefix_stack)
+
+    -- append connector
     if not is_root then
-      line = table.concat(prefix_stack)
       if not is_last then
         line = line .. "├── "
       else
@@ -143,20 +229,20 @@ function fs.Tree:repr_lines()
       end
     end
 
-    line = string.format("%s%s%s", line, node.type == "directory" and " " or " ", vim.fs.basename(node.path))
+    -- append file icon and name
+    line = string.format("%s%s %s", line, type_to_icon[node.type], vim.fs.basename(node.path))
 
     table.insert(lines, line)
-    table.insert(node_map, node)
-    table.insert(foldlevel_map, node.type == "directory" and ">" .. depth or depth - 1)
+    table.insert(linenr_to_node, node)
 
     if node.type == "directory" then
       if not is_root then
         table.insert(prefix_stack, is_last and "    " or "│   ")
       end
 
-      for n, child in ipairs(node.children) do
-        local is_last_child = (n == #node.children)
-        handle_node(child, depth + 1, prefix_stack, is_last_child)
+      for i, child in ipairs(node.children) do
+        local is_last_child = (i == #node.children)
+        append_node_line(child, prefix_stack, is_last_child)
       end
 
       if not is_root then
@@ -165,47 +251,89 @@ function fs.Tree:repr_lines()
     end
   end
 
-  handle_node(self, 1, {}, false, true)
-  return lines, node_map, foldlevel_map
+  append_node_line(self, {}, true, true)
+  return lines, linenr_to_node
 end
 
-function fs.Tree:output_to_buffer(bufnr)
-  bufnr = bufnr or vim.api.nvim_create_buf(false, true)
+--- Add highlight extmarks for lines in a node's buffer
+--
+---@param bufnr integer
+---@param linenr_to_node Node[]
+---@param first_linenr integer First line to start adding highlights (default: 1)
+---@param last_linenr integer Last line to add highlights to (default: last line in buffer)
+--
+local function generate_highlights(bufnr, linenr_to_node, first_linenr, last_linenr)
+  first_linenr = first_linenr or 1
+  last_linenr = last_linenr or #linenr_to_node
 
-  local lines, node_map, foldlevel_map = self:repr_lines()
-  vim.api.nvim_buf_set_lines(bufnr, 0, -1, true, lines)
-  fs.Tree.bufnr_to_foldlevel_map[bufnr] = foldlevel_map
+  local lines = vim.api.nvim_buf_get_lines(bufnr, first_linenr - 1, last_linenr, true)
 
-  -- highlight directories
-  local ns = vim.api.nvim_create_namespace("")
-  for linenr, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)) do
-    local node = node_map[linenr]
+  -- add highlights
+  for curr_linenr = first_linenr, last_linenr do
+    local line = lines[curr_linenr - first_linenr + 1]
+    local node = linenr_to_node[curr_linenr]
+
+    -- NOTE: since both string.find and nvim_buf_set_extmark work byte-wise, there doesn't need to be any conversion for wide characters
+
+    -- highlight lines
+    local basename_start_col, basename_end_col = string.find(line, vim.fs.basename(node.path), 1, true)
+    vim.api.nvim_buf_set_extmark(
+      bufnr,
+      ns,
+      curr_linenr - 1,
+      0, -- note: start_col subtracts by five because " " is 3 + 1 bytes
+      {
+        end_row = curr_linenr - 1,
+        end_col = basename_start_col - 5,
+        hl_group = "Base03",
+      }
+    )
+
+    -- highlight directories
     if node.type == "directory" then
-      -- note: since both string.find and nvim_buf_set_extmark work byte-wise, there doesn't need to be any conversion for wide characters
-      local start_col, end_col = string.find(line, vim.fs.basename(node_map[linenr].path), 1, true)
       vim.api.nvim_buf_set_extmark(
         bufnr,
         ns,
-        linenr - 1,
-        start_col - 5, -- note: start_col subtracts by five because " " is 3 + 1 bytes
+        curr_linenr - 1,
+        basename_start_col - 5, -- note: start_col subtracts by five because " " is 3 + 1 bytes
         {
-          end_row = linenr - 1,
-          end_col = end_col,
+          end_row = curr_linenr - 1,
+          end_col = basename_end_col,
           hl_group = "Directory",
         }
       )
     end
   end
-
-  return bufnr, node_map
 end
 
-fs.Tree.bufnr_to_foldlevel_map = {}
-function fs.Tree.foldexpr()
-  local bufnr = vim.api.nvim_get_current_buf()
-  if fs.Tree.bufnr_to_foldlevel_map[bufnr] then
-    return fs.Tree.bufnr_to_foldlevel_map[bufnr][vim.v.lnum]
+--- Create a buffer containing the node and its descendants as a tree
+--
+---@param bufnr integer
+--
+function M.Node:output(bufnr)
+  bufnr = bufnr or vim.api.nvim_create_buf(false, true)
+
+  local lines, linenr_to_node = self:repr()
+  vim.api.nvim_buf_set_lines(bufnr, 0, -1, true, lines)
+  generate_highlights(bufnr, linenr_to_node)
+
+  return bufnr, linenr_to_node
+end
+
+--- Fold expression for node buffers
+--
+function M.foldexpr()
+  local line = vim.api.nvim_buf_get_lines(0, vim.v.lnum - 1, vim.v.lnum, false)[1]
+  line = line:gsub("├", " "):gsub("│", " "):gsub("└", " "):gsub("─", " ")
+
+  local icon_idx = line:find("%S")
+  local dir_icon = type_to_icon.directory
+
+  ---@diagnostic disable-next-line: param-type-mismatch
+  if line:sub(icon_idx, icon_idx + #dir_icon - 1) == dir_icon then
+    return ">" .. ((icon_idx - 1) / 4) + 1
   end
+  return (icon_idx - 1) / 4
 end
 
-return fs
+return M

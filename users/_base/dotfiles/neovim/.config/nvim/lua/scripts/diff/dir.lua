@@ -35,12 +35,13 @@ local function insert_child(tree, node)
   table.insert(tree.children, node)
 end
 
---- Merge two trees (nodes in t2 that are not found in t1 are inserted into t1)
--- note: mutates t1 out of necessity for to recursive calls to have an effect
+--- Merge two trees, i.e. nodes in t2 that are not found in t1 are inserted into t1
+-- NOTE: Mutates t1 out of necessity for recursive calls to have an effect
+-- TODO: Need to not have this mutate due to node cache
 local function merge_trees(t1, t2)
   for _, child in ipairs(t2.children) do
     local relative_path = string.sub(child.path, #t2.path + 2)
-    local matched_node = t1:get_node(relative_path)
+    local matched_node = t1:get_descendant(relative_path)
     if
       not matched_node
       or ((child.type == "directory") and (matched_node.type ~= "directory"))
@@ -90,8 +91,8 @@ vim.api.nvim_create_user_command("DiffDir", function(attrs)
 
   local dir1 = strip_trailing_sep(vim.fn.fnamemodify(vim.fn.expand(attrs.fargs[1]), ":p"))
   local dir2 = strip_trailing_sep(vim.fn.fnamemodify(vim.fn.expand(attrs.fargs[2]), ":p"))
-  local tree1 = fs.Tree:create(dir1)
-  local tree2 = fs.Tree:create(dir2)
+  local tree1 = fs.Node:create(dir1)
+  local tree2 = fs.Node:create(dir2)
 
   if tree1 == nil then
     print(string.format("DiffDir: Directory `%s` does not exist", dir1))
@@ -106,20 +107,20 @@ vim.api.nvim_create_user_command("DiffDir", function(attrs)
   local merged_tree = merge_trees(vim.deepcopy(tree1), vim.deepcopy(tree2))
   local wins = layout()
 
-  local selection_bufnr, node_map = merged_tree:output_to_buffer()
+  local selection_bufnr, node_map = merged_tree:output()
   vim.api.nvim_win_set_buf(wins.selection_winnr, selection_bufnr)
   vim.api.nvim_buf_set_name(selection_bufnr, "DiffDir Selection [" .. selection_bufnr .. "]")
   vim.bo[selection_bufnr].modifiable = false
   vim.wo[wins.selection_winnr].foldmethod = "expr"
-  vim.wo[wins.selection_winnr].foldexpr = 'v:lua.require("scripts.utils.fs").Tree.foldexpr()'
+  vim.wo[wins.selection_winnr].foldexpr = 'v:lua.require("scripts.utils.fs").foldexpr()'
 
   local ns = vim.api.nvim_create_namespace("DiffDir" .. selection_bufnr)
   for linenr, line in ipairs(vim.api.nvim_buf_get_lines(selection_bufnr, 0, -1, true)) do
     local node = node_map[linenr]
     if node.type ~= "directory" then
       local relative_path = get_relpath(node, dir1) or get_relpath(node, dir2)
-      local in_dir1 = tree1:get_node(relative_path)
-      local in_dir2 = tree2:get_node(relative_path)
+      local in_dir1 = tree1:get_descendant(relative_path)
+      local in_dir2 = tree2:get_descendant(relative_path)
 
       local hl
       if in_dir1 and in_dir2 then

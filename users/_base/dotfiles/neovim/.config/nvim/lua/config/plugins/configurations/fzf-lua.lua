@@ -20,6 +20,7 @@ require("fzf-lua").setup({
     builtin = {
       -- neovim `:tmap` mappings for the fzf win
       false,
+      ["<F1>"]        = "toggle-help",
     },
     fzf = {
       -- fzf '--bind=' options
@@ -76,10 +77,10 @@ require("fzf-lua").setup({
     -- executed command priority is 'cmd' (if exists)
     -- otherwise auto-detect prioritizes `fd`:`rg`:`find`
     -- default options are controlled by '{fd,rg,find}_opts'
-    -- cmd = "rg --files",
-    fd_opts = [[--color=never --hidden --type f --type l --exclude .git]],
-    rg_opts = [[--color=never --hidden --files -g "!.git"]],
-    find_opts = [[-type f -not -path '*/\.git/*']],
+    cmd = vim.fn.executable("fd") == 1 and "fd --color=never --hidden --exclude .git" or [[find * -not -path '*/\.git/*' \( -type d -printf '%p/\n' \) -o -print]],
+    -- fd_opts = [[--color=never --hidden --type f --type l --exclude .git]],
+    -- rg_opts = [[--color=never --hidden --files -g "!.git"]],
+    -- find_opts = [[-type f -not -path '*/\.git/*']],
 
     -- by default, cwd appears in the header only if {opts} contain a cwd
     -- parameter to a different folder than the current working directory
@@ -93,7 +94,7 @@ require("fzf-lua").setup({
     toggle_hidden_flag = "--hidden", -- flag toggled in `actions.toggle_hidden`
     toggle_follow_flag = "-L", -- flag toggled in `actions.toggle_follow`
     hidden = true, -- enable hidden files
-    follow = false, -- follow symlinks
+    follow = true, -- follow symlinks
     no_ignore = false, -- do not respect ".gitignore"
     actions = {
       -- inherits from 'actions.files', here we can override
@@ -180,5 +181,73 @@ vim.keymap.set({ "n", "x", "i" }, "<C-/>", function()
     },
   })
 end, { remap = false })
+
+--==================================================================================================
+-- Custom pickers
+--==================================================================================================
+
+----------------------------------------------------------------------------------------------------
+-- Change directory
+----------------------------------------------------------------------------------------------------
+local directories = function(opts, cd_prefix)
+  opts = opts or {}
+  cd_prefix = cd_prefix or ""
+  default_opts = {}
+
+  default_opts.prompt = vim.fn.getcwd()
+  default_opts.actions = {
+    ['default'] = function(selected)
+      vim.cmd(cd_prefix .. "cd " .. selected[1])
+    end
+  }
+  opts = vim.tbl_deep_extend("keep", opts, default_opts)
+
+  if vim.fn.executable("fd") == 1 then
+    require("fzf-lua").fzf_exec("fd --type d", opts)
+  else
+    require("fzf-lua").fzf_exec("find -L * -type d", opts)
+  end
+end
+
+M["cd"] = function() directories() end
+M["tcd"] = function() directories({}, "t") end
+M["lcd"] = function() directories({}, "l") end
+M["bcd"] = function() directories({}, "b") end
+
+----------------------------------------------------------------------------------------------------
+-- Grep in selected directory
+----------------------------------------------------------------------------------------------------
+local dirgrep = function()
+  local saved_cwd = vim.fn.getcwd()
+  local saved_win = vim.api.nvim_get_current_win()
+
+  local cd_prefix = ""
+  if vim.fn.haslocaldir(-1, -1, 0) == 1 then
+    cd_prefix = "b"
+  elseif vim.fn.haslocaldir() == 1 then
+    cd_prefix = "l"
+  elseif vim.fn.haslocaldir(-1) == 1 then
+    cd_prefix = "t"
+  end
+
+  local cd_cmd = cd_prefix .. "cd"
+
+  directories({
+    actions = {
+      ["default"] = function(selected, _)
+        vim.api.nvim_win_call(saved_win, function() vim.cmd(string.format("%s %s", cd_cmd, selected[1])) end)
+        require("fzf-lua").live_grep_native({
+          winopts = {
+            on_close = function()
+              vim.api.nvim_win_call(saved_win, function() vim.cmd(string.format("%s %s", cd_cmd, saved_cwd)) end)
+            end
+          }
+        })
+      end
+    }
+  }, cd_prefix)
+end
+
+M["dirgrep"] = dirgrep
 
 return M

@@ -347,36 +347,13 @@ keymap("n", "]c", "<cmd>cn<CR>", { noremap = true, silent = true })
 
 keymap("n", "[c", "<cmd>cp<CR>", { noremap = true, silent = true })
 
-local function cfile(direction)
-  if not (direction == "next" or direction == "prev") then
-    return
-  end
+keymap("n", "g]c", "<cmd>cnewer<CR>", { noremap = true, silent = true })
 
-  vim.cmd("cc")
-  local initial_buf = vim.api.nvim_get_current_buf()
-  local initial_row, initial_col = vim.api.nvim_win_get_cursor(0)
+keymap("n", "g[c", "<cmd>colder<CR>", { noremap = true, silent = true })
 
-  local current_buf, current_row, current_col
-  while true do
-    vim.cmd("c" .. direction)
-    current_buf = vim.api.nvim_get_current_buf()
-    current_row, current_col = vim.api.nvim_win_get_cursor(0)
-    if vim.api.nvim_buf_get_name(current_buf) ~= vim.api.nvim_buf_get_name(initial_buf) then
-      break
-    end
-    if current_buf == initial_buf and current_row == initial_row and current_col == initial_col then
-      break
-    end
-  end
-end
+keymap("n", "<leader>]c", "<cmd>cnfile<CR>", { noremap = true, silent = true })
 
-keymap("n", "<leader>]c", function()
-  cfile("next")
-end, { noremap = true, silent = true })
-
-keymap("n", "<leader>[c", function()
-  cfile("prev")
-end, { noremap = true, silent = true })
+keymap("n", "<leader>[c", "<cmd>cpfile<CR>", { noremap = true, silent = true })
 
 keymap("n", vim.g.toggle_key .. "c", function()
   for _, winid in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
@@ -394,6 +371,14 @@ end, { noremap = true, silent = true, desc = "Toggle quickfix list" })
 keymap("n", "]l", "<cmd>ln<CR>", { noremap = true, silent = true })
 
 keymap("n", "[l", "<cmd>lp<CR>", { noremap = true, silent = true })
+
+keymap("n", "g]l", "<cmd>lnewer<CR>", { noremap = true, silent = true })
+
+keymap("n", "g[l", "<cmd>lolder<CR>", { noremap = true, silent = true })
+
+keymap("n", "<leader>]l", "<cmd>lnfile<CR>", { noremap = true, silent = true })
+
+keymap("n", "<leader>[l", "<cmd>lpfile<CR>", { noremap = true, silent = true })
 
 keymap("n", vim.g.toggle_key .. "l", function()
   for _, winid in ipairs(vim.api.nvim_tabpage_list_wins(0)) do

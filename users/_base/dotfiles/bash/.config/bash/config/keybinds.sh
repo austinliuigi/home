@@ -1,27 +1,27 @@
-# https://github.com/knqyf263/pet?tab=readme-ov-file#select-snippets-at-the-current-line-like-c-r-recommended
-function pet-select() {
-  BUFFER=$(pet search --raw --query "$READLINE_LINE")
-  READLINE_LINE=$BUFFER
-  READLINE_POINT=${#BUFFER}
-}
-bind -x '"\C-_": pet-select'
-
-# https://github.com/pindexis/marker/blob/ef68f2a26fe479f75bbaf5c30d3cd0fd7fd45a45/bin/marker.sh#L112
-function _pet_move_cursor_to_next_parameter() {
-  match="$(echo "$READLINE_LINE" | perl -nle 'print $& if /<.*?>/')"
-  if [ ! -z "$match" ]; then
-    default="$(echo "$match" | perl -nle 'print $& if /(?<==).*(?=>)/')"
-    match_len=${#match}
-    default_len=${#default}
-
-    pre_match=${READLINE_LINE%%$match*}
-    parameter_offset=${#pre_match}
-
-    READLINE_POINT="$((${parameter_offset} + ${default_len}))"
-    READLINE_LINE="${READLINE_LINE:0:$parameter_offset}${default}${READLINE_LINE:$parameter_offset+$match_len}"
-  fi        
-}
-bind -x '"\C-n": _pet_move_cursor_to_next_parameter'
-
 bind -x '"\C-g": nvim -c "Neogit"'
+
 bind -x '"\C-f": nvim -c "lua vim.schedule(function() require(\"fzf-lua\").files() end)"'
+
+bind -x '"\C-_": nvim -c "lua vim.schedule(function() vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(\"<C-/>\", true, false, true), \"m\", false) end)"'
+
+function edit_cmd_line() {
+    # 1. Create a secure temporary file
+    local tmpfile
+    tmpfile=$(mktemp /tmp/bash_edit.XXXXXX.sh)
+
+    # 2. Write the current line to the file
+    echo "$READLINE_LINE" > "$tmpfile"
+
+    # 3. Open in NeoVim with your custom command (hiding terminal noise)
+    nvim -c "d" -c "FzfLuaSnippets $READLINE_LINE" "$tmpfile"
+
+    # 4. Read the edited file back into the command line buffer
+    READLINE_LINE=$(cat "$tmpfile")
+    
+    # 5. Move the cursor to the end of the new text and clean up
+    READLINE_POINT=${#READLINE_LINE}
+    rm -f "$tmpfile"
+}
+
+# Bind Ctrl-E to trigger the direct edit function
+bind -x '"\C-e": edit_cmd_line'

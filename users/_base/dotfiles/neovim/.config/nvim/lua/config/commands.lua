@@ -95,7 +95,7 @@ vim.api.nvim_create_user_command("Tcd", function(attrs)
 end, { nargs = "?" })
 
 vim.api.nvim_create_user_command("Lcd", function(attrs)
-  local head = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h")
+  local head = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h"):gsub("^oil://", "")
   local path = head .. "/" .. attrs.args -- if no arg provided, attrs.args is "" and this just appends a trailing slash
   local finfo = vim.uv.fs_stat(path)
 

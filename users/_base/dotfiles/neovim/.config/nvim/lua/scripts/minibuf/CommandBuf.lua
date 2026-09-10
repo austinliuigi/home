@@ -14,7 +14,10 @@ M.history = {}
 function M:handle_selection(selection)
   -- execute command in parent
   vim.api.nvim_win_call(self.parent_winid, function()
-    vim.cmd(selection)
+    local ok, res = pcall(vim.cmd, selection)
+    if not ok then
+      print(res)
+    end
   end)
 end
 
@@ -26,9 +29,10 @@ function M:create()
   local instance = require("scripts.minibuf.MiniBuf"):create(M.history)
   instance = setmetatable(instance, M)
 
-  vim.defer_fn(function()
-    vim.bo[instance.bufnr].filetype = "vim"
-  end, 500)
+  -- vim.defer_fn(function()
+  --   vim.bo[instance.bufnr].filetype = "vim"
+  -- end, 500)
+  vim.bo[instance.bufnr].filetype = "vim"
   vim.wo[instance.winid].winbar = "%#Bold#   Command"
   vim.wo[instance.winid].statuscolumn = "%#String#  :"
 end

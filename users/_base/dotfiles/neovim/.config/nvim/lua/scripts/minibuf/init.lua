@@ -42,6 +42,33 @@ end, {})
 -- end, {})
 
 --==============================================================================
+-- Avoid macro ending conflict
+--==============================================================================
+vim.api.nvim_create_autocmd("RecordingEnter", {
+  callback = function()
+    vim.keymap.del("n", "q:", {})
+    vim.keymap.del("n", "q/", {})
+    vim.keymap.del("n", "q?", {})
+  end,
+})
+
+vim.api.nvim_create_autocmd("RecordingLeave", {
+  callback = function()
+    vim.keymap.set("n", "q:", function()
+      require("scripts.minibuf.CommandBuf"):create()
+    end, {})
+
+    vim.keymap.set("n", "q/", function()
+      require("scripts.minibuf.SearchBuf"):create(true)
+    end, {})
+
+    vim.keymap.set("n", "q?", function()
+      require("scripts.minibuf.SearchBuf"):create(false)
+    end, {})
+  end,
+})
+
+--==============================================================================
 -- COMMAND MODE MAPPINGS
 --==============================================================================
 vim.keymap.set("c", "<C-f>", function()

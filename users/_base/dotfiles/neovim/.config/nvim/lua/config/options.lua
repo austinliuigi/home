@@ -80,9 +80,15 @@ vim.opt.showtabline = 2 -- set tabline visibility
 -- SCROLL {{{
 --------------------------------------------------
 vim.opt.scrolloff = 0 -- number of lines to keep around the cursor
-vim.opt.sidescrolloff = 999 -- number of columns to keep around the cursor
+vim.opt.sidescrolloff = 0 -- number of columns to keep around the cursor
 vim.opt.sidescroll = 1 -- number of lines to scroll at a time horizontally
 vim.opt.smoothscroll = true -- scroll by number of screen lines rather than text lines (matters when wrap is set)
+-- }}}
+
+-- QUICKFIX {{{
+--------------------------------------------------
+vim.opt.chistory = 25
+vim.opt.lhistory = 25
 -- }}}
 
 -- CMDLINE {{{

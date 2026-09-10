@@ -21,11 +21,11 @@ import = "config/plugins/lazy_specs_post"
 #===========================================================================================
 # LOCAL PLUGINS
 #===========================================================================================
-# "bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = true }
-"bartender.nvim" = { git = "austinliuigi/bartender.nvim", rev = "main", opt = true }
+"bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = true }
+# "bartender.nvim" = { git = "austinliuigi/bartender.nvim", rev = "main", opt = true }
 
-# "palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
-"palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
+"palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
+# "palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
 
 # "dye.nvim" = { dir = "~/projects/dye.nvim", opt = false }
 "dye.nvim" = { git = "austinliuigi/dye.nvim", rev = "main", opt = false }
@@ -108,6 +108,8 @@ nvim-treesitter  = { git = "nvim-treesitter/nvim-treesitter", rev = "main", opt 
 "todo-comments.nvim" = { git = "folke/todo-comments.nvim", rev = "main", opt = true }
 neogit = { git = "NeogitOrg/neogit", rev = "master", opt = true }
 nvim-navic = { git = "SmiteshP/nvim-navic", rev = "f5eba192f39b453675d115351808bd51276d9de5", opt = true }
+gitsigns = { git = "lewis6991/gitsigns.nvim", rev = "5be654f2232c10ddcad19c1607a67b6b4b78fc29", opt = true }
+"mini.animate" = { git = "nvim-mini/mini.animate", rev = "main", opt = true, config = "config.plugins.configurations.mini-animate" }
 # neorg = { git = "nvim-neorg/neorg", rev = "main", opt = false }
 
 # HACK: this plenary takes priority over the luarocks simply because it gets searched first; remove this when plenary creates a new luarocks release (https://github.com/nvim-lua/plenary.nvim/issues/629)

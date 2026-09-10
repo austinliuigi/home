@@ -10,7 +10,7 @@ set keyseq-timeout 1
 # set mark-modified-lines on             # prefix modified history lines with a '*'
 set mark-symlinked-directories on        # append a '/' to completed symlinks that point to a dir
 # set match-hidden-files off             # require a manually supplied '.' to autocomplete hidden files
-set menu-complete-display-prefix off     # insert common prefix in when ambiguous instead of first match
+set menu-complete-display-prefix on      # insert common prefix in when ambiguous instead of first match
 # set print-completions-horizontally on  # display completions horizontally rather than vertically
 set revert-all-at-newline on             # disable alterations to history
 set show-all-if-ambiguous on             # list matches rather than ringing bell if word has more than one possible completion
@@ -48,4 +48,4 @@ TAB: menu-complete
 "\C-]": shell-expand-line
 
 # Bind C-e to edit command in $EDITOR
-"\C-e": edit-and-execute-command
+# "\C-e": edit-and-execute-command

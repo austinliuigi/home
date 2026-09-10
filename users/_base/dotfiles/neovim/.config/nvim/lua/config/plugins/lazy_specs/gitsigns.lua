@@ -1,0 +1,4 @@
+return {
+  "gitsigns",
+  event = "DeferredUIEnter",
+}

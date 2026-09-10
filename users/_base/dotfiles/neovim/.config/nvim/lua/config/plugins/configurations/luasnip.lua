@@ -137,8 +137,57 @@ vim.api.nvim_create_autocmd("User", {
 ----------------------------------------------------------------------------------------------------
 -- Fuzzy find snippets
 ----------------------------------------------------------------------------------------------------
+local snippet_previewer = require("fzf-lua.previewer.builtin").buffer_or_file:extend()
 
-local function fzf_snippets()
+function snippet_previewer:new(o, opts, fzf_win)
+  snippet_previewer.super.new(self, o, opts, fzf_win)
+  setmetatable(self, snippet_previewer)
+  return self
+end
+
+function snippet_previewer:populate_preview_buf(selection)
+  local tmp_buf = self:get_tmp_buffer()
+
+  vim.bo[tmp_buf].filetype = vim.bo[vim.fn.bufnr("#")].filetype
+
+  -- vim.api.nvim_win_call(self.win.preview_winid, function()
+  vim.api.nvim_buf_call(tmp_buf, function()
+    local snippet_infos = require("luasnip").available(function(snip)
+      return {
+        snippet = snip,
+        trigger = snip.trigger,
+      }
+    end)
+
+    local trigger = selection:match("^(.-)%s+|")
+    local ft = selection:match("%S+$")
+    local snippet
+    for _, snippet_info in ipairs(snippet_infos[ft]) do
+      if snippet_info.trigger == trigger then
+        snippet = snippet_info.snippet
+      end
+    end
+
+    -- enter normal mode before expanding to avoid select mode from exiting fzf
+    --   - for some reason, if in terminal mode before expanding, the mode changing machinery in luasnip causes it to exit fzf-lua
+    vim.cmd("stopinsert")
+
+    require("luasnip").snip_expand(snippet.snippet, {})
+
+    -- exit select mode if luasnip invoked it after expansion
+    vim.api.nvim_create_autocmd("ModeChanged", {
+      pattern = "*:s",
+      callback = function()
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>i", true, false, true), "nt", false)
+      end,
+      once = true,
+    })
+  end)
+
+  self:set_preview_buf(tmp_buf)
+end
+
+local function fzf_snippets(initial_query, include_all)
   -- Get available snippets
   local ft_to_snippet_infos = ls.available(function(snip)
     return {
@@ -147,7 +196,7 @@ local function fzf_snippets()
       description = snip.description[1] or "",
     }
   end)
-  vim.print(ft_to_snippet_infos)
+  -- vim.print(ft_to_snippet_infos)
 
   -- Flatten the snippets table and prepare entries for fzf-lua
   local entries = {}
@@ -157,17 +206,19 @@ local function fzf_snippets()
   local max_desc_len = 0
 
   for ft, snippet_infos in pairs(ft_to_snippet_infos) do
-    if type(snippet_infos) == "table" then
-      for _, snippet_info in ipairs(snippet_infos) do
-        max_trig_len = math.max(max_trig_len, #snippet_info.trigger)
-        max_docstring_len = math.max(max_docstring_len, #snippet_info.docstring)
-        max_desc_len = math.max(max_desc_len, #snippet_info.description)
-        table.insert(data, {
-          trig = snippet_info.trigger,
-          docstring = snippet_info.docstring,
-          desc = snippet_info.description,
-          ft = ft,
-        })
+    if ft ~= "all" or include_all == "true" then
+      if type(snippet_infos) == "table" then
+        for _, snippet_info in ipairs(snippet_infos) do
+          max_trig_len = math.max(max_trig_len, #snippet_info.trigger)
+          max_docstring_len = math.max(max_docstring_len, #snippet_info.docstring)
+          max_desc_len = math.max(max_desc_len, #snippet_info.description)
+          table.insert(data, {
+            trig = snippet_info.trigger,
+            docstring = snippet_info.docstring,
+            desc = snippet_info.description,
+            ft = ft,
+          })
+        end
       end
     end
   end
@@ -175,11 +226,9 @@ local function fzf_snippets()
     table.insert(
       entries,
       string.format(
-        '%s%s  |  "%s"%s  |"%s"%s  |  [%s]',
+        '%s%s  |  "%s"%s  |  %s',
         row.trig,
         string.rep(" ", max_trig_len - #row.trig),
-        row.docstring,
-        string.rep(" ", max_docstring_len - #row.docstring),
         row.desc,
         string.rep(" ", max_desc_len - #row.desc),
         row.ft
@@ -187,8 +236,20 @@ local function fzf_snippets()
     )
   end
 
-  -- Use fzf-lua to search through snippets
+  local fzf_opts
+  if initial_query and initial_query ~= "" then
+    fzf_opts = { ["--query"] = initial_query }
+  end
+
   require("fzf-lua").fzf_exec(entries, {
+    previewer = snippet_previewer,
+    fzf_opts = fzf_opts,
+    winopts = {
+      preview = {
+        layout = "horizontal",
+        horizontal = "down:50%",
+      },
+    },
     actions = {
       ["default"] = function(selected)
         if #selected > 0 then
@@ -205,5 +266,9 @@ local function fzf_snippets()
   })
 end
 
-vim.api.nvim_create_user_command("LuaSnipFzfLua", fzf_snippets, { nargs = 0 })
-require("config.plugins.configurations.fzf-lua")["LuaSnipFzfLua"] = fzf_snippets
+vim.api.nvim_create_user_command("FzfLuaSnippets", function(attrs)
+  fzf_snippets(attrs.args)
+end, { nargs = "*" })
+require("config.plugins.configurations.fzf-lua")["snippets"] = fzf_snippets
+
+-- TODO: Source any filetypes which were done before luasnip was loaded

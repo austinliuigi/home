@@ -40,7 +40,7 @@ local function init_win(bufnr)
   local winid = vim.api.nvim_open_win(bufnr, true, {
     split = "below",
   })
-  vim.api.nvim_win_set_height(winid, math.floor(vim.o.lines / 4))
+  vim.api.nvim_win_resize(winid, -1, math.floor(vim.o.lines / 4), { anchor = "bottom" })
   vim.wo[winid].winfixheight = true
   return winid
 end

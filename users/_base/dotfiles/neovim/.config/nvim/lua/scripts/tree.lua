@@ -14,25 +14,25 @@ vim.api.nvim_create_user_command("Tree", function(attrs)
   local dir = attrs.fargs[1] or "."
   dir = strip_trailing_sep(vim.fn.fnamemodify(vim.fn.expand(dir), ":p"))
 
-  local tree = fs.Tree:create(dir)
+  local tree = fs.Node:create(dir)
   if tree == nil then
     print(string.format("Tree: Directory `%s` does not exist", dir))
     return
   end
 
-  local bufnr, node_map = tree:output_to_buffer()
+  local bufnr, node_map = tree:output()
   vim.api.nvim_set_current_buf(bufnr)
   vim.bo[bufnr].modifiable = false
 
   vim.wo.foldmethod = "expr"
-  vim.wo.foldexpr = 'v:lua.require("scripts.utils.fs").Tree.foldexpr()'
+  vim.wo.foldexpr = 'v:lua.require("scripts.utils.fs").foldexpr()'
 
   vim.keymap.set("n", "<CR>", function()
     local linenr = vim.api.nvim_win_get_cursor(0)[1]
     local node = node_map[linenr]
     if node.type == "directory" then
       vim.bo.modifiable = true
-      _, node_map = node:output_to_buffer(bufnr)
+      _, node_map = node:output(bufnr)
       vim.bo.modifiable = false
     else
       vim.cmd("edit " .. node.path)

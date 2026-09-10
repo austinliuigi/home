@@ -6,26 +6,30 @@
 --   - inline assistant has some niceties, like creating diffs of the changes
 -- user vs system roles
 
+local sops_available = vim.fn.executable("sops") == 1
+
 -- ========== Decrypt API Keys ==========
-if vim.fn.executable("sops") == 0 then
-  vim.notify("CodeCompanion config: sops not available, skipping configuration", vim.log.levels.ERROR)
-  return
+if not sops_available then
+  vim.schedule(function() vim.notify("CodeCompanion config: sops not available, unable to use API keys", vim.log.levels.WARN) end)
 end
 
 -- ----- OpenAI -----
-local openai_key_cmd_object = vim
-  .system({ "sops", "decrypt", vim.env.HOME .. "/.secrets/openai-enc.env" }, {
-    cwd = vim.env.HOME,
-    text = true,
-  })
-  :wait()
+local openai_key
+if sops_available then
+  local openai_key_cmd_object = vim
+    .system({ "sops", "decrypt", vim.env.HOME .. "/.secrets/openai-enc.env" }, {
+      cwd = vim.env.HOME,
+      text = true,
+    })
+    :wait()
 
-if openai_key_cmd_object.code ~= 0 then
-  vim.notify("CodeCompanion config: openai key not available, skipping configuration", vim.log.levels.ERROR)
-  return
+  if openai_key_cmd_object.code ~= 0 then
+    vim.notify("CodeCompanion config: openai key not available, skipping configuration", vim.log.levels.ERROR)
+    return
+  end
+
+  openai_key = vim.trim(openai_key_cmd_object.stdout):gsub("OPENAI_API_KEY=", "")
 end
-
-local openai_key = vim.trim(openai_key_cmd_object.stdout):gsub("OPENAI_API_KEY=", "")
 
 -- ========== Configuration ==========
 require("codecompanion").setup({
