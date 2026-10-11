@@ -1,35 +1,34 @@
+local is_reg = function(register)
+  local ascii = string.byte(register)
+  if ascii >= string.byte("a") and ascii <= string.byte("z") then
+    return true
+  end
+  if ascii >= string.byte("A") and ascii <= string.byte("Z") then
+    return true
+  end
+  if register == '"' then
+    return true
+  end
+  if register == "*" then
+    return true
+  end
+  if register == "+" then
+    return true
+  end
+  return false
+end
+
 -- Copy output of command into given register; if no registers are given, use default ones
 -- syntax: Cp [<reg>] <cmd>
 --   reg: char - register to store command output in
---   cmd: string - ex command to run, passed directly to :execute
--- e.g. `Cp a "echo 'hello'"`
--- note: if output requires a pager, it will only get copied if you scroll to the end
+--   cmd: vimscript commands
+-- e.g. `Cp a echo 'hello'`
 -- note: we pass args instead of fargs to :execute because fargs will remove backslashes to escape characters
 vim.api.nvim_create_user_command("Cp", function(attrs)
   local args = attrs.args
   local fargs = attrs.fargs
-  vim.print("args: ", args)
-  vim.print("fargs: ", fargs)
 
-  local is_reg = function(register)
-    local ascii = string.byte(register)
-    if ascii >= string.byte("a") and ascii <= string.byte("z") then
-      return true
-    end
-    if ascii >= string.byte("A") and ascii <= string.byte("Z") then
-      return true
-    end
-    if register == '"' then
-      return true
-    end
-    if register == "*" then
-      return true
-    end
-    if register == "+" then
-      return true
-    end
-    return false
-  end
+  local registers = {}
 
   -- if a register was explicity given
   --   - note: we don't use the `register` command-attribute because
@@ -40,18 +39,31 @@ vim.api.nvim_create_user_command("Cp", function(attrs)
       vim.notify(string.format("Cp: %s is not a valid register", reg), vim.log.levels.ERROR)
       return
     end
+    table.insert(registers, reg)
+
     args = string.gsub(args, "^.%s+", "") -- remove register from args
-    vim.notify(string.format("Cp: copied output into register %s", reg), vim.log.levels.INFO) -- printing before executing preserves output in cmdline
-    vim.cmd("redir @" .. reg .. " | execute " .. args .. " | redir END") -- redirect output of command to supplied register
   else
-    local clip_to_reg = { unnamed = "*", unnamedplus = "+" } -- mapping from 'clipboard' option to register names
-    vim.notify("Cp: copied output", vim.log.levels.INFO)
-    vim.cmd('redir @" | execute ' .. args .. " | redir END") -- redirect output of command to default register
-    -- copy contents of default register into reg
+    -- mapping from 'clipboard' option to register names
+    local clip_to_reg = { unnamed = "*", unnamedplus = "+" }
+
+    table.insert(registers, '"')
     for _, opt in ipairs(vim.opt.clipboard:get()) do
-      vim.cmd("let @" .. clip_to_reg[opt] .. '=@"') -- :h let-@
+      table.insert(registers, clip_to_reg[opt])
     end
   end
+
+  local output = vim.api.nvim_exec2(args, { output = true }).output
+
+  if output == "" then
+    vim.notify("Cp: Output is empty, skipped copy", vim.log.levels.WARN)
+  end
+
+  for _, reg in ipairs(registers) do
+    vim.fn.setreg(reg, output)
+  end
+
+  -- execute output so user can see what was copied
+  vim.api.nvim_exec2(args, { output = false })
 end, { nargs = "+", register = false })
 
 --- Change directory relative to head of current buffer

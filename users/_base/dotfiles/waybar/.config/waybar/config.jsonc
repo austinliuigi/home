@@ -1,6 +1,6 @@
 {
     /********** GENERAL OPTIONS **********/
-    "layer": "bottom",
+    "layer": "top",
     "position": "top", // waybar position (top|bottom|left|right)
     "height": 0,      // waybar height (remove for auto height)
 

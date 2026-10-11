@@ -10,6 +10,10 @@ in {
   options.modules.programs.bash.enable = lib.mkEnableOption "bash module";
 
   config = lib.mkIf cfg.enable {
+    home.packages = [
+      pkgs.bash-language-server
+    ];
+
     programs.bash = {
       enable = true;
       enableCompletion = true;

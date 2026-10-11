@@ -20,7 +20,7 @@ require("fzf-lua").setup({
     builtin = {
       -- neovim `:tmap` mappings for the fzf win
       false,
-      ["<F1>"]        = "toggle-help",
+      ["<F1>"] = "toggle-help",
     },
     fzf = {
       -- fzf '--bind=' options
@@ -77,7 +77,8 @@ require("fzf-lua").setup({
     -- executed command priority is 'cmd' (if exists)
     -- otherwise auto-detect prioritizes `fd`:`rg`:`find`
     -- default options are controlled by '{fd,rg,find}_opts'
-    cmd = vim.fn.executable("fd") == 1 and "fd --color=never --hidden --exclude .git" or [[find * -not -path '*/\.git/*' \( -type d -printf '%p/\n' \) -o -print]],
+    -- cmd = vim.fn.executable("fd") == 1 and "fd --color=never --hidden --exclude .git"
+    --   or [[find * -not -path '*/\.git/*' \( -type d -printf '%p/\n' \) -o -print]],
     -- fd_opts = [[--color=never --hidden --type f --type l --exclude .git]],
     -- rg_opts = [[--color=never --hidden --files -g "!.git"]],
     -- find_opts = [[-type f -not -path '*/\.git/*']],
@@ -155,6 +156,14 @@ vim.keymap.set({ "n", "x", "i" }, "<leader><C-/>", function()
   require("fzf-lua").resume()
 end, { remap = false })
 
+-- Remove keymaps that conflict with fzf keymaps
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "fzf",
+  callback = function()
+    vim.keymap.set("t", "<C-h>", "<C-h>", { buf = 0 })
+  end,
+})
+
 --==================================================================================================
 -- Collect all commands
 --   - this allows custom commands to be registered
@@ -189,16 +198,16 @@ end, { remap = false })
 ----------------------------------------------------------------------------------------------------
 -- Change directory
 ----------------------------------------------------------------------------------------------------
-local directories = function(opts, cd_prefix)
+local directories_old = function(opts, cd_prefix)
   opts = opts or {}
   cd_prefix = cd_prefix or ""
   default_opts = {}
 
   default_opts.prompt = vim.fn.getcwd()
   default_opts.actions = {
-    ['default'] = function(selected)
+    ["default"] = function(selected)
       vim.cmd(cd_prefix .. "cd " .. selected[1])
-    end
+    end,
   }
   opts = vim.tbl_deep_extend("keep", opts, default_opts)
 
@@ -209,15 +218,76 @@ local directories = function(opts, cd_prefix)
   end
 end
 
-M["cd"] = function() directories() end
-M["tcd"] = function() directories({}, "t") end
-M["lcd"] = function() directories({}, "l") end
-M["bcd"] = function() directories({}, "b") end
+local directories = function(opts, cd_prefix)
+  cd_prefix = cd_prefix or ""
+  opts = opts or {}
+  local default_opts = {}
+
+  local cmd
+  if vim.fn.executable("fd") == 1 then
+    cmd = "fd --type d"
+  else
+    cmd = "find * -type d"
+  end
+  default_opts.cmd = cmd
+
+  default_opts.actions = {
+    ["default"] = function(selected)
+      local sel = require("fzf-lua.path").entry_to_file(selected[1])
+      vim.cmd(cd_prefix .. "cd " .. sel.path)
+    end,
+  }
+
+  opts = vim.tbl_deep_extend("keep", opts, default_opts)
+
+  require("fzf-lua").files(opts)
+end
+
+M["cd"] = function()
+  directories()
+end
+M["tcd"] = function()
+  directories({}, "t")
+end
+M["lcd"] = function()
+  directories({}, "l")
+end
+M["bcd"] = function()
+  directories({}, "b")
+end
+
+----------------------------------------------------------------------------------------------------
+-- Grep in current buffer's directory
+----------------------------------------------------------------------------------------------------
+local bufdirgrep = function()
+  require("fzf-lua").live_grep_native({
+    cwd = vim.fn.fnamemodify(vim.fn.expand("%"), ":p:h"):gsub("^oil://", ""),
+  })
+end
+
+M["bufdirgrep"] = bufdirgrep
+
+----------------------------------------------------------------------------------------------------
+-- Grep in selected zoxide directory
+----------------------------------------------------------------------------------------------------
+local zdirgrep = function()
+  require("fzf-lua").zoxide({
+    actions = {
+      ["default"] = function(selected, _)
+        require("fzf-lua").live_grep_native({
+          cwd = vim.split(selected[1], "\t")[2],
+        })
+      end,
+    },
+  })
+end
+
+M["zdirgrep"] = zdirgrep
 
 ----------------------------------------------------------------------------------------------------
 -- Grep in selected directory
 ----------------------------------------------------------------------------------------------------
-local dirgrep = function()
+local dirgrep_old = function()
   local saved_cwd = vim.fn.getcwd()
   local saved_win = vim.api.nvim_get_current_win()
 
@@ -235,17 +305,34 @@ local dirgrep = function()
   directories({
     actions = {
       ["default"] = function(selected, _)
-        vim.api.nvim_win_call(saved_win, function() vim.cmd(string.format("%s %s", cd_cmd, selected[1])) end)
+        vim.api.nvim_win_call(saved_win, function()
+          vim.cmd(string.format("%s %s", cd_cmd, selected[1]))
+        end)
         require("fzf-lua").live_grep_native({
           winopts = {
             on_close = function()
-              vim.api.nvim_win_call(saved_win, function() vim.cmd(string.format("%s %s", cd_cmd, saved_cwd)) end)
-            end
-          }
+              vim.api.nvim_win_call(saved_win, function()
+                vim.cmd(string.format("%s %s", cd_cmd, saved_cwd))
+              end)
+            end,
+          },
         })
-      end
-    }
+      end,
+    },
   }, cd_prefix)
+end
+
+local dirgrep = function()
+  directories({
+    actions = {
+      ["default"] = function(selected, _)
+        local sel = require("fzf-lua.path").entry_to_file(selected[1])
+        require("fzf-lua").live_grep_native({
+          cwd = sel.path,
+        })
+      end,
+    },
+  })
 end
 
 M["dirgrep"] = dirgrep

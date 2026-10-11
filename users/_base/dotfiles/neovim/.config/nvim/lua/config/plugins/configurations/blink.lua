@@ -79,6 +79,7 @@ require("blink.cmp").setup({
     end,
     per_filetype = {
       -- <ft> = { "lsp", "path" },
+      zsh = { "zsh" },
     },
     -----------------------------------------------------
     -- Per-source configurations
@@ -119,6 +120,10 @@ require("blink.cmp").setup({
           use_items_cache = true, -- use items in the cache instead of fetching from github every time completion is triggered
           use_items_pre_cache = true, -- fetch and cache available completion itmes from github when the source is loaded
         },
+      },
+      zsh = {
+        name = "zsh",
+        module = "blink.compat.source",
       },
     },
   },

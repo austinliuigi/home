@@ -35,7 +35,7 @@ in {
       # - creating a relative symlink to the interpolated palette can be misleading because it would be relative to
       #   ~/.config/home-manager/<user>/dotfiles/btop/.config/themes instead of ~/.config/btop/themes
       btopLinkTheme = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        run ln -f -s $VERBOSE_ARG "$HOME/.local/share/btop/palette.theme" "$HOME/.config/btop/themes/palette.theme" || true
+        $DRY_RUN_CMD ln -f -s $VERBOSE_ARG "$HOME/.local/share/btop/palette.theme" "$HOME/.config/btop/themes/palette.theme" || true
       '';
     };
   };

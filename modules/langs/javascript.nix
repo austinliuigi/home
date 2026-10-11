@@ -14,7 +14,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = [
       # pkgs.typescript
-      pkgs.nodePackages_latest.typescript-language-server
+      pkgs.typescript-language-server
       pkgs.prettierd
     ];
   };

@@ -10,6 +10,7 @@ for WS_ID in $ALL_WS_IDS_REVERSED; do
     if [ "$WS_ID" -gt "$CURRENT_WS_ID" ]; then
         TARGET_WS_ID="$(($WS_ID + 1))"
         WS_WINDOWS=$(hyprctl clients -j | jq -r --arg id "$WS_ID" '.[] | select(.workspace.id == ($id | tonumber)) | .address')
-        echo "$WS_WINDOWS" | xargs -I {} hyprctl dispatch movetoworkspacesilent "$TARGET_WS_ID",address:{}
+        # echo "$WS_WINDOWS" | xargs -I {} hyprctl dispatch movetoworkspacesilent "$TARGET_WS_ID",address:{}
+        echo "$WS_WINDOWS" | xargs -I {} hyprctl dispatch "hl.dsp.window.move({ workspace = '$TARGET_WS_ID', follow = false, window = 'address:{}'})"
     fi
 done

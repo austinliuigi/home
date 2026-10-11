@@ -55,16 +55,37 @@ bindkey "^[[A" history-beginning-search-backward-end # up arrow takes into accou
 bindkey "^[[B" history-beginning-search-forward-end # down arrow takes into account what is currently typed
 
 # edit current command line in vim with ctrl-e
-autoload -Uz edit-command-line
-zle -N edit-command-line
-bindkey '^e' edit-command-line
-zstyle :zle:edit-command-line editor nvim -c "d" -c "FzfLuaSnippets $BUFFER"
+function edit_cmd_line() {
+    # 1. Create a secure temporary file
+    local tmpfile
+    tmpfile=$(mktemp /tmp/bash_edit.XXXXXX.sh)
 
-neogit() { nvim -c "Neogit kind=replace" }
+    # 2. Write the current line to the file
+    echo "$BUFFER" > "$tmpfile"
+
+    # 3. Open in NeoVim with your custom command (hiding terminal noise)
+    nvim -c "d" -c "FzfLuaSnippets $BUFFER" "$tmpfile"
+
+    # 4. Read the edited file back into the command line buffer
+    BUFFER=$(cat "$tmpfile")
+    
+    # 5. Move the cursor to the end of the new text and clean up
+    CURSOR=${#BUFFER}
+    rm -f "$tmpfile"
+}
+zle -N edit_cmd_line
+bindkey '^e' edit_cmd_line
+
+# autoload -Uz edit-command-line
+# zle -N edit-command-line
+# bindkey '^e' edit-command-line
+# zstyle :zle:edit-command-line editor nvim -c "d" -c "FzfLuaSnippets $BUFFER"
+
+function neogit() { nvim -c "Neogit kind=replace" }
 zle -N neogit
 bindkey "^g" neogit
 
-neofind() { nvim -c "lua vim.schedule(function() require('fzf-lua').files() end)" }
+function neofind() { nvim -c "lua vim.schedule(function() require('fzf-lua').files() end)" }
 zle -N neofind
 bindkey "^f" neofind
 

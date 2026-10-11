@@ -175,12 +175,20 @@ function snippet_previewer:populate_preview_buf(selection)
     require("luasnip").snip_expand(snippet.snippet, {})
 
     -- exit select mode if luasnip invoked it after expansion
-    vim.api.nvim_create_autocmd("ModeChanged", {
+    local modechanged_autocmd_id = vim.api.nvim_create_autocmd("ModeChanged", {
       pattern = "*:s",
       callback = function()
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>i", true, false, true), "nt", false)
       end,
-      once = true,
+    })
+
+    vim.api.nvim_create_autocmd("BufLeave", {
+      buf = self.win.fzf_bufnr,
+      callback = function()
+        vim.schedule(function()
+          vim.api.nvim_del_autocmd(modechanged_autocmd_id)
+        end)
+      end,
     })
   end)
 

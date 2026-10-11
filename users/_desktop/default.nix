@@ -15,10 +15,11 @@
     # pkgs.deno
     pkgs.pamixer
     pkgs.gimp
-    pkgs.inkscape
-    pkgs.blender
+    # pkgs.inkscape
+    pkgs.kicad-small
+    # pkgs.blender
     pkgs.obs-studio
-    pkgs.nodejs
+    # pkgs.nodejs
     # pkgs.brave
     pkgs.nyxt
     pkgs.pandoc
@@ -26,7 +27,7 @@
     pkgs.ttyper
     pkgs.vlc
 
-    pkgs.mesa-demos
+    # pkgs.mesa-demos
     pkgs.wlr-randr
     pkgs.lshw
     pkgs.dmidecode
@@ -42,6 +43,7 @@
 
     pkgs.rnote
     # pkgs.sunshine
+    pkgs.graphite
   ];
 
   modules = {
@@ -66,6 +68,7 @@
       manim.enable = true;
       mpv.enable = true;
       neovim.enable = true;
+      opencode.enable = true;
       pcmanfm.enable = true;
       pet.enable = true;
       presenterm.enable = true;

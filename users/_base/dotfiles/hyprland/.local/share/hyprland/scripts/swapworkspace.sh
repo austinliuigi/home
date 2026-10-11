@@ -11,10 +11,12 @@ fi
 
 TEMP_WS_ID="99"
 
+# TODO if current animation is enabled, store it and disable it
+
 # get current workspace id
 CURRENT_WS_ID="$(hyprctl activeworkspace -j | jq '.id')"
 # get target workspace id based on cli arg
-hyprctl dispatch workspace "$1"  # switch to target workspace
+hyprctl dispatch "hl.dsp.focus({workspace = '$1'})"  # switch to target workspace
 TARGET_WS_ID="$(hyprctl activeworkspace -j | jq '.id')"
 
 # if didn't switch workspaces
@@ -23,7 +25,7 @@ if [ "$TARGET_WS_ID" == "$CURRENT_WS_ID" ]; then
   exit 1
 fi
 
-hyprctl dispatch workspace "$TEMP_WS_ID"  # switch to temp workspace to avoid screen anims
+hyprctl dispatch "hl.dsp.focus({workspace = '$TEMP_WS_ID'})"  # switch to temp workspace to avoid screen anims
 
 
 # get all windows in current workspace
@@ -34,9 +36,12 @@ TARGET_WS_WINDOWS=$(hyprctl clients -j | jq -r --arg id "$TARGET_WS_ID" '.[] | s
 
 
 # move all windows initially from target workspace to current workspace
-echo "$TARGET_WS_WINDOWS" | xargs -I {} hyprctl dispatch movetoworkspacesilent "$CURRENT_WS_ID",address:{}
+echo "$TARGET_WS_WINDOWS" | xargs -I {} hyprctl dispatch "hl.dsp.window.move({ workspace = '$CURRENT_WS_ID', follow = false, window = 'address:{}'})"
 # move all windows from current workspace to target workspace
-echo "$CURRENT_WS_WINDOWS" | xargs -I {} hyprctl dispatch movetoworkspacesilent "$TARGET_WS_ID",address:{}
+echo "$CURRENT_WS_WINDOWS" | xargs -I {} hyprctl dispatch "hl.dsp.window.move({ workspace = '$TARGET_WS_ID', follow = false, window = 'address:{}'})"
 
 
-hyprctl dispatch workspace "$TARGET_WS_ID"  # switch to temp workspace to avoid screen anims
+hyprctl dispatch "hl.dsp.focus({workspace = '$TARGET_WS_ID'})"
+
+
+# TODO reset previous animation enabled

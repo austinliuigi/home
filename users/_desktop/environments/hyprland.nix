@@ -32,7 +32,7 @@
       wayland.hypridle.enable = true;
       wayland.hyprlock.enable = true;
       wayland.hyprpicker.enable = true;
-      wayland.swww.enable = true;
+      wayland.awww.enable = true;
       wayland.swayidle.enable = false;
       wayland.fuzzel.enable = true;
       wayland.rofi.enable = true;

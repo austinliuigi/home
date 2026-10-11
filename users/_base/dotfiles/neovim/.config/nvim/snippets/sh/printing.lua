@@ -11,7 +11,7 @@ table.insert(snippets, s({trig = "printpdf", desc = "Print to pdf (located in \"
       pdfjam --outfile /dev/stdout --scale 1 {} | lp -d {}
     ]],
     {
-      i(1, "file"),
+      i(1, "path/to/file.(pdf,ps,eps,jpg,png)"),
       i(0, "pdf")
     }
   )
@@ -26,6 +26,7 @@ table.insert(snippets, s({trig = "printtest", desc = "Print a single page to tes
     ]],
     {
       i(1, "file"),
+      -- TODO: get a list of destinations and make a choice node (or use shell completion)
       i(0)
     }
   )

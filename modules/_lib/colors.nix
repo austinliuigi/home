@@ -12,7 +12,7 @@
 
   config = {
     # https://github.com/tinted-theming/schemes
-    colorscheme = inputs.nix-colors.colorschemes.base16.kanagawa;
+    colorscheme = inputs.nix-colors.colorschemes.base16.gruvbox-dark-medium;
     # colorScheme = {
     # slug = "custom";
     # name = "Custom";

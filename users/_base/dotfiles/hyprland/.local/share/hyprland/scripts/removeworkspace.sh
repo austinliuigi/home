@@ -17,10 +17,12 @@ for WS_ID in $ALL_WS_IDS_SORTED; do
     if [ "$WS_ID" -gt "$CURRENT_WS_ID" ]; then
         TARGET_WS_ID="$(($WS_ID - 1))"
         WS_WINDOWS=$(hyprctl clients -j | jq -r --arg id "$WS_ID" '.[] | select(.workspace.id == ($id | tonumber)) | .address')
-        echo "$WS_WINDOWS" | xargs -I {} hyprctl dispatch movetoworkspacesilent "$TARGET_WS_ID",address:{}
+        # echo "$WS_WINDOWS" | xargs -I {} hyprctl dispatch movetoworkspacesilent "$TARGET_WS_ID",address:{}
+        echo "$WS_WINDOWS" | xargs -I {} hyprctl dispatch "hl.dsp.window.move({ workspace = '$TARGET_WS_ID', follow = false, window = 'address:{}'})"
     fi
 done
 
 # focus leftmost window
 CURRENT_WS_LEFTMOST_WINDOW=$(hyprctl clients -j | jq -r --arg id "$CURRENT_WS_ID" '[.[] | select(.workspace.id == ($id | tonumber))] | min_by(.at[0]) | .address')
-hyprctl dispatch focuswindow address:$CURRENT_WS_LEFTMOST_WINDOW
+# hyprctl dispatch focuswindow address:$CURRENT_WS_LEFTMOST_WINDOW
+hyprctl dispatch "hl.dsp.focus({window = 'address:$CURRENT_WS_LEFTMOST_WINDOW'})"

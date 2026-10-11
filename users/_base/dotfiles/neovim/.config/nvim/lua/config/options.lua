@@ -133,7 +133,7 @@ vim.opt.list = true -- show whitespace characters
 vim.opt.listchars = { tab = "▸-", eol = "↴", precedes = "‹", extends = "›" } -- map whitespace characters to on-screen representation
 
 vim.opt.concealcursor = "" -- set modes where conceal chars can be hidden on cursor line
-vim.o.conceallevel = 2 -- set conceal level
+vim.o.conceallevel = 0 -- set conceal level
 
 vim.o.wrap = false -- wrap lines longer than window width
 vim.opt.linebreak = true -- wrap only after certain "break" characters set in 'breakat'

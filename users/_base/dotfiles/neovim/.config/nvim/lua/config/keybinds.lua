@@ -83,6 +83,8 @@ keymap("n", "<leader>p", "<cmd>put<CR>", { noremap = true, silent = true })
 
 keymap("n", "<leader>P", "<cmd>put!<CR>", { noremap = true, silent = true })
 
+keymap({ "n" }, "<leader>y", "<cmd>Cp lua print(vim.api.nvim_buf_get_name(0))<CR>", { noremap = true })
+
 keymap({ "n", "x" }, "g.", "<cmd>cd %:p:h<CR>", { noremap = true })
 
 -- }}}
@@ -400,8 +402,6 @@ end, { noremap = true, silent = true, desc = "Toggle location list" })
 keymap({ "n" }, "<leader><C-s>", "<cmd>vnew<CR>", { noremap = true })
 
 keymap({ "n" }, "<leader><C-S-s>", "<cmd>new<CR>", { noremap = true })
-
-keymap({ "n" }, "<leader>gd", "<cmd>vsp<CR>gd", { noremap = false })
 
 keymap({ "n", "t" }, "<C-h>", "<cmd>wincmd h<CR>", { noremap = true })
 

@@ -21,12 +21,12 @@
       pkgs.nerd-fonts.symbols-only
 
       pkgs.roboto-mono
-      pkgs.dejavu_fonts
+      # pkgs.dejavu_fonts
       pkgs.liberation_ttf
-      pkgs.open-sans
-      pkgs.source-sans-pro
-      pkgs.charis-sil
-      pkgs.fira
+      # pkgs.open-sans
+      # pkgs.source-sans-pro
+      # pkgs.charis
+      # pkgs.fira
       inputs.sf-mono-nerd-font.packages.x86_64-linux.sf-mono # TODO: update this to be generic to different systems
     ];
 

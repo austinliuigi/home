@@ -7,6 +7,7 @@
 --   - add any custom configuration to ~/.config/nvim/lsp/<name>.lua
 --==================================================================================================
 local enabled_servers = {
+  "bashls",
   "clangd",
   "lua_ls",
   "nixd",
