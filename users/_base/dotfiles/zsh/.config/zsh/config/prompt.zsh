@@ -84,12 +84,26 @@ fi
 # ------------------------------------------------------------------------------------------
 # Static prompts (doesn't require manually updating)
 # ------------------------------------------------------------------------------------------
-USER_HOSTNAME_PROMPT="${PS_USR_HOST}(${PS_USR}%n${PS_USR_HOST} @ ${PS_HOST}%m${PS_USR_HOST})${PS_DEFAULT}"
-CWD_PROMPT="${PS_CWD}[%~]${PS_DEFAULT}"
+# USER_HOSTNAME_PROMPT="${PS_USR_HOST}(${PS_USR}%n${PS_USR_HOST} @ ${PS_HOST}%m${PS_USR_HOST})${PS_DEFAULT}"
+# CWD_PROMPT="${PS_CWD}[%~]${PS_DEFAULT}"
 
 # ------------------------------------------------------------------------------------------
 # Dynamic prompts (requires calling function to update)
 # ------------------------------------------------------------------------------------------
+function userHostnamePromptUpdate() {
+    local max_width=$(( $COLUMNS / 4 ))
+    typeset -g USER_HOSTNAME_PROMPT="${PS_USR_HOST}(${PS_USR}%n${PS_USR_HOST} @ ${PS_HOST}%m${PS_USR_HOST})${PS_DEFAULT}"
+    local len=${#${(%):-%n%m}} # length of username + length of hostname
+    if [ $len -gt $max_width ]; then
+        USER_HOSTNAME_PROMPT="${PS_USR_HOST}(${PS_USR}%n${PS_USR_HOST})${PS_DEFAULT}"
+    fi
+}
+
+function cwdPromptUpdate() {
+    local max_width=$(( $COLUMNS / 4 ))
+    typeset -g CWD_PROMPT="${PS_CWD}[%${max_width}<...<%~%<<]${PS_DEFAULT}"
+}
+
 function venvPromptUpdate () {
     # Use default zsh options
     emulate -L zsh
@@ -193,6 +207,8 @@ function setPrompt () {
     emulate -L zsh
 
     # Update dynamic prompts
+    userHostnamePromptUpdate
+    cwdPromptUpdate
     venvPromptUpdate
     gitstatusPromptUpdate
 

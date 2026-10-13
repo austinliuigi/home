@@ -3,7 +3,7 @@ local secondMod = "SHIFT"
 local thirdMod = "ALT"
 
 local function keys(key_list)
-  return table.concat(key_list, " + ")
+	return table.concat(key_list, " + ")
 end
 
 --===============================================================================
@@ -19,13 +19,13 @@ hl.bind(keys({ mainMod, "semicolon" }), hl.dsp.exec_cmd("ghostty"))
 hl.bind(keys({ mainMod, "backspace" }), hl.dsp.exec_cmd("dunstctl history-pop"))
 hl.bind(keys({ mainMod, "C" }), hl.dsp.exec_cmd("hyprpicker --autocopy"))
 hl.bind(keys({ mainMod, secondMod, "1" }), hl.dsp.exec_cmd("pypr toggle todo"))
-hl.bind(keys({ mainMod, secondMod, "W" }), hl.dsp.window.close())
+hl.bind(keys({ mainMod, "W" }), hl.dsp.window.close())
 
 ---------------------------------------------------
 -- Screenshot
 ---------------------------------------------------
-hl.bind(keys({ mainMod, "S" }), hl.dsp.exec_cmd("screenshot"))
-hl.bind(keys({ mainMod, secondMod, "S" }), hl.dsp.exec_cmd("pkill -SIGINT wl-screenrec"))
+hl.bind(keys({ mainMod, secondMod, "S" }), hl.dsp.exec_cmd("screenshot"))
+-- hl.bind(keys({ mainMod, secondMod, "S" }), hl.dsp.exec_cmd("pkill -SIGINT wl-screenrec"))
 
 ---------------------------------------------------
 -- Fullscreen and floating
@@ -67,8 +67,10 @@ hl.bind(keys({ mainMod, "mouse:273" }), hl.dsp.window.resize())
 ---------------------------------------------------
 -- Move window
 ---------------------------------------------------
-hl.bind(keys({ mainMod, secondMod, "H" }), hl.dsp.window.swap({ direction = "l" }))
-hl.bind(keys({ mainMod, secondMod, "L" }), hl.dsp.window.swap({ direction = "r" }))
+-- hl.bind(keys({ mainMod, secondMod, "H" }), hl.dsp.window.swap({ direction = "l" }))
+-- hl.bind(keys({ mainMod, secondMod, "L" }), hl.dsp.window.swap({ direction = "r" }))
+hl.bind(keys({ mainMod, secondMod, "H" }), hl.dsp.layout("swapcol l"))
+hl.bind(keys({ mainMod, secondMod, "L" }), hl.dsp.layout("swapcol r"))
 hl.bind(keys({ mainMod, secondMod, "K" }), hl.dsp.window.swap({ direction = "u" }))
 hl.bind(keys({ mainMod, secondMod, "J" }), hl.dsp.window.swap({ direction = "d" }))
 
@@ -124,12 +126,12 @@ hl.bind(keys({ mainMod, "0" }), hl.dsp.focus({ workspace = "10" }))
 -- Move workspace
 ---------------------------------------------------
 hl.bind(
-  keys({ mainMod, secondMod, "comma" }),
-  hl.dsp.exec_cmd("$HOME/.local/share/hyprland/scripts/swapworkspace.sh r-1")
+	keys({ mainMod, secondMod, "comma" }),
+	hl.dsp.exec_cmd("$HOME/.local/share/hyprland/scripts/swapworkspace.sh r-1")
 )
 hl.bind(
-  keys({ mainMod, secondMod, "period" }),
-  hl.dsp.exec_cmd("$HOME/.local/share/hyprland/scripts/swapworkspace.sh r+1")
+	keys({ mainMod, secondMod, "period" }),
+	hl.dsp.exec_cmd("$HOME/.local/share/hyprland/scripts/swapworkspace.sh r+1")
 )
 
 ---------------------------------------------------
@@ -144,7 +146,7 @@ hl.bind(keys({ mainMod, thirdMod, "down" }), hl.dsp.workspace.move({ monitor = "
 -- Create/remove workspace
 ---------------------------------------------------
 hl.bind(keys({ mainMod, "T" }), hl.dsp.exec_cmd("$HOME/.local/share/hyprland/scripts/insertworkspace.sh"))
-hl.bind(keys({ mainMod, "W" }), hl.dsp.exec_cmd("$HOME/.local/share/hyprland/scripts/removeworkspace.sh"))
+-- hl.bind(keys({ mainMod, "W" }), hl.dsp.exec_cmd("$HOME/.local/share/hyprland/scripts/removeworkspace.sh"))
 
 --===============================================================================
 -- MONITORS

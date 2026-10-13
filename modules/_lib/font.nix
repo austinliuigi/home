@@ -27,7 +27,7 @@
       # pkgs.source-sans-pro
       # pkgs.charis
       # pkgs.fira
-      inputs.sf-mono-nerd-font.packages.x86_64-linux.sf-mono # TODO: update this to be generic to different systems
+      inputs.sf-mono-nerd-font.packages.${pkgs.stdenv.hostPlatform.system}.sf-mono
     ];
 
     font = {

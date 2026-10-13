@@ -16,6 +16,18 @@
       url = "github:austinliuigi/nix-colors";
       # url = "path:/home/austin/projects/nix-colors";
     };
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs = {
+        # IMPORTANT: To ensure compatibility with the latest Firefox version, use nixpkgs-unstable.
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     neovim-nightly-overlay = {
       # url = "github:nix-community/neovim-nightly-overlay/06556188ee8c7ddfbe7b39d652cf409d0f912705";
       url = "github:nix-community/neovim-nightly-overlay";
@@ -46,6 +58,10 @@
       {
         hostname = "x1-carbon";
         system = "x86_64-linux";
+      }
+      {
+        hostname = "m2-macbook-pro";
+        system = "aarch64-linux";
       }
       {
         hostname = "ghost-s1";
@@ -100,7 +116,7 @@
                   };
                 modules = [
                   ./modules
-                  ./users/txn/server.nix
+                  ./users/txn/${host.hostname}.nix
                 ];
               };
             }))
@@ -119,7 +135,7 @@
                   };
                 modules = [
                   ./modules
-                  ./users/txn/desktop.nix
+                  ./users/txn/${host.hostname}.nix
                 ];
               };
             }))

@@ -1,7 +1,7 @@
-if [ -n "$(command -v kitty)" ] && [ -f "$HOME/.cache/tin/shroomish.png" ]; then
+if [ -n "$(command -v kitty)" ] && [ -f "$HOME/.cache/txn/shroomish.png" ]; then
   echo
   # kitty +kitten icat $HOME/.cache/tin/shroomish.png 2>/dev/null
-  timg --pixelation=k --center ~/.cache/tin/shroomish.png 2>/dev/null
+  timg --pixelation=k --center ~/.cache/txn/shroomish.png 2>/dev/null
 fi
 
 if [ -d ~/.nix-profile/etc/profile.d ]; then

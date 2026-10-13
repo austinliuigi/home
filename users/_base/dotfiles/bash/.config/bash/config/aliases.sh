@@ -25,9 +25,19 @@ alias gs="git status"
 alias gl="git log"
 alias glg="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
 alias g$s="git stash show -p"
-alias cdr='cd "$(git rev-parse --show-toplevel)"'
 
 ### Misc
+
+function cdr() {
+    local target_dir
+    target_dir="$(git rev-parse --show-toplevel 2>/dev/null)"
+    if [ -z "$target_dir" ]; then
+        echo "not a git repository"
+        return 1
+    fi
+    echo "$target_dir/$1"
+    cd "$target_dir/$1"
+}
 
 function oops() {
     sudo $(fc -nl -1)

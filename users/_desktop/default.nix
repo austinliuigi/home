@@ -43,7 +43,7 @@
 
     pkgs.rnote
     # pkgs.sunshine
-    pkgs.graphite
+    # pkgs.graphite
   ];
 
   modules = {
@@ -78,6 +78,7 @@
       tex.enable = true;
       wezterm.enable = true;
       xdg.enable = true;
+      zen-browser.enable = true;
       zoxide.enable = true;
       zsh.enable = true;
     };

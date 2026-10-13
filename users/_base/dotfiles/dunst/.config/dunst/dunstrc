@@ -253,7 +253,7 @@
     indicate_hidden = yes
 
     # dmenu path.
-    dmenu = /home/austin/.nix-profile/bin/rofi -dmenu -p dunst
+    dmenu = fuzzel --dmenu
 
     # Browser for opening urls in context menu.
     browser = /usr/bin/xdg-open

@@ -12,7 +12,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = [
       pkgs.opencode
-      inputs.serena.packages.${pkgs.system}.serena
+      # inputs.serena.packages.${pkgs.system}.serena
     ];
 
     home.file = {

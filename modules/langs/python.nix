@@ -53,7 +53,7 @@ in {
           comment_start = "#";
         };
         # HACK: symlink palette to local packages that need it because the alternative is to import palette using its relative path, which sucks when symlinks are involved
-        onChange = builtins.concatStringsSep "\n" (map (file: "ln -s ~/.local/share/python/palette.py ${file} || true") config.pythonPaletteLinks);
+        onChange = builtins.concatStringsSep "\n" (map (file: "ln -s ~/.local/share/python/palette.py ${file} 2>/dev/null || true") config.pythonPaletteLinks);
       };
     };
   };

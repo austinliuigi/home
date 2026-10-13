@@ -1,9 +1,12 @@
-{ pkgs, lib, config, inputs, ... }:
-
-let
-  cfg = config.modules.programs.gtk;
-in
 {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}: let
+  cfg = config.modules.programs.gtk;
+in {
   options.modules.programs.gtk.enable = lib.mkEnableOption "gtk module";
 
   config = lib.mkIf cfg.enable {
@@ -65,17 +68,19 @@ in
       # ".config/gtk-3.0/gtk.css".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/gtk-4.0/gtk.css";
 
       ".local/share/gtk/palette.css" = {
-        text = config.configuration.interpolateConfigFileWithMsg { file = "${config.dotfiles.gtk}/.local/share/gtk/palette.css"; comment_start = "/*"; comment_end = "*/"; };
-        onChange =
-          let
-            gsettings = "${pkgs.glib}/bin/gsettings";
-            schemas = pkgs.gsettings-desktop-schemas;
-          in
-            ''
-              echo "gtk: updating theme"
-              export XDG_DATA_DIRS="${schemas}/share/gsettings-schemas/${schemas.name}:$XDG_DATA_DIRS"
-              ${gsettings} set org.gnome.desktop.interface gtk-theme 'Adwaita' && ${gsettings} set org.gnome.desktop.interface gtk-theme 'palette'
-            '';
+        text = config.configuration.interpolateConfigFileWithMsg {
+          file = "${config.dotfiles.gtk}/.local/share/gtk/palette.css";
+          comment_start = "/*";
+          comment_end = "*/";
+        };
+        onChange = let
+          gsettings = "${pkgs.glib}/bin/gsettings";
+          schemas = pkgs.gsettings-desktop-schemas;
+        in ''
+          echo "gtk: updating theme"
+          export XDG_DATA_DIRS="${schemas}/share/gsettings-schemas/${schemas.name}:$XDG_DATA_DIRS" # defines gsettings settings options
+          ${gsettings} set org.gnome.desktop.interface gtk-theme 'Adwaita' && ${gsettings} set org.gnome.desktop.interface gtk-theme 'palette'
+        '';
       };
       #
       # ".local/share/gtk/palette/gtk2.css" = {
@@ -86,13 +91,11 @@ in
     };
 
     # https://discourse.nixos.org/t/how-is-xdg-data-dirs-set-for-some-apps/38432/4
-    programs.zsh.initContent = 
-      let
-        schemas = pkgs.gsettings-desktop-schemas;
-      in
-      ''
-        export XDG_DATA_DIRS="${schemas}/share/gsettings-schemas/${schemas.name}:$XDG_DATA_DIRS"
-      '';
+    programs.zsh.initContent = let
+      schemas = pkgs.gsettings-desktop-schemas;
+    in ''
+      export XDG_DATA_DIRS="${schemas}/share/gsettings-schemas/${schemas.name}:$XDG_DATA_DIRS"
+    '';
 
     # GTK4 applications don't pick up the theme set by gsettings, but they do pick up the theme set by $GTK_THEME
     #   - e.g. ghostty when its config option `window-theme` is not set to `ghostty`

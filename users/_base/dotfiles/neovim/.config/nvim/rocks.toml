@@ -21,11 +21,11 @@ import = "config/plugins/lazy_specs_post"
 #===========================================================================================
 # LOCAL PLUGINS
 #===========================================================================================
-"bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = true }
-# "bartender.nvim" = { git = "austinliuigi/bartender.nvim", rev = "main", opt = true }
+# "bartender.nvim" = { dir = "~/projects/bartender.nvim", opt = true }
+"bartender.nvim" = { git = "austinliuigi/bartender.nvim", rev = "main", opt = true }
 
-"palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
-# "palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
+# "palette.nvim" = { dir = "~/projects/palette.nvim", opt = false }
+"palette.nvim" = { git = "austinliuigi/palette.nvim", rev = "main", opt = false }
 
 # "dye.nvim" = { dir = "~/projects/dye.nvim", opt = false }
 "dye.nvim" = { git = "austinliuigi/dye.nvim", rev = "main", opt = false }
@@ -34,9 +34,9 @@ import = "config/plugins/lazy_specs_post"
 "portal.nvim" = { git = "austinliuigi/portal.nvim", rev = "main", opt = true }
 
 # ----- FORKS -----
-neorg = { dir = "~/projects/_forks/neorg", opt = true }
-"lua-utils.nvim" = { version = "1.0.2", opt = false }
-"pathlib.nvim" = { version = "2.2.3", opt = false }
+# neorg = { dir = "~/projects/_forks/neorg", opt = true }
+# "lua-utils.nvim" = { version = "1.0.2", opt = false }
+# "pathlib.nvim" = { version = "2.2.3", opt = false }
 
 # neogit = { dir = "~/projects/_forks/neogit", opt = true }
 # "smoothie.nvim" = { dir = "~/projects/smoothie.nvim", config = "plugin.mysmoothie" }
@@ -65,7 +65,7 @@ fzf-lua = { version = "0.0.2693", opt = true } # 2063 works, 2068 doesn't work
 luasnip = { version = "2.3.0", opt = true }
 neogen = { version = "2.20.0", opt = true }
 # neogit = { version = "scm", opt = true }
-# neorg = { version = "9.3.0", opt = false }
+neorg = { version = "9.3.0", opt = false }
 # neorg-interim-ls = { version = "2.1.1", opt = false }
 nvim-dap = { version = "0.9.0", opt = true }
 nvim-dap-ui = { version = "4.0.0", opt = true }
