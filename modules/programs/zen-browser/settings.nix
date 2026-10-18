@@ -27,7 +27,7 @@
 # - Settings persist to prefs.js; user can override in browser
 #
 # In about:config, search "zen."
-{...}: {
+{config, ...}: {
   programs.zen-browser.profiles.default.settings = {
     /**
     use double quotes!
@@ -37,5 +37,8 @@
     "zen.urlbar.behavior" = "float";
     "zen.welcome-screen.seen" = true;
     "browser.tabs.fadeOutUnloadedTabs" = true;
+    "browser.download.dir" = "${config.home.homeDirectory}/downloads";
+    "browser.download.folderList" = 2; # use custom defined folder
+    # "permissions.default.shortcuts" = 2;
   };
 }

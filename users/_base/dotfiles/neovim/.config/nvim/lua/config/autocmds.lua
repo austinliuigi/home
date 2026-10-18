@@ -99,3 +99,19 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = { "*" },
   desc = "Set relative number line for help windows",
 })
+
+-- Notes
+vim.api.nvim_create_autocmd("BufWritePre", {
+  callback = function()
+    vim.print("pre")
+    -- vim.uv.sleep(5000)
+  end,
+  pattern = { "*.typ" },
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  callback = function()
+    vim.print("post")
+  end,
+  pattern = { "*.typ" },
+})

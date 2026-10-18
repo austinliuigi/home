@@ -76,6 +76,7 @@
       sops.enable = true;
       syncthing.enable = true;
       tex.enable = true;
+      tldraw-offline.enable = true;
       wezterm.enable = true;
       xdg.enable = true;
       zen-browser.enable = true;

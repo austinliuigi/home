@@ -2,6 +2,8 @@ bind -x '"\C-g": nvim -c "Neogit"'
 
 bind -x '"\C-f": nvim -c "lua vim.schedule(function() require(\"fzf-lua\").files() end)"'
 
+bind -x '"\e[102;6u": nvim -c "lua vim.schedule(function() require(\"fzf-lua\").live_grep_native() end)"'
+
 bind -x '"\C-_": nvim -c "lua vim.schedule(function() vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(\"<C-/>\", true, false, true), \"m\", false) end)"'
 
 function edit_cmd_line() {

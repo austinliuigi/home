@@ -1,114 +1,137 @@
 # https://github.com/0xc000022070/zen-browser-flake/blob/main/examples/11-keyboard-shortcuts.nix
 {
-  programs.zen-browser.profiles.default = {
+  programs.zen-browser.profiles.default = let
+    use_ctrl = true;
+  in {
     keyboardShortcuts = [
       # ========== CUSTOM KEYBINDS ==========
       {
         id = "zen-new-empty-split-view";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "s";
       }
       {
         id = "goBackKb";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "o";
       }
       {
         id = "goForwardKb";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "i";
       }
       {
         id = "key_reload";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "r";
       }
       {
         id = "key_reload_skip_cache";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         modifiers.shift = true;
         key = "r";
       }
       {
         id = "key_selectTab8";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "8";
       }
       {
         id = "key_selectTab7";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "7";
       }
       {
         id = "key_selectTab6";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "6";
       }
       {
         id = "key_selectTab5";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "5";
       }
       {
         id = "key_selectTab4";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "4";
       }
       {
         id = "key_selectTab3";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "3";
       }
       {
         id = "key_selectTab2";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "2";
       }
       {
         id = "key_selectTab1";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "1";
       }
       {
         id = "key_newNavigatorTab";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "t";
       }
       {
         id = "key_restoreLastClosedTabOrWindowOrSession";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         modifiers.shift = true;
         key = "t";
       }
       {
         id = "key_close";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "w";
       }
       {
         id = "zen-library-toggle";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "\\";
       }
       {
         id = "key_fullZoomReset";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "=";
       }
       {
         id = "key_fullZoomEnlarge";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         modifiers.shift = true;
         key = "+";
       }
       {
         id = "key_fullZoomReduce";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "-";
       }
       {
         id = "key_screenshot";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         modifiers.shift = true;
         key = "s";
       }
@@ -122,44 +145,52 @@
       }
       {
         id = "key_find";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "f";
       }
       {
         id = "key_findAgain";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "g";
       }
       {
         id = "key_viewInfo";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         modifiers.shift = true;
         key = "i";
       }
       {
         id = "focusURLBar";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "l";
       }
       {
         id = "key_privatebrowsing";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         modifiers.shift = true;
         key = "n";
       }
       {
         id = "key_newNavigator";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         key = "n";
       }
       {
         id = "zen-workspace-forward";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         keycode = "VK_RIGHT";
       }
       {
         id = "zen-workspace-backward";
-        modifiers.control = true;
+        modifiers.control = use_ctrl;
+        modifiers.alt = ! use_ctrl;
         keycode = "VK_LEFT";
       }
 

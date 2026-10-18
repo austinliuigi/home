@@ -1,6 +1,9 @@
 # NOTE: we configure syncthing using nix becuase:
 #  - the config file isn't meant to be able to work across multiple machines since every device is unique in syncthing
 #  - the config file contains secrets, such as the REST API key
+#
+# To add a device, just add it to the list of devices and home-manager switch on the hub
+# TODO: Check if removing a device from the list causes the hub to remove the device
 {
   pkgs,
   lib,

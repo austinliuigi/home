@@ -1,27 +1,5 @@
 {
   "nodes": {
-    "firefox-addons": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "dir": "pkgs/firefox-addons",
-        "lastModified": 1791777760,
-        "narHash": "sha256-lHcmAXG2Ojsf3L8adc103rfb3Pz9wIQhbWhmioNJWtY=",
-        "owner": "rycee",
-        "repo": "nur-expressions",
-        "rev": "9c5dba317695191a6812749776f120e5638cf00f",
-        "type": "gitlab"
-      },
-      "original": {
-        "dir": "pkgs/firefox-addons",
-        "owner": "rycee",
-        "repo": "nur-expressions",
-        "type": "gitlab"
-      }
-    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
@@ -35,6 +13,27 @@
         "owner": "hercules-ci",
         "repo": "flake-parts",
         "rev": "024633cd702b10285db5cb19b40ad48d2399ba60",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_2": {
+      "inputs": {
+        "nixpkgs-lib": [
+          "nur",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1733312601,
+        "narHash": "sha256-4pDvzqnegAfRkPwO3wmwBhVi/Sye1mzps0zHWYnP88c=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "205b12d8b7cd4802fbcb8e8ef6a0f1408781a4f9",
         "type": "github"
       },
       "original": {
@@ -165,14 +164,36 @@
         "type": "github"
       }
     },
+    "nur": {
+      "inputs": {
+        "flake-parts": "flake-parts_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792031707,
+        "narHash": "sha256-YZI3EJJj9LfOappUMy/fT8l4zjWTfrmoRBXAdoHx2M4=",
+        "owner": "nix-community",
+        "repo": "nur",
+        "rev": "bdee0ec04b364326449a75dc61ce5230617a5e4f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nur",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
-        "firefox-addons": "firefox-addons",
         "home-manager": "home-manager",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-colors": "nix-colors",
         "nixpkgs": "nixpkgs_2",
+        "nur": "nur",
         "sf-mono-nerd-font": "sf-mono-nerd-font",
+        "tldraw-offline": "tldraw-offline",
         "zen-browser": "zen-browser"
       }
     },
@@ -209,6 +230,26 @@
       "original": {
         "owner": "austinliuigi",
         "repo": "sf-mono-nerd-font-flake",
+        "type": "github"
+      }
+    },
+    "tldraw-offline": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792349172,
+        "narHash": "sha256-D9QCqVA7QeZAxjcKmiIUXaLzcM7khOi+Z/p9BoQVvEM=",
+        "owner": "austinliuigi",
+        "repo": "tldraw-offline-flake",
+        "rev": "b6bc99307216fb8ab2b8da82858ef0b821992790",
+        "type": "github"
+      },
+      "original": {
+        "owner": "austinliuigi",
+        "repo": "tldraw-offline-flake",
         "type": "github"
       }
     },

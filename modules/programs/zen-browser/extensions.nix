@@ -12,14 +12,18 @@
   pkgs,
   ...
 }: let
-  firefox-addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
+  # firefox-addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
 in {
+  nixpkgs.overlays = [
+    inputs.nur.overlays.default
+  ];
+
   programs.zen-browser.profiles.default.settings = {
     "extensions.autoDisableScopes" = 0; # automatically install extensions without needing user approval
   };
 
   programs.zen-browser.profiles.default.extensions = {
-    packages = with firefox-addons; [
+    packages = with pkgs.nur.repos.rycee.firefox-addons; [
       ublock-origin
       clearurls
       bitwarden

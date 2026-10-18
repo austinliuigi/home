@@ -24,6 +24,7 @@ in {
       pkgs.mosh
       pkgs.yt-dlp
       pkgs.inetutils
+      (lib.meta.hiPrio pkgs.iputils)
       pkgs.dig
       pkgs.remind
     ];

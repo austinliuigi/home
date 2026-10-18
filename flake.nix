@@ -24,8 +24,8 @@
         home-manager.follows = "home-manager";
       };
     };
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+    nur = {
+      url = "github:nix-community/nur";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     neovim-nightly-overlay = {
@@ -34,6 +34,10 @@
     };
     sf-mono-nerd-font = {
       url = "github:austinliuigi/sf-mono-nerd-font-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    tldraw-offline = {
+      url = "github:austinliuigi/tldraw-offline-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -89,7 +93,10 @@
             (host: {
               name = "austin@${host.hostname}";
               value = home-manager.lib.homeManagerConfiguration {
-                pkgs = nixpkgs.legacyPackages.${host.system};
+                pkgs = import nixpkgs {
+                  system = host.system;
+                  config.allowUnfree = true;
+                };
                 extraSpecialArgs =
                   baseExtraSpecialArgs
                   // {
@@ -108,7 +115,10 @@
             (host: {
               name = "txn@${host.hostname}";
               value = home-manager.lib.homeManagerConfiguration {
-                pkgs = nixpkgs.legacyPackages.${host.system};
+                pkgs = import nixpkgs {
+                  system = host.system;
+                  config.allowUnfree = true;
+                };
                 extraSpecialArgs =
                   baseExtraSpecialArgs
                   // {
@@ -127,7 +137,10 @@
             (host: {
               name = "txn@${host.hostname}";
               value = home-manager.lib.homeManagerConfiguration {
-                pkgs = nixpkgs.legacyPackages.${host.system};
+                pkgs = import nixpkgs {
+                  system = host.system;
+                  config.allowUnfree = true;
+                };
                 extraSpecialArgs =
                   baseExtraSpecialArgs
                   // {

@@ -54,6 +54,52 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^[[A" history-beginning-search-backward-end # up arrow takes into account what is currently typed
 bindkey "^[[B" history-beginning-search-forward-end # down arrow takes into account what is currently typed
 
+function smart-up-history() {
+    local pattern='### CWD$'
+    local last_histno=$HISTNO
+
+    while true; do
+        # Move up to the next match that starts with the prefix typed so far
+        zle history-beginning-search-backward
+
+        # Break loop if we didn't actually move (hit the top of history matches)
+        if [[ $HISTNO -eq $last_histno ]]; then
+            break
+        fi
+        last_histno=$HISTNO
+
+        # Break loop if the match does NOT match your exclusion regex
+        if [[ ! "$BUFFER" =~ $pattern ]]; then
+            CURSOR=${#BUFFER}
+            break
+        fi
+    done
+}
+zle -N smart-up-history
+# bindkey "^[[A" smart-up-history
+
+smart-down-history() {
+    local pattern='### CWD$'
+    local last_histno=$HISTNO
+
+    while true; do
+        zle history-beginning-search-forward
+
+        # Break if we hit the bottom (current command line)
+        if [[ $HISTNO -eq $last_histno ]]; then
+            break
+        fi
+        last_histno=$HISTNO
+
+        # Break if the command does NOT match the excluded regex
+        if [[ ! "$BUFFER" =~ $pattern ]]; then
+            break
+        fi
+    done
+}
+zle -N smart-down-history
+# bindkey "^[[B" smart-down-history
+
 # edit current command line in vim with ctrl-e
 function edit_cmd_line() {
     # 1. Create a secure temporary file
@@ -88,6 +134,10 @@ bindkey "^g" neogit
 function neofind() { nvim -c "lua vim.schedule(function() require('fzf-lua').files() end)" }
 zle -N neofind
 bindkey "^f" neofind
+
+function neogrep() { nvim -c "lua vim.schedule(function() require('fzf-lua').live_grep_native() end)" }
+zle -N neogrep
+bindkey "^[[102;6u" neogrep
 
 # https://github.com/knqyf263/pet?tab=readme-ov-file#select-snippets-at-the-current-line-like-c-r-recommended
 function neosearch() { 

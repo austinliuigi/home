@@ -152,6 +152,14 @@ require("fzf-lua").setup({
   },
 })
 
+vim.keymap.set({ "n", "x", "i" }, "<C-f>", function()
+  require("fzf-lua").files()
+end, { remap = false })
+
+vim.keymap.set({ "n", "x", "i" }, "<C-S-f>", function()
+  require("fzf-lua").live_grep_native()
+end, { remap = false })
+
 vim.keymap.set({ "n", "x", "i" }, "<leader><C-/>", function()
   require("fzf-lua").resume()
 end, { remap = false })

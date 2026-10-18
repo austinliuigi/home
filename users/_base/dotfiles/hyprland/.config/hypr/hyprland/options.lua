@@ -71,16 +71,25 @@ hl.config({
 
 	input = {
 		kb_layout = "us",
-		repeat_rate = 40,
+		repeat_rate = 30,
 		repeat_delay = 250,
 		follow_mouse = 1,
 
 		touchpad = {
 			disable_while_typing = true,
 			clickfinger_behavior = true,
-			tap_to_click = true,
+			tap_to_click = false,
 			natural_scroll = true,
-			drag_3fg = 1,
+			drag_3fg = 0,
+		},
+	},
+
+	gestures = {
+		workspace_swipe_cancel_ratio = 0.25,
+		workspace_swipe_min_speed_to_force = 1,
+		scrolling = {
+			move_snap_to_grid = false,
+			move_snap_cursor = false,
 		},
 	},
 
