@@ -71,6 +71,7 @@
       opencode.enable = true;
       pcmanfm.enable = true;
       pet.enable = true;
+      pi.enable = true;
       presenterm.enable = true;
       sioyek.enable = true;
       sops.enable = true;

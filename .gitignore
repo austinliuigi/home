@@ -2,3 +2,8 @@ users/_base/dotfiles/btop/.config/btop/themes
 users/_base/dotfiles/opencode/.config/opencode/themes/
 users/_base/dotfiles/ghostty/.config/ghostty/themes/
 users/_base/dotfiles/presenterm/.config/presenterm/themes
+users/_base/dotfiles/pi/.config/pi/auth.json
+users/_base/dotfiles/pi/.config/pi/models-store.json
+users/_base/dotfiles/pi/.config/pi/npm
+*.egg-info
+__pycache__
