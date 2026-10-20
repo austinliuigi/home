@@ -1,11 +1,16 @@
 [Default Applications]
-x-scheme-handler/http=firefox.desktop
-x-scheme-handler/https=firefox.desktop
-x-scheme-handler/chrome=firefox.desktop
+x-scheme-handler/http=zen-twilight.desktop
+x-scheme-handler/https=zen-twilight.desktop
+x-scheme-handler/chrome=zen-twilight.desktop
 x-scheme-handler/sgnl=signal.desktop
 x-scheme-handler/signalcaptcha=signal.desktop
-text/html=firefox.desktop
-application/xhtml+xml=firefox.desktop
+text/html=zen-twilight.desktop
+application/xhtml+xml=zen-twilight.desktop
+application/x-extension-htm=zen-twilight.desktop
+application/x-extension-html=zen-twilight.desktop
+application/x-extension-shtml=zen-twilight.desktop
+application/x-extension-xhtml=zen-twilight.desktop
+application/x-extension-xht=zen-twilight.desktop
 application/pdf=sioyek.desktop
 image/png=mpv.desktop
 image/gif=mpv.desktop
@@ -15,10 +20,15 @@ inode/directory=pcmanfm.desktop
 x-scheme-handler/tldraw-offline=tldraw-offline.desktop
 
 [Added Associations]
-x-scheme-handler/http=firefox.desktop;
-x-scheme-handler/https=firefox.desktop;
-x-scheme-handler/chrome=firefox.desktop;
-text/html=firefox.desktop;
-application/xhtml+xml=firefox.desktop;
+x-scheme-handler/http=zen-twilight.desktop;firefox.desktop;
+x-scheme-handler/https=zen-twilight.desktop;firefox.desktop;
+x-scheme-handler/chrome=zen-twilight.desktop;firefox.desktop;
+text/html=firefox.desktop;zen-twilight.desktop;
+application/xhtml+xml=firefox.desktop;zen-twilight.desktop;
+application/x-extension-htm=zen-twilight.desktop;
+application/x-extension-html=zen-twilight.desktop;
+application/x-extension-shtml=zen-twilight.desktop;
+application/x-extension-xhtml=zen-twilight.desktop;
+application/x-extension-xht=zen-twilight.desktop;
 
 [Removed Associations]

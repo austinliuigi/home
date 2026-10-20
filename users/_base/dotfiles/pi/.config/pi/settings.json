@@ -1,8 +1,20 @@
 {
-  "lastChangelogVersion": "1.0.3",
+  "lastChangelogVersion": "1.1.0",
   "defaultProvider": "github-copilot",
-  "defaultModel": "gpt-5.6-luna",
+  "defaultModel": "gpt-6-luna",
   "packages": [
-    "npm:billion-context"
+    "npm:pi-subagents",
+    "npm:pi-web-access",
+    "npm:pi-hermes-memory",
+    "npm:billion-context-pi",
+    "npm:context-mode",
+    "npm:@gotgenes/pi-permission-system",
+    "npm:@erichll/pi-auto-review",
+    "npm:@ff-labs/pi-fff",
+    "npm:@narumitw/pi-usage",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@dietrichgebert/ponytail",
+    "npm:@upstash/context7-pi",
+    "git:github.com/earendil-works/pi-review"
   ]
 }

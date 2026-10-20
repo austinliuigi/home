@@ -4,12 +4,13 @@ vim.opt.clipboard:append("unnamedplus") -- set default clipboard
 
 -- Use osc52 clipboard in ssh sessions
 if vim.env.SSH_CLIENT then
+  local osc52_whitelist = { ["kitty"] = true, ["ghostty"] = true }
   vim.api.nvim_create_autocmd("UIEnter", {
     callback = function()
       -- HACK: wait after vim.g.termfeatures.osc52 is potentially set by the autocmd in https://github.com/neovim/neovim/blob/release-0.11/runtime/plugin/osc52.lua
       vim.defer_fn(function()
         -- vim.print(vim.g.termfeatures)
-        if vim.g.termfeatures.osc52 then
+        if vim.g.termfeatures.osc52 and osc52_whitelist[vim.env.TERM_PROGRAM] then
           vim.notify("Using OSC52 as clipboard provider", vim.log.levels.INFO, { title = "Clipboard" })
           vim.g.clipboard = "osc52"
           -- HACK: manually trigger clipboard provider to re-execute, otherwise the manually set vim.g.clipboard won't take effect

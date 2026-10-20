@@ -51,7 +51,7 @@ import = "config/plugins/lazy_specs_post"
 "diffview.nvim" = { version = "scm", opt = true }
 "flatten.nvim" = { version = "0.5.1", opt = false }
 "indent-blankline.nvim" = { version = "scm", opt = true }
-"oil.nvim" = { version = "2.14.0", opt = true }
+"oil.nvim" = { version = "2.14.0", opt = false }
 "rainbow-delimiters.nvim" = { version = "0.8.0", opt = true }
 "rocks-config.nvim" = { version = "3.1.0", opt = false }
 "rocks-dev.nvim" = { version = "1.8.1", opt = false }
@@ -112,6 +112,7 @@ nvim-navic = { git = "SmiteshP/nvim-navic", rev = "f5eba192f39b453675d115351808b
 gitsigns = { git = "lewis6991/gitsigns.nvim", rev = "5be654f2232c10ddcad19c1607a67b6b4b78fc29", opt = true }
 "mini.animate" = { git = "nvim-mini/mini.animate", rev = "main", opt = true, config = "config.plugins.configurations.mini-animate" }
 cmp-zsh = { git = "tamago324/cmp-zsh", rev = "main", opt = true }
+# "fff.nvim"  = { git = "dmtrKovalenko/fff", rev = "v0.11.0", build = ":lua require('fff.download').download_or_build_binary()", opt = false }
 # neorg = { git = "nvim-neorg/neorg", rev = "main", opt = false }
 
 # HACK: this plenary takes priority over the luarocks simply because it gets searched first; remove this when plenary creates a new luarocks release (https://github.com/nvim-lua/plenary.nvim/issues/629)
