@@ -9,7 +9,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Immediately enter terminal mode when focusing terminal buffers
-vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
+-- vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
+vim.api.nvim_create_autocmd({ "TermOpen" }, {
   pattern = { "*" },
   callback = function()
     if vim.o.buftype == "terminal" then
@@ -53,13 +54,13 @@ vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
 -- })
 
 -- Make terminals fixed sizes
-vim.api.nvim_create_autocmd({ "TermOpen" }, {
-  pattern = { "*" },
-  callback = function()
-    vim.o.winfixheight = true
-    vim.o.winfixwidth = true
-  end,
-})
+-- vim.api.nvim_create_autocmd({ "TermOpen" }, {
+--   pattern = { "*" },
+--   callback = function()
+--     vim.o.winfixheight = true
+--     vim.o.winfixwidth = true
+--   end,
+-- })
 
 -- LSP attach notifications
 -- vim.api.nvim_create_autocmd({ "LspAttach" }, {

@@ -132,5 +132,10 @@ require("bartender").setup({
       { "%s" },
       { "%l " },
     },
+    disable = function()
+      -- disable for terminal buffers
+      --   - when the width of the statuscolumn increases in a terminal buffer, causes it to scroll up
+      return vim.o.buftype == "terminal"
+    end
   },
 })
