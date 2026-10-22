@@ -234,6 +234,8 @@ local directories = function(opts, cd_prefix)
   local cmd
   if vim.fn.executable("fd") == 1 then
     cmd = "fd --type d"
+  else if vim.fn.executable("fdfind") == 1 then
+    cmd = "fdfind --type d"
   else
     cmd = "find * -type d"
   end
