@@ -21,11 +21,14 @@ return {
     },
     { "<S-Up>", "<cmd>lua require('dap').terminate()<CR>", desc = "Dap: Terminate" },
 
-    { "<C-'>", "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Dap: Toggle Breakpoint" },
+    { "<C-0>", "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Dap: Toggle Breakpoint" },
     {
-      "<C-S-'>",
-      "<cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint Condition: '))<CR>",
-      desc = "Dap: Toggle Conditional Breakpoint",
+      "<C-S-0>",
+      function()
+        local condition = vim.fn.input("Breakpoint Condition: ")
+        require("dap").set_breakpoint(condition)
+      end,
+      desc = "Dap: Toggle conditional breakpoint",
     },
   },
   after = function()

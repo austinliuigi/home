@@ -152,18 +152,6 @@ require("fzf-lua").setup({
   },
 })
 
-vim.keymap.set({ "n", "x", "i" }, "<C-f>", function()
-  require("fzf-lua").files()
-end, { remap = false })
-
-vim.keymap.set({ "n", "x", "i" }, "<C-S-f>", function()
-  require("fzf-lua").live_grep_native()
-end, { remap = false })
-
-vim.keymap.set({ "n", "x", "i" }, "<leader><C-/>", function()
-  require("fzf-lua").resume()
-end, { remap = false })
-
 -- Remove keymaps that conflict with fzf keymaps
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "fzf",
@@ -346,5 +334,29 @@ local dirgrep = function()
 end
 
 M["dirgrep"] = dirgrep
+
+--==================================================================================================
+-- Keybinds
+--==================================================================================================
+
+vim.keymap.set({ "n", "x", "i" }, "<C-f>", function()
+  require("fzf-lua").files()
+end, { remap = false })
+
+vim.keymap.set({ "n", "x", "i" }, "<C-S-f>", function()
+  directories()
+end, { remap = false })
+
+vim.keymap.set({ "n", "x", "i" }, "<C-g>", function()
+  require("fzf-lua").live_grep_native()
+end, { remap = false })
+
+vim.keymap.set({ "n", "x", "i" }, "<C-S-g>", function()
+  require("fzf-lua").live_grep_native()
+end, { remap = false })
+
+vim.keymap.set({ "n", "x", "i" }, "<leader><C-/>", function()
+  dirgrep()
+end, { remap = false })
 
 return M

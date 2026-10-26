@@ -129,15 +129,51 @@ bindkey '^e' edit_cmd_line
 
 function neogit() { nvim -c "Neogit kind=replace" }
 zle -N neogit
-bindkey "^g" neogit
+bindkey "^[[39;5" neogit
 
 function neofind() { nvim -c "lua vim.schedule(function() require('fzf-lua').files() end)" }
 zle -N neofind
 bindkey "^f" neofind
 
+cdf() {
+  local dir
+  if command -v fd >/dev/null 2>&1; then
+    dir=$(fd --type d --hidden --exclude .git . "${1:-.}" 2>/dev/null | fzf --prompt="cd > " --height=40% --reverse)
+  elif command -v fdfind >/dev/null 2>&1; then
+    dir=$(fdfind --type d --hidden --exclude .git . "${1:-.}" 2>/dev/null | fzf --prompt="cd > " --height=40% --reverse)
+  else
+    dir=$(find "${1:-.}" -type d 2>/dev/null | fzf --prompt="cd > " --height=40% --reverse)
+  fi
+
+  if [[ -z "$dir" ]]; then
+    zle redisplay
+    return 0
+  fi
+
+  # Use subshell expansion to get the absolute PWD of the target dir.
+  # This allows the recorded shell history to be reused even from a different
+  # working directory.
+  # If failed, fallback to the unexpanded path to surface the error to the user.
+  # NOTE: Don't use the `:a` modifier as it resolves symlinks like `pwd -P`.
+  dir=$(builtin cd -q >/dev/null -- "${dir}" && echo "${PWD}" || echo "${dir}")
+  zle push-line # Clear buffer. Auto-restored on next prompt.
+  BUFFER="cd ${(q)dir}"
+  zle accept-line
+  local ret=$?
+  unset dir # ensure this doesn't end up appearing in prompt expansion
+  zle reset-prompt
+  return $ret
+}
+zle -N cdf
+bindkey "^[[102;6u" cdf
+
 function neogrep() { nvim -c "lua vim.schedule(function() require('fzf-lua').live_grep_native() end)" }
 zle -N neogrep
-bindkey "^[[102;6u" neogrep
+bindkey "^g" neogrep
+
+function neodirgrep() { nvim -c "lua vim.schedule(function() require('config.plugins.configurations.fzf-lua').dirgrep() end)" }
+zle -N neodirgrep
+bindkey "^[[103;6u" neodirgrep
 
 # https://github.com/knqyf263/pet?tab=readme-ov-file#select-snippets-at-the-current-line-like-c-r-recommended
 function neosearch() { 

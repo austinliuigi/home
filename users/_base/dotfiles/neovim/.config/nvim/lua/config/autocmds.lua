@@ -116,3 +116,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
   pattern = { "*.typ" },
 })
+
+if vim.fn.executable("zoxide") == 1 then
+  vim.api.nvim_create_autocmd("DirChanged", {
+    group = vim.api.nvim_create_augroup("ZoxideAdd", { clear = true }),
+    callback = function()
+      vim.system({ "zoxide", "add", "--", vim.v.event.cwd })
+    end,
+  })
+end

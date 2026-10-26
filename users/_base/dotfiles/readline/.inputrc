@@ -16,6 +16,7 @@ set revert-all-at-newline on             # disable alterations to history
 set show-all-if-ambiguous on             # list matches rather than ringing bell if word has more than one possible completion
 # set show-all-if-unmodified on          # same as show-all-if-ambigious but when the matches don't share a common prefix
 set show-mode-in-prompt on               # add string to beginning of prompt that indicates editing mode
+set emacs-mode-string \1\e[6 q\2
 set vi-cmd-mode-string \1\e[1 q\2
 set vi-ins-mode-string \1\e[5 q\2
 

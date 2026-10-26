@@ -51,7 +51,7 @@ require("oil").setup({
     ["<C-s>"] = { "actions.select", opts = { vertical = true } },
     ["<C-S-s>"] = { "actions.select", opts = { horizontal = true } },
     ["<C-t>"] = { "actions.select", opts = { tab = true } },
-    ["<C-r>"] = "actions.refresh",
+    ["<C-S-r>"] = "actions.refresh",
     ["<BS>"] = "actions.parent",
     ["<LocalLeader>y"] = "actions.yank_entry",
     -- ["g."] = "actions.cd",

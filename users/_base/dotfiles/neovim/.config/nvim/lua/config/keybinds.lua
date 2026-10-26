@@ -87,6 +87,10 @@ keymap({ "n" }, "<leader>y", "<cmd>Cp lua print(vim.api.nvim_buf_get_name(0))<CR
 
 keymap({ "n", "x" }, "g.", "<cmd>cd %:p:h<CR>", { noremap = true })
 
+keymap({ "n", "x" }, "g;", "<cmd>cd ..<CR>", { noremap = true })
+
+keymap({ "n", "x" }, "g-", "<cmd>cd -<CR>", { noremap = true })
+
 -- }}}
 -- Motion mappings {{{
 

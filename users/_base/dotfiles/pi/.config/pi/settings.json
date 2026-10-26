@@ -15,6 +15,8 @@
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:@dietrichgebert/ponytail",
     "npm:@upstash/context7-pi",
-    "git:github.com/earendil-works/pi-review"
-  ]
+    "git:github.com/earendil-works/pi-review",
+    "npm:pi-session-finder"
+  ],
+  "fullscreenCopyOnSelect": true
 }
