@@ -352,7 +352,7 @@ vim.keymap.set({ "n", "x", "i" }, "<C-g>", function()
 end, { remap = false })
 
 vim.keymap.set({ "n", "x", "i" }, "<C-S-g>", function()
-  require("fzf-lua").live_grep_native()
+  dirgrep()
 end, { remap = false })
 
 vim.keymap.set({ "n", "x", "i" }, "<leader><C-/>", function()
