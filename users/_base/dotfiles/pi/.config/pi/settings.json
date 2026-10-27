@@ -18,5 +18,6 @@
     "git:github.com/earendil-works/pi-review",
     "npm:pi-session-finder"
   ],
-  "fullscreenCopyOnSelect": true
+  "fullscreenCopyOnSelect": true,
+  "tuiMode": "regular"
 }

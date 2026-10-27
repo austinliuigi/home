@@ -339,16 +339,34 @@ M["dirgrep"] = dirgrep
 -- Keybinds
 --==================================================================================================
 
+local function visual_selection()
+  -- Neovim 0.10+; works while still in visual mode
+  local lines = vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), { type = vim.fn.mode() })
+  return lines[1] or "" -- ripgrep matches per line, so use the first line
+end
+
 vim.keymap.set({ "n", "x", "i" }, "<C-f>", function()
   require("fzf-lua").files()
+end, { remap = false })
+
+vim.keymap.set({ "n", "x", "i" }, "<leader><C-f>", function()
+  require("fzf-lua").oldfiles()
 end, { remap = false })
 
 vim.keymap.set({ "n", "x", "i" }, "<C-S-f>", function()
   directories()
 end, { remap = false })
 
-vim.keymap.set({ "n", "x", "i" }, "<C-g>", function()
+vim.keymap.set({ "n", "i" }, "<C-g>", function()
   require("fzf-lua").live_grep_native()
+end, { remap = false })
+
+vim.keymap.set({ "x" }, "<C-g>", function()
+  require("fzf-lua").live_grep({ search = visual_selection() })
+end, { remap = false })
+
+vim.keymap.set({ "n", "x", "i" }, "<leader><C-g>", function()
+  require("fzf-lua").live_grep_resume()
 end, { remap = false })
 
 vim.keymap.set({ "n", "x", "i" }, "<C-S-g>", function()
@@ -356,7 +374,7 @@ vim.keymap.set({ "n", "x", "i" }, "<C-S-g>", function()
 end, { remap = false })
 
 vim.keymap.set({ "n", "x", "i" }, "<leader><C-/>", function()
-  dirgrep()
+  require("fzf-lua").resume()
 end, { remap = false })
 
 return M

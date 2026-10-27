@@ -9,4 +9,7 @@ return {
   --   { find_leader .. "/", "<cmd>lua require('fzf-lua').builtin()<CR>" },
   --   { "<C-/>", "<cmd>lua require('fzf-lua').builtin()<CR>" },
   -- },
+  after = function()
+    vim.api.nvim_exec_autocmds("User", { pattern = "FzfLuaLoadPost", modeline = false })
+  end,
 }
