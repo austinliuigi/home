@@ -16,8 +16,10 @@
     "npm:@dietrichgebert/ponytail",
     "npm:@upstash/context7-pi",
     "git:github.com/earendil-works/pi-review",
-    "npm:pi-session-finder"
+    "npm:pi-session-finder",
+    "npm:pi-tidy"
   ],
   "fullscreenCopyOnSelect": true,
-  "tuiMode": "regular"
+  "tuiMode": "regular",
+  "treeFilterMode": "no-tools"
 }
