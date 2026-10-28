@@ -85,11 +85,21 @@ keymap("n", "<leader>P", "<cmd>put!<CR>", { noremap = true, silent = true })
 
 keymap({ "n" }, "<leader>y", "<cmd>Cp lua print(vim.api.nvim_buf_get_name(0))<CR>", { noremap = true })
 
-keymap({ "n", "x" }, "g.", "<cmd>cd %:p:h<CR>", { noremap = true })
+keymap({ "n", "x" }, "g.", function()
+  vim.cmd.cd(require("config._utils").get_buf_dir())
+end, { noremap = true })
 
 keymap({ "n", "x" }, "g;", "<cmd>cd ..<CR>", { noremap = true })
 
-keymap({ "n", "x" }, "g-", "<cmd>cd -<CR>", { noremap = true })
+keymap({ "n", "x" }, "<leader>g;", "<cmd>Cdr<CR>", { noremap = true })
+
+keymap({ "n", "x" }, ")", function()
+  vim.cmd.cd(require("config._utils").get_buf_dir())
+end, { noremap = true })
+
+keymap({ "n", "x" }, "(", "<cmd>cd ..<CR>", { noremap = true })
+
+keymap({ "n", "x" }, "<leader>(", "<cmd>Cdr<CR>", { noremap = true })
 
 -- }}}
 -- Motion mappings {{{
@@ -259,63 +269,67 @@ end, { noremap = true, silent = true, desc = "Toggle background theme" })
 -- Special buffer mappings {{{
 
 -- ----- Terminal buffer -----
----@param type? "vert"|"hor"|"tab"
-local function term_buffer(type)
-  type = type and type .. " " or ""
-  local curr_buf_dir = vim.fn.expand("%:p:h")
-  local curr_winnr = vim.api.nvim_get_current_win()
-  if vim.fn.isdirectory(curr_buf_dir) == 1 then
-    local cwd = vim.fn.getcwd()
-    vim.cmd("lcd " .. curr_buf_dir)
-    vim.cmd(type .. "term")
-    vim.cmd("lcd " .. cwd)
-    vim.api.nvim_win_call(curr_winnr, function()
-      vim.cmd("lcd " .. cwd)
-    end)
-  else
-    vim.cmd(type .. "term")
-  end
-end
-
-keymap({ "n", "i", "t" }, "<C-;>", function()
-  term_buffer("vert")
+keymap({ "n" }, "<C-;>", function()
+  local dir = require("config._utils").get_buf_dir()
+  vim.cmd("vnew")
+  vim.cmd.lcd(dir)
+  vim.cmd("terminal")
 end, { noremap = true })
 
-keymap({ "n", "i", "t" }, "<C-S-;>", function()
-  term_buffer("hor")
+keymap({ "n" }, "<C-S-;>", function()
+  local dir = require("config._utils").get_buf_dir()
+  vim.cmd("new")
+  vim.cmd.lcd(dir)
+  vim.cmd("terminal")
 end, { noremap = true })
 
 keymap({ "n" }, "<leader><C-;>", function()
-  term_buffer()
+  local dir = require("config._utils").get_buf_dir()
+  vim.cmd("enew")
+  vim.cmd.lcd(dir)
+  vim.cmd("terminal")
 end, { noremap = true })
 
 keymap({ "n" }, "<leader><C-S-;>", function()
-  term_buffer("tab")
+  local dir = require("config._utils").get_buf_dir()
+  vim.cmd("tabe")
+  vim.cmd.lcd(dir)
+  vim.cmd("terminal")
+end, { noremap = true })
+
+keymap({ "n" }, "g<C-;>", function()
+  vim.cmd("vert term")
+end, { noremap = true })
+
+keymap({ "n" }, "g<C-S-;>", function()
+  vim.cmd("hor term")
+end, { noremap = true })
+
+keymap({ "n" }, "g<leader><C-;>", function()
+  vim.cmd("term")
+end, { noremap = true })
+
+keymap({ "n" }, "g<leader><C-S-;>", function()
+  vim.cmd("tab term")
 end, { noremap = true })
 
 -- ----- Directory buffer -----
-local function dir_buffer(open_cmd)
-  if vim.fn.expand("%") == "" then
-    return "<cmd>" .. open_cmd .. " .<CR>"
-  end
-  return "<cmd>" .. open_cmd .. " %:h<CR>"
-end
-
 keymap("n", "<C-\\>", function()
-  return dir_buffer("vnew")
-end, { noremap = true, silent = true, expr = true })
+  vim.print(require("config._utils").get_buf_dir())
+  vim.cmd.vnew(require("config._utils").get_buf_dir())
+end, { noremap = true, silent = true })
 
 keymap("n", "<C-S-\\>", function()
-  return dir_buffer("new")
-end, { noremap = true, silent = true, expr = true })
+  vim.cmd.new(require("config._utils").get_buf_dir())
+end, { noremap = true, silent = true })
 
 keymap("n", "<leader><C-\\>", function()
-  return dir_buffer("e")
-end, { noremap = true, silent = true, expr = true })
+  vim.cmd.edit(require("config._utils").get_buf_dir())
+end, { noremap = true, silent = true })
 
 keymap("n", "<leader><C-S-\\>", function()
-  return dir_buffer("tabe")
-end, { noremap = true, silent = true, expr = true })
+  vim.cmd.tabedit(require("config._utils").get_buf_dir())
+end, { noremap = true, silent = true })
 
 -- }}}
 

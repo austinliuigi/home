@@ -35,4 +35,25 @@ utils.get_files_in_directory = function(dir)
   return files
 end
 
+--- Get directory associated with current buffer
+--
+---@return string dir
+utils.get_buf_dir = function()
+  local dir
+  if vim.o.buftype == "terminal" then
+    local pid = vim.b.terminal_job_pid
+    if vim.fn.has("linux") == 1 then
+      dir = vim.uv.fs_readlink("/proc/" .. pid .. "/cwd")
+    elseif vim.fn.has("mac") == 1 then
+      local out = vim.fn.system({ "lsof", "-a", "-d", "cwd", "-p", tostring(pid), "-Fn" })
+      dir = out:match("\nn(.-)\n")
+    end
+  elseif vim.fn.expand("%") == "" then
+    dir = vim.fn.getcwd()
+  else
+    dir = vim.fn.expand("%:p:h"):gsub("^oil://", "")
+  end
+  return dir
+end
+
 return utils
