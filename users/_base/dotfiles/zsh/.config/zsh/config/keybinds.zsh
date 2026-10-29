@@ -138,9 +138,9 @@ bindkey "^f" neofind
 cdf() {
   local dir
   if command -v fd >/dev/null 2>&1; then
-    dir=$(fd --type d --hidden --exclude .git . "${1:-.}" 2>/dev/null | fzf --prompt="cd > " --height=40% --reverse)
+    dir=$(fd --type d --hidden --no-ignore --exclude .git . "${1:-.}" 2>/dev/null | fzf --prompt="cd > " --height=40% --reverse)
   elif command -v fdfind >/dev/null 2>&1; then
-    dir=$(fdfind --type d --hidden --exclude .git . "${1:-.}" 2>/dev/null | fzf --prompt="cd > " --height=40% --reverse)
+    dir=$(fdfind --type d --hidden --no-ignore --exclude .git . "${1:-.}" 2>/dev/null | fzf --prompt="cd > " --height=40% --reverse)
   else
     dir=$(find "${1:-.}" -type d 2>/dev/null | fzf --prompt="cd > " --height=40% --reverse)
   fi
