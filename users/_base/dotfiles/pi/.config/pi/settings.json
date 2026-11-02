@@ -3,23 +3,25 @@
   "defaultProvider": "github-copilot",
   "defaultModel": "gpt-6-luna",
   "packages": [
+    "npm:@gotgenes/pi-permission-system",
+    "npm:@erichll/pi-auto-review",
     "npm:pi-subagents",
     "npm:pi-web-access",
     "npm:pi-hermes-memory",
     "npm:billion-context-pi",
     "npm:context-mode",
-    "npm:@gotgenes/pi-permission-system",
-    "npm:@erichll/pi-auto-review",
-    "npm:@ff-labs/pi-fff",
-    "npm:@narumitw/pi-usage",
-    "npm:@juicesharp/rpiv-ask-user-question",
     "npm:@dietrichgebert/ponytail",
     "npm:@upstash/context7-pi",
+    "npm:@ff-labs/pi-fff",
+    "npm:@juicesharp/rpiv-ask-user-question",
     "git:github.com/earendil-works/pi-review",
     "npm:pi-session-finder",
-    "npm:pi-tidy"
+    "npm:pi-tidy",
+    "npm:@narumitw/pi-usage",
+    "npm:pi-better-render",
+    "npm:pi-markdown-preview"
   ],
   "fullscreenCopyOnSelect": true,
-  "tuiMode": "regular",
+  "tuiMode": "fullscreen",
   "treeFilterMode": "no-tools"
 }

@@ -26,32 +26,6 @@ if vim.env.SSH_CLIENT then
 end
 -- }}}
 
--- Set WSL clipboard
-local current_os = tostring(io.popen("uname"):read())
-if current_os == "Linux" and vim.fn.readfile("/proc/version")[1]:lower():match("microsoft") then
-  current_os = "Wsl"
-end
-
-if current_os == "Wsl" then
-  vim.g.clipboard = {
-    name = "WslClipboard",
-    copy = {
-      ["+"] = "clip.exe",
-      ["*"] = "clip.exe",
-    },
-    paste = {
-      ["+"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-      ["*"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-    },
-    cache_enabled = 0,
-  }
-
-  if vim.g.loaded_clipboard_provider then
-    vim.cmd("unlet g:loaded_clipboard_provider")
-    vim.cmd("runtime autoload/provider/clipboard.vim")
-  end
-end
-
 -- CURSOR {{{
 --------------------------------------------------
 vim.opt.mouse = "a" -- modes to enable mouse in
@@ -81,7 +55,7 @@ vim.opt.showtabline = 2 -- set tabline visibility
 -- SCROLL {{{
 --------------------------------------------------
 vim.opt.scrolloff = 0 -- number of lines to keep around the cursor
-vim.opt.sidescrolloff = 0 -- number of columns to keep around the cursor
+vim.opt.sidescrolloff = 1 -- number of columns to keep around the cursor
 vim.opt.sidescroll = 1 -- number of lines to scroll at a time horizontally
 vim.opt.smoothscroll = true -- scroll by number of screen lines rather than text lines (matters when wrap is set)
 -- }}}
